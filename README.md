@@ -1,7 +1,6 @@
 # Phylogenetic Biology - Final Project
 
-# Test Commit - 09/24/2020
-
+# Proposal Commit - 10/06/2020
 
 ## Guidelines - you can delete this section before submission
 

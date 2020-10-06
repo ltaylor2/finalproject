@@ -1,0 +1,6 @@
+Package: placeholder
+Type: Book
+Title: ltaylor2/finalproject
+Version: 0.0.1
+Imports: bookdown
+Remotes: ltaylor2/finalproject
