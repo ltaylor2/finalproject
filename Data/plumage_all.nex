@@ -4,23 +4,23 @@ Begin TAXA;
 	TaxLabels Antilophia_galeata Chiroxiphia_caudata Chiroxiphia_lanceolata Chiroxiphia_linearis Chiroxiphia_pareola Chloropipo_flavicapilla Corapipo_gutturalis Corapipo_leucorrhoa Ilicura_militaris Masius_chrysopterus Neopelma_aurifrons Neopelma_chrysolophum Neopelma_pallescens Tyranneutes_stolzmanni Tyranneutes_virescens;
 End;
 Begin CHARACTERS;
-	Dimensions NCHAR=43;
+	Dimensions NCHAR=59;
 	Format DataType=Standard Symbols="0 1 2";
-	CharLabels Body_S1 Body_S2 Crown_S1 Crown_S2 Forecrown_S1 Forecrown_S2 Mantle_S1 Mantle_S2 Body_S3 Crown_S3 Head_S1 Head_S2 Head_S3 Mask_S1 Mask_S2 Mask_S3 Rectrices[color]_S1 Rectrices[color]_S2 Rectrices[color]_S3 Rectrices[innerelongated]_S1 Rectrices[innerelongated]_S2 Rectrices[innerelongated]_S3 Remiges_S1 Remiges_S2 Remiges_S3 Mantle_S3 Body_S4 Crown_S4 Mantle_S4 Mask_S4 Rectrices[color]_S4 Rectrices[innerelongated]_S4 Remiges_S4 Nape_S1 Nape_S2 Throat_S1 Throat_S2 Back_S1 Back_S2 Forecrown_S3 Nape_S3 Throat_S3 Rectrices[outernarrow]_S1;
+	CharLabels Body_S1 Body_S2 Body_S3 Body_S4 Crown_S1 Crown_S2 Crown_S3 Crown_S4 Forecrown_S1 Forecrown_S2 Forecrown_S3 Forecrown_S4 Mantle_S1 Mantle_S2 Mantle_S3 Mantle_S4 Head_S1 Head_S2 Head_S3 Head_S4 Mask_S1 Mask_S2 Mask_S3 Mask_S4 Rectrices[color]_S1 Rectrices[color]_S2 Rectrices[color]_S3 Rectrices[color]_S4 Rectrices[innerelongated]_S1 Rectrices[innerelongated]_S2 Rectrices[innerelongated]_S3 Rectrices[innerelongated]_S4 Remiges_S1 Remiges_S2 Remiges_S3 Remiges_S4 Body_S5 Crown_S5 Mantle_S5 Mask_S5 Rectrices[color]_S5 Rectrices[innerelongated]_S5 Remiges_S5 Nape_S1 Nape_S2 Nape_S3 Nape_S4 Throat_S1 Throat_S2 Throat_S3 Throat_S4 Back_S1 Back_S2 Back_S3 Back_S4 Rectrices[outernarrow]_S1 Rectrices[outernarrow]_S2 Rectrices[outernarrow]_S3 Rectrices[outernarrow]_S4;
 	Matrix
-		 Antilophia_galeata   1202120200000000000000000000000000000000000
-		 Chiroxiphia_caudata   0122000022022100012222012000000000000000000
-		 Chiroxiphia_lanceolata   0112000122000110000222010200000000000000000
-		 Chiroxiphia_linearis   0011000012000010001111001122200200000000000
-		 Chiroxiphia_pareola   0112000122000110000000000200000000000000000
-		 Chloropipo_flavicapilla   0002000000000000000000000000000000200000000
-		 Corapipo_gutturalis   0200000000000200000000000000000000022000000
-		 Corapipo_leucorrhoa   0200000000000200000000000000000000022000000
-		 Ilicura_militaris   1200020200000000000120000000000000012020000
-		 Masius_chrysopterus   0101110022000000012000022000000001112002220
-		 Neopelma_aurifrons   0020000000000000000000000000000000000000000
-		 Neopelma_chrysolophum   0020000000000000000000000000000000000000000
-		 Neopelma_pallescens   0020000000000000000000000000000000000000000
-		 Tyranneutes_stolzmanni   0000000000000000000000000000000000000000000
-		 Tyranneutes_virescens   0020000000000000000000000000000000000000002;
+		 Antilophia_galeata   12220222122202220000000000000000000000000000000000000000000
+		 Chiroxiphia_caudata   01222222000000000222100001222222012200000000000000000000000
+		 Chiroxiphia_lanceolata   01221222000001220000110000002222010000000000000000000000000
+		 Chiroxiphia_linearis   00121122000000120000010000101112001022200200000000000000000
+		 Chiroxiphia_pareola   01221222000001220000110000000000000000000000000000000000000
+		 Chloropipo_flavicapilla   00000222000000000000000000000000000000000000222000000000000
+		 Corapipo_gutturalis   02220000000000000000200000000000000000000000000222200000000
+		 Corapipo_leucorrhoa   02220000000000000000200000000000000000000000000222200000000
+		 Ilicura_militaris   12220000022202220000000000001222000000000000000122202220000
+		 Masius_chrysopterus   01220122112200000000000001220000022200000001122122200000000
+		 Neopelma_aurifrons   00002222000000000000000000000000000000000000000000000000000
+		 Neopelma_chrysolophum   00002222000000000000000000000000000000000000000000000000000
+		 Neopelma_pallescens   00002222000000000000000000000000000000000000000000000000000
+		 Tyranneutes_stolzmanni   00000000000000000000000000000000000000000000000000000000000
+		 Tyranneutes_virescens   00002222000000000000000000000000000000000000000000000002222;
 End;

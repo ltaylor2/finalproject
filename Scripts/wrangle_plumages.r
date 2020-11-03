@@ -9,10 +9,31 @@ cat("Parsing individual plumages matrices in", inDir, "\n")
 
 taxaFiles <- list.files(inDir)
 
+# A quick pass through all the files to get the maximum stage
+# TODO how can I fill in the array most efficiently?
+numStages <- function(file) {
+  data <- read_csv(paste("Data/Plumages/", file, sep=""))
+  return(ncol(data) - 1)
+}
+
+maxStages <- map_dbl(taxaFiles, numStages) %>%
+          max()
+
 getTaxon <- function(file) {
   taxon <- strsplit(file, "\\.")[[1]][1]
 
-  d <- read_csv(paste("Data/Plumages/", file, sep="")) %>%
+  d <- read_csv(paste("Data/Plumages/", file, sep=""))
+
+  # Fill in array to align with maximum stages across all taxa
+  numStages <- ncol(d)-1
+  defPlumage <- pull(d[,ncol(d)])
+
+  for(newCol in (numStages+1):maxStages) {
+    newStage <- paste("S", newCol, sep="")
+    d <- d %>%
+      mutate(!!newStage:=defPlumage)
+  }
+  d <- d %>%
     pivot_longer(-Character, names_to="Stage", values_to="Value") %>%
     unite(CharacterStage, Character, Stage, sep="_") %>%
     arrange(CharacterStage) %>%

@@ -1,5 +1,5 @@
-plumages <- readDiscreteCharacterData("Data/plumage_all.nex")
-phylogeny <- readTrees("Data/pipridae_trees.nex")[1]
+plumages <- readDiscreteCharacterData(PLUMAGE_DATA)
+phylogeny <- readTrees(TREES_FILE)[1]
 
 moves = VectorMoves()
 monitors = VectorMonitors()
@@ -14,17 +14,30 @@ phyPlumage.clamp(plumages)
 
 plumage_model = model(phylogeny)
 
-monitors.append( mnModel(filename="Output/ase_mk.log", printgen=10) )
+monitors.append( mnModel(filename="Output/ase_mk.log", printgen=THINNING) )
 monitors.append( mnScreen(printgen=1000) )
 
 monitors.append( mnJointConditionalAncestralState(tree=phylogeny,
                                                   ctmc=phyPlumage,
                                                   filename="Output/ase_mk.states.txt",
                                                   type="Standard",
-                                                  printgen=1,
+                                                  printgen=THINNING,
                                                   withTips=true,
                                                   withStartStates=false) )
 
-plumage_mcmc = mcmc(plumage_model, monitors, moves, nruns=2, combine="mixed")
+plumage_mcmc = mcmc(plumage_model, monitors, moves, nruns=CHAINS, combine="mixed")
 
-plumage_mcmc.run(generations=10000, tuningInterval=200)
+plumage_mcmc.run(generations=ITERATIONS, tuningInterval=200)
+
+anc_states = readAncestralStateTrace("Output/ase_mk.states.txt")
+
+anc_tree = ancestralStateTree(tree=phylogeny,
+                              ancestral_state_trace_vector=anc_states,
+                              include_start_states=false,
+                              file="Output/ase_mk.tree",
+                              burnin=BURNIN,
+                              summary_statistic="MAP",
+                              nStates=1,
+                              site=1)
+
+writeNexus( anc_tree, filename="Output/ase_mk.tree" )
