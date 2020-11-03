@@ -1,84 +1,99 @@
 # Phylogenetic Biology - EEB 654 - Final Project
 
-# Proposal Commit - 10/06/2020
+# Minimum Viable Analysis Commit - 2020-11-03
 
 # Ontogenetic Phylogenetics, and the Evolution of Delayed Plumage Maturation in Manakins
 
-## Introduction and Goals
+## Minimum Viable Analysis Description
+For this checkpoint, I have developed an initial process for coding and wrangling plumage characters across and within taxa and performed a symmetric unordered ancestral state reconstruction in RevBayes given a preliminary tree. Character "alignment," ancestral state reconstruction, and plots are all automated by the bash script ```mva.sh```.
 
-**NOTE** The information in this proposal will be added to a R Bookdown document hosted on this github repository in the coming days. I’ll consider it a generous gift to the world that I have presently removed a multi-page introductory rant on "Ontogeny and Life History Evolution," which is getting to the point that even my mom does not want to hear it. Is this what being a graduate student means?
+### Plumage Characters
+Plumage characters are most intuitively coded as "patches": a red crown, an elongated rectrix, etc. But this qualitative coding regime is both convenient *and* necessary. This is because plumage characters are not individual developmental units that can be parsed on a universal and generalized "bird." Instead, a plumage character is a unit of dynamic *covariation* between different avian appendages and sub-appendages. Prum and Dyke (2003) dubbed this unit of covariation a "metamodule," and made clear that it is not reducible to any individual underlying phenotypic process (e.g., made clear that it is nothing like a "gene"). Here are two examples that illustrate this problem.
 
-#### Ontogeny and Phylogeny
-The study of the relationship between ontogeny and phylogeny is as old as the concepts themselves. In the 1820's, von Baer conceived of taxonomic relationships with the conjecture that development evolved by the specialization of adult forms out of general embryonic ones (Abzhanov 2013). With von Baer’s conjecture, taxonomies could be reconstructed based on traits shared early in development. By the 1860's, Haeckel conceived of phylogenetic relationships per se with the conjecture that development evolves through the speeding of ancestral trajectories with the terminal addition of new ones (Gould 1977). With Haeckel’s conjecture, phylogenetic relationships could be reconstructed based on the ways in which developmental trajectories recapitulated a chain of ancestral forms. Both of these conjectures were assumptions about the process of developmental evolution such that embryos might be used as a tool for taxonomists.
+Golden-winged Manakins (*Masius chrysopterus*) clearly have a yellow wingpatch. This wing patch is not the result of a color aligned with any particular feather tract (pterlyae), a color aligned with any particular feather, or a color aligned with any particular barb. Instead, the presence of a coherent wing patch here is due to carotenoid deposition in *individual barbules* that, first, hook with other barbules of different barbs on the same feather to form a flat patch within a broader vane and, second, correspond with *individuals barbules* engaging in the same phenomena of covariation on different feathers to form a coherent flat patch across vanes [as Prum and Dyke (2003) note, it is also both telling and exciting that a yellow patch is developed in the same way on the rectrices of these birds!]. As far as I can tell, recognizing this yellow patch as a character seems feasible with one of four strategies: (1) establish a data structure which contains information about all individual barbules within a bird, and then aggregating patterns of covariation across those barbules; (2) establish a data structure which contains the relevant developmental signaling information through which feathers develop across the body of each bird; (3) look at the wing of the bird, and see that part of it looks like a yellow patch. I have chose the latter strategy.
+![Barbule metamodule in the remiges of *Masius*; Image Source Unknown](Figures/masius_wing.png)
 
-Gould (1977) and Alberch et al. (1979) shifted this perspective to focus on the variety of processes of developmental evolution that emerge from changes in the timing or rate of growth. Fink (1982) formalized these approaches in the context of an a priori phylogenetic pattern, demonstrating that questions about the evolution of development were indeed questions about processes that might be answered with phylogenetic patterns, as opposed to clues to those patterns themselves. After nearly 200 years of conjecture and taxonomy, the joint study of ontogeny and phylogeny can now investigate the actual relationship between developmental evolution and evolution more generally.
+As a second illustration, consider the delayed plumage maturation sequence of the Long-tailed Manakin (*Chiroxiphia linearis*). In their second predefinitive plumage stage (bottom left in the image below), young males have a black mask. The presence of this black mask as a plumage character is a product of covaration between black feathers *and* green feathers. Just as the mask is not present as a character from ages 0-15 months because some feathers are green rather than black, the mask is also not present as a character from 27 months onwards because some feathers are *black rather than green*.
+![The Ferrari of DPM](Figures/doucet_figure1.png)
 
-#### The Evolution of Delayed Plumage Maturation
-My goal is to investigate one small process of developmental evolution in one small group of birds: the evolution of delayed plumage maturation (DPM) in manakins (Aves: Pipridae). In birds with DPM, younger individuals develop drab, juvenile-like, “predefinitive” plumages whereas older individuals molt into the colorful “definitive” plumages that characterize increased reproductive effort and success (Hawkins et al. 2012).
+These "disappearing" developmental features push me forward in two ways. First, I was previously confident that "developmental dependency" would instill a necessary constraint on a comparative analysis of developmental characters because, for example, a young bird could not have a character that was more elaborate than, or absent in, an older bird of the same taxon. I can no longer defend this claim, which simplifies my analysis of character evolution by removing the need for an underlying hierarchical markov model structure to trait inter-dependence. Second, the idea that developmental trajectories cannot be simply summarized by a continuous process of "accumulation" pulls us away from the classical understanding of the relationship between ontogeny and phylogeny (e.g., Gould 1977, Alberch et al. 1979) as merely an issue of developmental *rate* and developmental *period*
 
-The images below show the platinum edition of DPM, that of the Long-tailed Manakin (Doucet et al. 2007). Each photo shows the plumage stage of male individuals who incorporate more definitive-like elements as they re-moult their feathers each year.
-![The Ferrari of DPM](figures/doucet_figure1.png)
+Although coding all of these characters rigorously and reliably will require more thought, for this checkpoint I have attempted to code the obvious plumage patches of a handful of manakin species in the Ilicurini subclade of manakins (including genera such as *Masius* and *Chiroxiphia*). I combined published literature reports with encyclopedic entries and images available from [The Birds of the World](https://birdsoftheworld.org/bow/home) database. Citations for each of the 15 initial taxa are listed in the table below.
 
-Delayed plumage maturation is a phenomenon with two axes of evolutionary change. The first axis involves an internal ontogenetic process (the “delayed maturation” part of DPM) -- how long does it take for a young bird to reach the definitive plumage stage? In the Long-tailed Manakins above, the answer is three years, with three intermediate predefinitive plumage stages. The second axis involves an external, or social, signaling process (the “plumage” part of DPM) -- what does the bird look like at each stage? For Long-tailed Manakins in their first predefinitive plumage stage (~4-15 months), the answer is “green with a red cap.”
+| Taxon | Citations |
+|-------|-----------|
+|*Tyranneutes stolzmanni*| Hellmayr (1929), BotW |
+|*Tyranneutes virescens*| Hellmayr (1929), BotW |
+|*Neopelma pallescens* | Hellmayr (1929), BotW |
+|*Neopelma aurifrons* | Hellmayr (1929), BotW |
+|*Neopelma chrysolophum* | Hellmayr (1929), BotW |
+|*Chloropipo flavicapilla* | Hellmayr (1926), BotW |
+|*Antilophia galeata* | Marinia and Cvalcanti (1992), Gaiotti (2016) |
+|*Chiroxiphia linearis* | Foster (1987), Duval (2005), Doucet (2007) |
+|*Chiroxiphia lanceolata* | Duval (2005) |
+|*Chiroxiphia pareola* | Cardenas-Posada et al. (2018) |
+|*Chiroxiphia caudata* | Mallet-Rodrigues and Dutra (2012) |
+|*Ilicura militaris* | Anciães (2005) |
+|*Masius chrysopterus* | BotW |
+|*Corapipo gutturalis* | Prum (1986), Aramuni et al. (2019) |
+|*Corapipo leucorrhoa* | Rosselli (1994) |
 
-Thus far, DPM research has focused on testing for direct advantages of predefinitive plumages (i.e., “why is it good to be green?”), rather than focusing on the processes of evolution or selection that can actually result in delayed maturation (e.g., Rohwer 1983, Lyon and Montgomerie 1986). I hope to reorient the study of DPM towards the study of developmental evolution, as opposed to the study of proximate signalling processes.
 
-Studies of DPM as a developmental process are exceedingly rare and preliminary (Collis and Borgia 1993, Prum and Razafindratsita 1997). Studies of DPM in a phylogenetic context are also exceedingly rare (Chu 1994, Hill 1996). Studies of DPM as a developmental process in a phylogenetic context are non-existent. A phylogenetic analysis of DPM will be an phylogenetic analysis of ontogeny in the true sense of Fink (1982). I do not want to use plumage patterns to make hypotheses about phylogenies. I want to use phylogenies to understand the evolution of plumage trajectories.
+For each taxon, I reviewed the predefinitive and definitive plumage stages. These stages are aligned across all taxa due to the single annual, and presumably homologous, molts that produce them with the same timing relative to the breeding seasons. For each individual, I coded the presence of plumage patches with one of three states: 0, 1, or 2. A character state of 2 indicates the presence of a fully-developed plumage patch (either color or structure), while a character state of 1 indicates the presence of a patch which is shows variation within a patch, variation across individuals, or lesser elaboration of the same structures present in a subsequent patch.
 
-####Goals, data, and methods
-My initial goals for this project are as follows:
-1. Establish a **Data Ontology** for DPM that allows me to compare both the number of plumage stages and the qualities of plumages across the well-resolved phylogeny of manakins.
-2. Build a **Structured Markov Model** for the evolution of these two tiers of developmental characters.
-3. Perform **Ancestral State Reconstruction** for these hierarchically structured characters.
+For example, here is the first pass at coding the plumage patches of *Chiroxiphia linearis*:
+|Character|S1|S2|S3|S4|
+|---------|--|--|--|--|
+|Crown|1|1|2|2|
+|Rectrices [inner elongated]|1|1|1|2|
+|Mask|0|1|0|0|
+|Body|0|0|1|2|
+|Mantle|0|0|1|2|
+|Remiges|0|0|1|0|
+|Rectrices [color]|0|0|1|0|
 
-I don’t know how to do anything of these things correctly yet, so this might even be fun!
+Other taxa have simpler plumage characters and developmental trajectories. For example, here a first pass at coding the plumage patches of *Corapipo gutturalis* (note again the disappearing mask):
+|Character|S1|S2|
+|---------|--|--|
+|Throat|2|2|
+|Mask|2|0|
+|Body|0|2|
 
-**Goal One: Data Ontology**
-The phylogeny of manakins has been robustly estimated with molecular data from almost all of the ~65 members of the clade (Ohlson et al. in prep, see also Ohlson et al. 2013). This backbone phylogeny provides the pattern with which I might investigate the process of the evolution of DPM. For my part, the first step is to establish a data ontology that allows me to compare characters across taxa. I need two tiers to define these data: (1) What is the length of DPM for each taxon (e.g., how many plumage stages are there)? (2) What are the qualities of plumages at each stage? I will first collect data for all species present in the molecular tree using literature reports, and then verify uncertain reports using museum specimens. For possible downstream analyses, I will supplement these data with information on sexual dimorphism, sexual behavior, and mating systems.
+The last plumage stage for each individual taxon is taken as that taxon's "definitive plumage." The set of plumage characters is then filled in to equal the maximum stage across all taxa. For example, *Chiroxiphia linearis* has four stages whereas *Corapipo gutturalis* only has two. After aligning all taxa with this maximum, the coding for *C. gutturalis* is filled in with the definitive plumage:
+|Character|S1|S2|S3|S4|
+|---------|--|--|--|--|
+|Throat|2|2|2|2|
+|Mask|2|0|0|0|
+|Body|0|2|2|2|
 
-As an example, consider some DPM characters loosely annotated for a handful of manakins, below. Different taxa differ both in the number of predefinitive plumage stages and the qualities of the plumages at each stage (here indicated with the particular definitive-like qualities that are present at each stage).
+The full matrix is then aligned across all taxa. All missing characters are coded as 0, giving a complete character matrix of, for example:
 
-![Faculty have raved that this figure is "facile!" What rating does that equate to on Rotten Tomatoes?](figures/ilicurini_prelim.png)
+|Taxon|Body_S1|Body_S2|Body_S3|Body_S4|...|
+|-----|-------|-------|-------|-------|---|
+|*Chiroxiphia linearis*|0|0|1|2|...|
+|*Corapipo gutturalis*|0|2|2|2|...|
+|...|...|...|...|...|...|
 
-**Goal Two: Structured Markov Models**
-Phylogenetic analyses of ontogenetic processes face a problem in that the qualities of particular characters are causally dependent on the presence or absence of those characters. The classic example of this problem is the “tail color problem” (Maddison 1993). Imagine trying to study the evolution of tail color in a clade of organisms whose members have either red tails, blue tails, or no tails. What is the relationship between a red-tailed taxon and a no-tailed taxon, as compared to the relationship between a red-tailed taxon and a blue-tailed taxon? In the context of DPM, there is a similar challenge: what is the relationship between plumage evolution at a given stage, and the developmental evolution of the presence or absence of stages themselves?
+Understanding these plumage characters will require lots of additional (and much more careful!) work, but this is a start!
 
-These multiple axes of evolutionary change have a strict hierarchical structure. Observations of evolutionary shifts in tail color are causally subordinate to shifts in the presence or absence of tails. Recently, Tarasov (2019) established a solution to this problem using Structured Markov Models. Such a model allows one to differentiate between observable states (e.g., blue tail, red tail, no tail) and the hidden processes of change among those states (which, e.g., includes the evolution of tails as well as the evolution of tail colors). Thus, an additional portion of my data ontology will be not just the matrix of observable characters, but also the explicit dependencies of those characters.
+### Backbone Phylogeny
+A well-resolved genetic phylogeny of the entire manakin family Pipridae is pending, and we are contacting that research group in hopes of obtaining access. For this checkpoint, I used single subtree obtained the [BirdTree](Birdtree.org) database from Jetz et al. (2012).
+![The temporary Ilicurini sublade tree from BirdTree.org](Figures/raw_tree.png")
 
-**Goal Three: Ancestral State Reconstruction**
-I anticipate that a greater knowledge of Structured Markov Models in a phylogenetic context will open the door to multiple forms of analyses. In particular, I am interested in how such an explicit model could help me assess the variable role of selection at different levels of the structured evolutionary hierarchy (e.g., what if there are different forms of selection operating in regards to the number of plumage stages and the qualities of plumages at those stages?).
+### Ancestral State Reconstruction
+I used [RevBayes](https://revbayes.github.io/) to perform a symmetric unordered ancestral state construction across all of the independent plumage characters. This analysis uses the very simple Mk model (Lewis 2001) with the three states for all plumage characters. The corresponding rate matrix ($Q$) is thus a symmetric 3x3 transition matrix governed by a single parameter ($\mu$).
 
-Given my current naiveté, however I want to begin with a simpler goal: modeling the ancestral states of DPM in manakins. After establishing the character dependencies in my Structured Markov Model, I can use the new R package [PARAMO](https://github.com/sergeitarasov/PARAMO) in combination with RevBayes (Höhna et al. 2016) to infer the history of evolution of plumage stages and plumage qualities at each stage. By the end of these initial goals, I will have established not only a dataset of DPM characters in manakins, but also explicit model(s) for the dependencies among these characters, and set these data to the reconstruction of the ancestral states of DPM in these birds.
+The code for this preliminary RevBayes analysis is available in ```Scripts/mcmc_ase_mk.Rev```. For a simple start to the analysis, I ran two independent chains of 500,000 iterations each with a thinning of 500 and a burn-in of 25%.
+
+We can quickly check that this analysis is starting to click together by viewing parameter estimate distributions and some preliminary character estimations. First, I can see that the single model parameter ($\mu$) is already mixing nicely within and across chains.
+![Trace for ($\mu$) parameter](Figures/trace_mu.png)
+
+And I can view the parameter distribution across the posterior of both chains:
+![Density plot for ($\mu$) parameter](Figures/dens_mu.png)
+
+Finally, I can start to view the ancestral state reconstructions. Here is the tree annotated with the states for just the "Crown" plumage patch (S1-S2-S3-S4 at each node). Green dots indicate a character state of 0, Yellow indicates a state of 1, and Red indicates a state of 2.
+![Ancestral state reconstruction for the "Crown" plumage patch](Figures/anc_crown_tree.png)
+
+Kinda neat!
 
 ## References
-Abzhanov, A. 2013. von Baer’s law for the ages: lost and found principles of developmental evolution. Trends in Genetics 29:712–722.
-
-Alberch, P., S. J. Gould, G. F. Oster, and D. B. Wake. 1979. Size and shape in ontogeny and phylogeny. Paleobiology:296–317.
-
-Chu, P. C. 1994. Historical examination of delayed plumage maturation in the shorebirds (Aves: Charadriiformes). Evolution 48:327–350.
-
-Collis, K., and G. Borgia. 1993. The Costs of Male Display and Delayed Plumage Maturation in the Satin Bowerbird (*Ptilonorhynchus violaceus*). Ethology 94:59–71.
-
-Doucet, S. M., D. B. McDonald, M. S. Foster, and R. P. Clay. 2007. Plumage development and molt in Long-tailed Manakins (*Chiroxiphia linearis*): variation according to sex and age. The Auk 124:29–43.
-
-Fink, W. L. 1982. The conceptual relationship between ontogeny and phylogeny. Paleobiology 8:254–264.
-
-Gould, S. J. 1977. Ontogeny and phylogeny. Harvard University Press.
-
-Hawkins, G. L., G. E. Hill, and A. Mercadante. 2012. Delayed plumage maturation and delayed reproductive investment in birds. Biological Reviews 87:257–274.
-
-Hill, G. E. 1996. Subadult Plumage in the House Finch and Tests of Models for the Evolution of Delayed Plumage Maturation. The Auk: Ornithological Advances 113:858–874.
-
-Höhna, S., M. J. Landis, T. A. Heath, B. Boussau, N. Lartillot, B. R. Moore, J. P. Huelsenbeck, and F. Ronquist. 2016. RevBayes: Bayesian phylogenetic inference using graphical models and an interactive model-specification language. Systematic biology 65:726–736.
-
-Lyon, B. E., and R. D. Montgomerie. 1986. Delayed plumage maturation in passerine birds: Reliable signaling by subordinate males? Evolution 40:605–615.
-
-Maddison, W. P. 1993. Missing Data Versus Missing Characters in Phylogenetic Analysis. Systematic Biology 42:576–581.
-
-Ohlson, J. I., J. Fjeldsa, and P. G. Ericson. 2013. Molecular phylogeny of the manakins (Aves: Passeriformes: Pipridae), with a new classification and the description of a new genus. Molecular phylogenetics and evolution 69:796–804.
-
-Prum, R., and V. R. Razafindratsita. 1997. Lek behavior and natural history of the Velvet Asity (*Philepina castanea*: Eurylaimidae). The Wilson Bulletin 109:371–560.
-
-Rohwer, S. 1983. Testing the female mimicry hypothesis of delayed plumage maturation: a comment on Procter-Gray and Holmes. Evolution 37:421–423.
-
-Tarasov, S. 2019. Integration of Anatomy Ontologies and Evo-Devo Using Structured Markov Models Suggests a New Framework for Modeling Discrete Phenotypic Traits. Systematic Biology 68:698–716.
