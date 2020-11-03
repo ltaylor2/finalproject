@@ -1,0 +1,30 @@
+plumages <- readDiscreteCharacterData("Data/plumage_all.nex")
+phylogeny <- readTrees("Data/pipridae_trees.nex")[1]
+
+moves = VectorMoves()
+monitors = VectorMonitors()
+
+mu_plumage ~ dnExponential(1.0)
+Q_plumage <- fnJC(3)
+
+moves.append( mvScale(mu_plumage, lambda=1, weight=2) )
+
+phyPlumage ~ dnPhyloCTMC(tree=phylogeny, branchRates=mu_plumage, Q=Q_plumage, type="Standard")
+phyPlumage.clamp(plumages)
+
+plumage_model = model(phylogeny)
+
+monitors.append( mnModel(filename="Output/ase_mk.log", printgen=10) )
+monitors.append( mnScreen(printgen=1000) )
+
+monitors.append( mnJointConditionalAncestralState(tree=phylogeny,
+                                                  ctmc=phyPlumage,
+                                                  filename="Output/ase_mk.states.txt",
+                                                  type="Standard",
+                                                  printgen=1,
+                                                  withTips=true,
+                                                  withStartStates=false) )
+
+plumage_mcmc = mcmc(plumage_model, monitors, moves, nruns=2, combine="mixed")
+
+plumage_mcmc.run(generations=10000, tuningInterval=200)
