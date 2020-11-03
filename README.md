@@ -117,6 +117,8 @@ Gould, S. J. 1977. Ontogeny and phylogeny. Harvard University Press.
 
 Hellmayr, C. E. 1929. A contribution to the ornithology of northeastern Brazil. Field Museum of Natural History 12.
 
+Jetz, W., G. H. Thomas, J. B. Joy, K. Hartmann, and A. O. Mooers. 2012. The global diversity of birds in space and time. Nature 491:444–448.
+
 Lewis P.O. 2001. A Likelihood Approach to Estimating Phylogeny from Discrete Morphological Character Data. Systematic Biology.
 
 Mallet-Rodrigues, F., and R. Dutra. 2012. Acquisition of definitive adult plumage in male Blue Manakins *Chiroxiphia caudata*. Cotinga 34.
