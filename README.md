@@ -52,7 +52,7 @@ For example, here is the first pass at coding the plumage patches of *Chiroxiphi
 |Remiges|0|0|1|0|
 |Rectrices [color]|0|0|1|0|
 
-Other taxa have simpler plumage characters and developmental trajectories. For example, here a first pass at coding the plumage patches of *Corapipo gutturalis* (note again the disappearing mask):
+Other taxa have simpler plumage characters and developmental trajectories. For example, here is a first pass at coding the plumage patches of *Corapipo gutturalis* (note again the disappearing mask):
 |Character|S1|S2|
 |---------|--|--|
 |Throat|2|2|
