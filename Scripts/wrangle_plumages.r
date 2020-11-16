@@ -28,10 +28,13 @@ getTaxon <- function(file) {
   numStages <- ncol(d)-1
   defPlumage <- pull(d[,ncol(d)])
 
-  for(newCol in (numStages+1):maxStages) {
-    newStage <- paste("S", newCol, sep="")
-    d <- d %>%
-      mutate(!!newStage:=defPlumage)
+  if (numStages < maxStages) {
+    for(newCol in (numStages+1):maxStages) {
+      newStage <- paste("S", newCol, sep="")
+      d <- d %>%
+        mutate(!!newStage:=defPlumage)
+  }
+
   }
   d <- d %>%
     pivot_longer(-Character, names_to="Stage", values_to="Value") %>%
