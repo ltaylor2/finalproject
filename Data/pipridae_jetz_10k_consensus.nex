@@ -50,7 +50,7 @@ Begin taxa;
 			Tyranneutes_stolzmanni 
 			Tyranneutes_virescens 
 			Xenopipo_atronitens 
-			Xenopipo_flavicapilla 
+			Chloropipo_flavicapilla 
 			Xenopipo_holochlora 
 			Xenopipo_unicolor 
 			Xenopipo_uniformis
@@ -105,7 +105,7 @@ Begin trees;
 		  45 Tyranneutes_stolzmanni,
 		  46 Tyranneutes_virescens,
 		  47 Xenopipo_atronitens,
-		  48 Xenopipo_flavicapilla,
+		  48 Chloropipo_flavicapilla,
 		  49 Xenopipo_holochlora,
 		  50 Xenopipo_unicolor,
 		  51 Xenopipo_uniformis
