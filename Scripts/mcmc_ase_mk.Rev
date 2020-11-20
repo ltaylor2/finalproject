@@ -1,5 +1,6 @@
 plumages <- readDiscreteCharacterData(PLUMAGE_DATA)
-phylogeny <- readTrees(TREES_FILE)[1]
+phylogenies <- readTrees(TREES_FILE)
+
 moves = VectorMoves()
 monitors = VectorMonitors()
 
