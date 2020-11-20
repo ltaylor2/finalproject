@@ -6,7 +6,7 @@ ENVIRONMENT=pipridae
 
 PLUMAGE_DIR=${DIRECTORY}/Data/Plumages
 FULL_PLUMAGE_DATA=${DIRECTORY}/Data/plumage_all
-TREES_FILE=${DIRECTORY}/Data/pipridae_trees.nex
+TREE_FILE=${DIRECTORY}/Data/pipridae_jetz_10k_consensus.nex
 
 REV_FILE=${DIRECTORY}/Scripts/mcmc_ase_mk.Rev
 
@@ -31,7 +31,7 @@ source activate $ENVIRONMENT
 echo -e "\n START INPUT DATA FORMAT \n"
 
 # Refactor one genus change from the Jetz tree
-sed -i "s/Xenopipo_flavicapilla/Chloropipo_flavicapilla/g" $TREES_FILE
+sed -i "s/Xenopipo_flavicapilla/Chloropipo_flavicapilla/g" $TREE_FILE
 
 # Wrangle the individual plumage datasets
 Rscript Scripts/wrangle_plumages.r --args -i $PLUMAGE_DIR \
@@ -48,7 +48,7 @@ module load revbayes
 echo -e "\n START REVBAYES \n"
 
 RB_COMMAND="PLUMAGE_DATA=\"${FULL_PLUMAGE_DATA}.nex\";
-            TREES_FILE=\"${TREES_FILE}\";
+            TREE_FILE=\"${TREE_FILE}\";
             THINNING=${REV_THINNING};
             ITERATIONS=${REV_ITERATIONS};
             CHAINS=${REV_CHAINS};
