@@ -6,6 +6,10 @@ inDir <- args[grep("-i", args)+1]
 outFile <- args[grep("-o", args)+1]
 treeName <- args[grep("-t", args)+1]
 
+inDir <- "Data/Plumages"
+outFile <- "Data/plumage_all"
+treeName <- "Data/pipridae_jetz_10k_consensus"
+
 # Function to parse each taxon's plumage file characters into a single row
 cat("Parsing individual plumages matrices in", inDir, "\n")
 
@@ -26,6 +30,9 @@ getTaxon <- function(file) {
 
   d <- read_csv(paste("Data/Plumages/", file, sep=""))
 
+  if (nrow(d) == 0) {
+    d <- tibble(Character="Crown", S1=0)
+  }
   # # Fill in array to align with maximum stages across all taxa
   # numStages <- ncol(d)-1
   # defPlumage <- pull(d[,ncol(d)])
@@ -50,8 +57,7 @@ getTaxon <- function(file) {
 # Combine all plumage characters across each taxa.
 # Any plumage matches missing for a given taxon or stage is
 #   fittingly marked 0
-plumages <- map_df(taxaFiles, getTaxon) %>%
-         select(-Value)
+plumages <- map_df(taxaFiles, getTaxon)
 plumages[is.na(plumages)] <- 0
 
 # Write csv matrix file
