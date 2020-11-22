@@ -1,4 +1,5 @@
-﻿Character,S1,S2
-Throat,2,2
-Mask,2,0
-Body,0,2
+Character,S1,S2
+Face,0,1
+Face-Melanin,0,1
+Throat,0,1
+Throat-Melanin,0,1

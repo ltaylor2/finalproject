@@ -5,7 +5,7 @@ moves = VectorMoves()
 monitors = VectorMonitors()
 
 mu_plumage ~ dnExponential(1.0)
-Q_plumage <- fnJC(3)
+Q_plumage <- fnJC(2)
 
 moves.append( mvScale(mu_plumage, lambda=1, weight=2) )
 

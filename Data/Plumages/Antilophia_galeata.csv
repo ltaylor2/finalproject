@@ -1,5 +1,11 @@
-﻿Character,S1,S2
-Forecrown,1,2
-Crown,0,2
-Mantle,0,2
-Body,1,2
+Character,S1
+Crown,1
+Crown-Carotenoid,1
+Mantle,1
+Mantle-Carotenoid,1
+Body,1
+Body-Melanin,1
+Wing,1
+Wing-Melanin,1
+TailCoverts,1
+TailCoverts-Melanin,1

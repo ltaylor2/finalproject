@@ -3,7 +3,7 @@ library(treeio)
 library(ggtree)
 
 args <- commandArgs(trailing=TRUE)
-treesFile <- args[grep("--trees", args)+1]
+treeFile <- args[grep("--tree", args)+1]
 dataFile <- args[grep("--plumages", args)+1]
 
 theme_lt <- theme_bw() +
@@ -13,7 +13,7 @@ theme_lt <- theme_bw() +
                legend.text=element_text(size=8),
                panel.grid=element_blank())
 
-phylogeny <- read.nexus(treesFile)[1]
+phylogeny <- read.nexus(treeFile)
 
 plumages <- read_csv(dataFile)
 characters <- colnames(plumages[,-1])
@@ -119,14 +119,11 @@ plot_tree_anc <- ggtree(rbTree) +
               geom_nodelab(aes(label="  ", fill=Crown_S1), colour="black", geom="label", label.padding=unit(.1, "lines"), nudge_x=-.9, size=1) +
               geom_nodelab(aes(label="  ", fill=Crown_S2), colour="black", geom="label", label.padding=unit(.1, "lines"), nudge_x=-.3, size=1) +
               geom_nodelab(aes(label="  ", fill=Crown_S3), colour="black", geom="label", label.padding=unit(.1, "lines"), nudge_x=.3, size=1) +
-              geom_nodelab(aes(label="  ", fill=Crown_S4), colour="black", geom="label", label.padding=unit(.1, "lines"), nudge_x=.9, size=1) +
               geom_tiplab(aes(label="  ", fill=Crown_S1), colour="black", geom="label", label.padding=unit(.1, "lines"), hjust=-.5, size=1) +
               geom_tiplab(aes(label="  ", fill=Crown_S2), colour="black", geom="label", label.padding=unit(.1, "lines"), hjust=-1.5, size=1) +
               geom_tiplab(aes(label="  ", fill=Crown_S3), colour="black", geom="label", label.padding=unit(.1, "lines"), hjust=-2.5, size=1) +
-              geom_tiplab(aes(label="  ", fill=Crown_S4), colour="black", geom="label", label.padding=unit(.1, "lines"), hjust=-3.5, size=1) +
-              scale_fill_manual(values=c("0"="green",
-                                         "1"="yellow",
-                                          "2"="red")) +
+              scale_fill_manual(values=c("0"="white",
+                                         "1"="red")) +
               guides(fill=FALSE) +
               xlim(-4, 30) +
               theme(legend.position=c(.1, .8))
