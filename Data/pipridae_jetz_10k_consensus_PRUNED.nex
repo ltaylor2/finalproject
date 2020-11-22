@@ -1,0 +1,83 @@
+#NEXUS
+[R-package APE, Sun Nov 22 03:44:05 2020]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX = 35;
+	TAXLABELS
+		Antilophia_bokermanni
+		Antilophia_galeata
+		Chiroxiphia_caudata
+		Chiroxiphia_lanceolata
+		Chiroxiphia_linearis
+		Chiroxiphia_pareola
+		Corapipo_altera
+		Corapipo_gutturalis
+		Corapipo_leucorrhoa
+		Heterocercus_flavivertex
+		Heterocercus_linteatus
+		Lepidothrix_coeruleocapilla
+		Lepidothrix_coronata
+		Lepidothrix_nattereri
+		Lepidothrix_serena
+		Lepidothrix_suavissima
+		Lepidothrix_vilasboasi
+		Machaeropterus_pyrocephalus
+		Manacus_candei
+		Manacus_manacus
+		Masius_chrysopterus
+		Neopelma_aurifrons
+		Neopelma_pallescens
+		Pipra_aureola
+		Ceratopipra_erythrocephala
+		Pipra_fasciicauda
+		Pipra_filicauda
+		Ceratopipra_mentalis
+		Pseudopipra_pipra
+		Tyranneutes_virescens
+		Xenopipo_atronitens
+		Chloropipo_flavicapilla
+		Cryptopipo_holochlora
+		Chloropipo_unicolor
+		Xenopipo_uniformis
+	;
+END;
+BEGIN TREES;
+	TRANSLATE
+		1	Antilophia_bokermanni,
+		2	Antilophia_galeata,
+		3	Chiroxiphia_caudata,
+		4	Chiroxiphia_lanceolata,
+		5	Chiroxiphia_linearis,
+		6	Chiroxiphia_pareola,
+		7	Corapipo_altera,
+		8	Corapipo_gutturalis,
+		9	Corapipo_leucorrhoa,
+		10	Heterocercus_flavivertex,
+		11	Heterocercus_linteatus,
+		12	Lepidothrix_coeruleocapilla,
+		13	Lepidothrix_coronata,
+		14	Lepidothrix_nattereri,
+		15	Lepidothrix_serena,
+		16	Lepidothrix_suavissima,
+		17	Lepidothrix_vilasboasi,
+		18	Machaeropterus_pyrocephalus,
+		19	Manacus_candei,
+		20	Manacus_manacus,
+		21	Masius_chrysopterus,
+		22	Neopelma_aurifrons,
+		23	Neopelma_pallescens,
+		24	Pipra_aureola,
+		25	Ceratopipra_erythrocephala,
+		26	Pipra_fasciicauda,
+		27	Pipra_filicauda,
+		28	Ceratopipra_mentalis,
+		29	Pseudopipra_pipra,
+		30	Tyranneutes_virescens,
+		31	Xenopipo_atronitens,
+		32	Chloropipo_flavicapilla,
+		33	Cryptopipo_holochlora,
+		34	Chloropipo_unicolor,
+		35	Xenopipo_uniformis
+	;
+	TREE * UNTITLED = [&R] ((((((1:1.921170017,2:1.921170017):2.43124242,((3:3.377258423,(4:2.814800472,6:2.814800472):0.5624579515):0.4363327909,5:3.813591214):0.538821222):4.987542308,((7:2.370224414,(8:1.96434426,9:1.96434426):0.4058801539):1.476492626,21:3.84671704):5.493237705):2.760827286,((31:5.303589549,35:5.303589549):6.113868327,(32:10.23021216,(33:8.450868672,34:8.450868672):1.77934349):1.187245713):0.6833241553):1.002147041,((((10:4.862939719,11:4.862939719):3.951403921,(19:0.9384448236,20:0.9384448236):7.875898817):0.4454326353,(((29:5.660001844,(25:1.430968438,28:1.430968438):4.229033407):1.834503345,18:7.49450519):0.615097558,((24:0.8535901071,26:0.8535901071):0.9113961414,27:1.764986249):6.344616499):1.150173528):0.464902838,((12:3.795541622,(13:2.91662178,14:2.91662178):0.8789198421):1.226301775,((15:3.806764419,16:3.806764419):1.02525276,17:4.832017179):0.1898262179):4.702835717):3.378249958):3.957947328,((22:5.720952636,23:5.720952636):4.048917472,30:9.769870109):7.291006291);
+END;
