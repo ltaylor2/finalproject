@@ -9,7 +9,7 @@ Q_plumage <- fnJC(2)
 
 moves.append( mvScale(mu_plumage, lambda=1, weight=2) )
 
-phyPlumage ~ dnPhyloCTMC(tree=phylogeny, branchRates=mu_plumage, Q=Q_plumage, type="Standard")
+phyPlumage ~ dnPhyloCTMC(tree=phylogeny, Q=Q_plumage, type="Standard")
 phyPlumage.clamp(plumages)
 
 plumage_model = model(phylogeny)

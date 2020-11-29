@@ -1,0 +1,45 @@
+#NEXUS
+Begin TAXA;
+	Dimensions NTAX=35;
+End;
+Begin CHARACTERS;
+	Dimensions NCHAR=28;
+	Format DataType=Standard Symbols="0 1 2 3";
+	CharLabels Breast_S1 Crown_S1 Mantle_S1 Body_S1 Remiges_S1 TailCoverts_S1 Head_S1 Body_S2 Crown_S2 Face_S1 Face_S2 Rectrices_S1 Rectrices_S2 Remiges_S2 Throat_S1 Throat_S2 Mantle_S2 Body_S3 Crown_S3 Face_S3 Mantle_S3 Rectrices_S3 Remiges_S3 Belly_S1 Belly_S2 Crown_S1_S1 Back_S1 Head_S2;
+	Matrix
+		 Antilophia_bokermanni   2110000000000000000000000000
+		 Antilophia_galeata   0112220000000000000000000000
+		 Ceratopipra_erythrocephala   0102000000000000000000000000
+		 Ceratopipra_mentalis   0002001000000000000000000000
+		 Chiroxiphia_caudata   0103000312233222000000000000
+		 Chiroxiphia_lanceolata   0102000212202200300000000000
+		 Chiroxiphia_linearis   0100000210202200021232200000
+		 Chiroxiphia_pareola   0100000212200000000000003000
+		 Chloropipo_flavicapilla   0000001000000000000000000000
+		 Chloropipo_unicolor   0002002000000000000000000000
+		 Corapipo_altera   0000000000200002000000000000
+		 Corapipo_gutturalis   0000000000200002000000000000
+		 Corapipo_leucorrhoa   0000000000200002000000000000
+		 Cryptopipo_holochlora   0000000000000000000000000000
+		 Heterocercus_flavivertex   0000000000000000000000000000
+		 Heterocercus_linteatus   0102000000000020000000000000
+		 Lepidothrix_coeruleocapilla   0300000000000000000000000000
+		 Lepidothrix_coronata   0300000230000022000000000000
+		 Lepidothrix_nattereri   0201010000000000000000000000
+		 Lepidothrix_serena   0002000000000000000000000000
+		 Lepidothrix_suavissima   0002000000000000000000000000
+		 Lepidothrix_vilasboasi   0101010000000000000000000000
+		 Machaeropterus_pyrocephalus   0100000000000010000000000000
+		 Manacus_candei   0000000000000020000000000000
+		 Manacus_manacus   0202000000000000000000000000
+		 Masius_chrysopterus   0000000010000000021001100000
+		 Neopelma_aurifrons   0000000000000000000000000000
+		 Neopelma_pallescens   0000000000000000000000000000
+		 Pipra_aureola   0101000001000000000000000000
+		 Pipra_fasciicauda   1100000001000000000000010020
+		 Pipra_filicauda   0100000011100000000000000000
+		 Pseudopipra_pipra   0000000220000000000000000002
+		 Tyranneutes_virescens   0100000000000000000000000000
+		 Xenopipo_atronitens   0002002000000000000000000000
+		 Xenopipo_uniformis   0000000000000000000000000000;
+End;

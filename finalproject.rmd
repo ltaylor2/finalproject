@@ -18,6 +18,7 @@ knitr::opts_chunk$set(engine.pat="C://Program Files/RevBayes/rb")
 library(tidyverse)
 library(tools)
 library(ape)
+library(phytools)
 
 STAGES_FILE <- "Data/stages_all.csv"
 PLUMAGE_DIR <- "Data/Plumages/"
@@ -35,29 +36,29 @@ Wrangling stage characters into a nexus file.
 ```{r, include=FALSE}
 
 # Read in the raw data matrix and concatenate taxa names
-stageData <- read_csv(STAGES_FILE) %>%
+stagesData <- read_csv(STAGES_FILE) %>%
           unite(Taxon, Genus, Species, sep="_")
 
 # Prepare and write nexus file for RevBayes input
-ntaxa <- nrow(stageData)
+ntaxa <- nrow(stagesData)
 ncharacters <- 1
 
 sink(paste(file_path_sans_ext(STAGES_FILE), ".nex",sep=""))
 cat("#NEXUS\n")
 cat("Begin TAXA;\n")
 cat("\tDimensions NTAX=", ntaxa, ";\n", sep="")
-cat("\tTaxLabels ", paste(stageData$Taxon, collapse=" "), ";\n", sep="")
+cat("\tTaxLabels ", paste(stagesData$Taxon, collapse=" "), ";\n", sep="")
 cat("End;\n")
 
 cat("Begin CHARACTERS;\n")
 cat("\tDimensions NCHAR=", ncharacters, ";\n", sep="")
 cat("\tFormat DataType=Standard Symbols=\"0 1 2 3\";\n", sep="")
-cat("\tCharLabels ", paste(colnames(stageData)[-1], collapse=" "), ";\n", sep="")
+cat("\tCharLabels ", paste(colnames(stagesData)[-1], collapse=" "), ";\n", sep="")
 cat("\tMatrix", sep="")
 
-for (r in 1:nrow(stageData)) {
-  taxon <- stageData$Taxon[r]
-  characters <- paste(stageData[r, -1], collapse="")
+for (r in 1:nrow(stagesData)) {
+  taxon <- stagesData$Taxon[r]
+  characters <- paste(stagesData[r, -1], collapse="")
   cat("\n\t\t", taxon, " ", characters)
 }
 cat(";\n")
@@ -73,10 +74,10 @@ Wrangling plumage characters into a nexus file.
 # A function to parse an individual plumage record into a matrix
 extractPlumageFile <- function(file) {
   taxon <- strsplit(file, "\\.")[[1]][1]
-  
+
   plumage <- read_csv(paste(PLUMAGE_DIR, file, sep=""))
-  
-  if (nrow(plumage) == 0) {
+
+    if (nrow(plumage) == 0) {
     plumage <- bind_rows(plumage, tibble(Character="Crown_S1", S1="Absent"))
   }
   plumage <- plumage %>%
@@ -87,7 +88,7 @@ extractPlumageFile <- function(file) {
           arrange(CharacterStage) %>%
           pivot_wider(names_from=CharacterStage, 
                       values_from=Value) %>%
-          map(~ PLUMAGE_STATE_CODES[.]) %>%
+          purrr::map(~ PLUMAGE_STATE_CODES[.]) %>%
           as.list() %>%
           as_tibble() %>%
           mutate(Taxon=taxon, .before=1)
@@ -157,19 +158,95 @@ write.nexus(treePruned,
 ```
 
 ### Ancestral State Estimation: Predefinitive Plumage Stages
-```{rb}
-stages <- readDiscreteCharacterData("Data/stages_all.nex")
-phylogeny <- readTrees("Data/pruned_tree.nex")
+Mk Model Selection for Stage Evolution
+```{r, echo=FALSE, include=FALSE}
 
-moves = VectorMoves()
-monitors = VectorMonitors()
 
-lambda_stages ~ dnExponential(1.0)
-mu_stages ~ dnExponential(1.0)
-Q_stages <- fnOrderedRateMatrix(3, lambda_stages, mu_stages)
+# Organize vector of stage data
+stagesVector <- map_dbl(treePruned$tip.label,
+                        ~ filter(stagesData, Taxon==.)$Stages[1])
+names(stagesVector) <- treePruned$tip.label
+
+
+# First, we test rates models
+
+# MODEL 1: Equal-rates unordered
+fit_ER <- fitMk(tree=treePruned, x=stagesVector, model="ER")
+
+# MODEL 2: Equal symmetric ordered
+mat_eq_sym_ordered <- matrix(c(0,1,0,0,
+                               1,0,1,0,
+                               0,1,0,1,
+                               0,0,1,0),4,4,byrow=TRUE)
+fit_eq_sym_ordered <- fitMk(tree=treePruned, x=stagesVector, model=mat_eq_sym_ordered)
+
+# MODEL 3: Equal asymmetric ordered
+mat_eq_asym_ordered <- matrix(c(0,1,0,0,
+                                2,0,1,0,
+                                0,2,0,1,
+                                0,0,2,0),4,4,byrow=TRUE)
+
+fit_eq_asym_ordered <- fitMk(tree=treePruned, x=stagesVector, model=mat_eq_asym_ordered)
+  
+# MODEL 4: Unequal symmetric ordered
+mat_un_sym_ordered <- matrix(c(0,1,0,0,
+                               1,0,2,0,
+                               0,2,0,3,
+                               0,0,3,0),4,4,byrow=TRUE)
+
+fit_un_sym_ordered <- fitMk(tree=treePruned, x=stagesVector, model=mat_un_sym_ordered)
+
+
+# MODEL 5: Unequal asymmetric ordered
+mat_un_asym_ordered <- matrix(c(0,1,0,0,
+                                2,0,3,0,
+                                0,4,0,5,
+                                0,0,6,0),4,4,byrow=TRUE)
+
+fit_un_asym_ordered <- fitMk(tree=treePruned, x=stagesVector, model=mat_un_asym_ordered)
+
+# MODEL 6: All rates different
+fit_ARD <- fitMk(tree=treePruned, x=stagesVector, model=)
+
+
+
+AICs <- setNames(sapply(list(fit_ER,fit_eq_sym_ordered,fit_eq_asym_ordered,
+                             fit_un_sym_ordered,fit_un_asym_ordered,fit_ARD),AIC),
+                 c("ER","eq_sym_ordered","eq_asym_ordered","un_sym_ordered","un_asym_ordered","ARD"))
+
+```
+
+Ancestral State Simulation for Stages
+```{r, echo=FALSE, include=FALSE}
+
+maps <- make.simmap(tree=treePruned,
+                    x=stagesVector,
+                    model=mat_eq_sym_ordered,
+                    nsim=1000)
+
+summaries <- summary(maps)
+
+colors <- c("0"="black", 
+            "1"="green", 
+            "2"="red",
+            "3"="blue")
+
+{ 
+  plot(summaries, colors=colors)
+  trash <- sapply(maps, markChanges, sapply(colors, make.transparent,0.05))
+}
 ```
 
 ### Ancestral State Estimation: Predefinitve Plumage Patches
+```{r, echo=FALSE, include=FALSE}
+
+
+# Organize vector of plumage patch data
+plumagesData <- read.nexus.data("Data/plumages_all.nex")
+
+plumagesVector <- purrr::map_chr(treePruned$tip.label,
+                                 ~ paste(plumagesData[.][[1]], sep="", collapse=""))
+```
 
 
 I used [RevBayes](https://revbayes.github.io/) to perform a symmetric unordered ancestral state construction across all of the independent plumage characters. This analysis uses the very simple Mk model (Lewis 2001) with the three states for all plumage characters. The corresponding rate matrix ($Q$) is thus a symmetric 3x3 transition matrix governed by a single parameter ($\mu$).
