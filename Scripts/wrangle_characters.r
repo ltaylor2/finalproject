@@ -35,16 +35,7 @@ getTaxon <- function(file) {
   if (nrow(d) == 0) {
     d <- tibble(Character="Crown", S1=0)
   }
-
-  # We want to extract the stages themselves as characters
-  # and stick them onto the matrix of the rest of the characters
-  # at the end
-  stageCharacters <- d %>%
-                  select(-Character) %>%
-                  colnames()
-
-  stageMatrix <- tibble()
-
+  
   for (stage in stageCharacters) {
     stageMatrix <- bind_rows(stageMatrix,
                              tibble(Stage=stage, Value=1))
