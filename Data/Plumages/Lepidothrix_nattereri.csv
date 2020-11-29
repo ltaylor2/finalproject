@@ -1,7 +1,4 @@
 Character,S1
-Body,1
-Body-Carotenoid,1
-TailCoverts,1
-TailCoverts-Carotenoid,1
-Crown,1
-Crown-Melanin,1
+Body,Carotenoid
+TailCoverts,Carotenoid
+Crown,Melanin

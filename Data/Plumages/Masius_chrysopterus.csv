@@ -1,10 +1,5 @@
 Character,S1,S2,S3
-Crown,0,1,1
-Crown-Carotenoid,0,1,1
-Crown-Melanin,0,1,1
-Wings,0,0,1
-Wings-Carotenoid,0,0,1
-Tail,0,0,1
-Tail-Carotenoid,0,0,1
-Body,0,0,1
-Body-Melanin,0,0,1
+Crown,Absent,Carotenoid,Carotenoid
+Remiges,Absent,Absent,Carotenoid
+Rectrices,Absent,Absent,Carotenoid
+Body,Absent,Absent,Melanin

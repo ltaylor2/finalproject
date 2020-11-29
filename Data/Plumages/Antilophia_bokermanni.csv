@@ -1,7 +1,4 @@
 Character,S1
-Crown,1
-Crown-Carotenoid,1
-Mantle,1
-Mantle-Carotenoid,1
-Breast,1
-Breast-Melanin,1
+Crown,Carotenoid
+Mantle,Carotenoid
+Breast,Melanin

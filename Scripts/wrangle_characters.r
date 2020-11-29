@@ -2,13 +2,15 @@ library(tidyverse)
 library(ape)
 
 args <- commandArgs(trailing=TRUE)
-inDir <- args[grep("-i", args)+1]
-outFile <- args[grep("-o", args)+1]
-treeName <- args[grep("-t", args)+1]
+treeName <- args[grep("--tree", args)+1]
 
+stageFile <- "Data/stages_all.csv"
 inDir <- "Data/Plumages"
-outFile <- "Data/plumage_all"
+outFile <- "Data/plumages_all"
 treeName <- "Data/pipridae_jetz_10k_consensus"
+
+# Prepare the nexus file for stages
+
 
 # Function to parse each taxon's plumage file characters into a single row
 cat("Parsing individual plumages matrices in", inDir, "\n")
@@ -33,23 +35,30 @@ getTaxon <- function(file) {
   if (nrow(d) == 0) {
     d <- tibble(Character="Crown", S1=0)
   }
-  # # Fill in array to align with maximum stages across all taxa
-  # numStages <- ncol(d)-1
-  # defPlumage <- pull(d[,ncol(d)])
-  #
-  # if (numStages < maxStages) {
-  #   for(newCol in (numStages+1):maxStages) {
-  #     newStage <- paste("S", newCol, sep="")
-  #     d <- d %>%
-  #       mutate(!!newStage:=defPlumage)
-  # }
+
+  # We want to extract the stages themselves as characters
+  # and stick them onto the matrix of the rest of the characters
+  # at the end
+  stageCharacters <- d %>%
+                  select(-Character) %>%
+                  colnames()
+
+  stageMatrix <- tibble()
+
+  for (stage in stageCharacters) {
+    stageMatrix <- bind_rows(stageMatrix,
+                             tibble(Stage=stage, Value=1))
+  }
+  stageMatrix <- stageMatrix %>%
+              pivot_wider(names_from=Stage, values_from=Value)
 
   d <- d %>%
     pivot_longer(-Character, names_to="Stage", values_to="Value") %>%
     unite(CharacterStage, Character, Stage, sep="_") %>%
     arrange(CharacterStage) %>%
     pivot_wider(names_from=CharacterStage, values_from=Value) %>%
-    mutate(Taxon=taxon, .before=1)
+    mutate(Taxon=taxon, .before=1) %>%
+    bind_cols(stageMatrix)
 
   return(d)
 }

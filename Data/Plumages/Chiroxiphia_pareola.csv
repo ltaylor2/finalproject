@@ -1,8 +1,5 @@
 Character,S1,S2
-Crown,1,1
-Crown-Carotenoid,1,1
-Face,1,1
-Face-Melanin,1,1
-Body,0,1
-Body-Melanin,0,1
-Body-Structural,0,1
+Crown,Carotenoid,Carotenoid
+Face,Melanin,Melanin
+Body,Absent,Melanin
+Belly,Absent,Structural
