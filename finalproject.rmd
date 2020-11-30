@@ -2,23 +2,18 @@
 title: "Delayed Plumage Maturation Evolution in Manakins (Aves: Pipridae)"
 author: Liam U. Taylor
 output: github_document
-knit: (function(input, ...) {
-    rmarkdown::render(
-      input,
-      output_file = "README.md",
-      envir = globalenv()
-    )
-  })
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(root.dir="C://Users/Liam/Documents/EEB654/finalproject")
-knitr::opts_chunk$set(engine.pat="C://Program Files/RevBayes/rb")
+
+setwd("C://Users/Liam/Documents/EEB654/finalproject")
 
 library(tidyverse)
 library(tools)
 library(ape)
 library(phytools)
+library(gridGraphics)
+library(cowplot)
 
 STAGES_FILE <- "Data/stages_all.csv"
 PLUMAGE_DIR <- "Data/Plumages/"
@@ -33,43 +28,43 @@ PLUMAGE_STATE_CODES <- c("Absent"=0,
 
 ### Plumage Characters
 Wrangling stage characters into a nexus file.
-```{r, include=FALSE}
+```{r wrangle stages, include=FALSE}
 
 # Read in the raw data matrix and concatenate taxa names
 stagesData <- read_csv(STAGES_FILE) %>%
           unite(Taxon, Genus, Species, sep="_")
 
-# Prepare and write nexus file for RevBayes input
-ntaxa <- nrow(stagesData)
-ncharacters <- 1
-
-sink(paste(file_path_sans_ext(STAGES_FILE), ".nex",sep=""))
-cat("#NEXUS\n")
-cat("Begin TAXA;\n")
-cat("\tDimensions NTAX=", ntaxa, ";\n", sep="")
-cat("\tTaxLabels ", paste(stagesData$Taxon, collapse=" "), ";\n", sep="")
-cat("End;\n")
-
-cat("Begin CHARACTERS;\n")
-cat("\tDimensions NCHAR=", ncharacters, ";\n", sep="")
-cat("\tFormat DataType=Standard Symbols=\"0 1 2 3\";\n", sep="")
-cat("\tCharLabels ", paste(colnames(stagesData)[-1], collapse=" "), ";\n", sep="")
-cat("\tMatrix", sep="")
-
-for (r in 1:nrow(stagesData)) {
-  taxon <- stagesData$Taxon[r]
-  characters <- paste(stagesData[r, -1], collapse="")
-  cat("\n\t\t", taxon, " ", characters)
-}
-cat(";\n")
-cat("End;")
-sink()
+# # Prepare and write nexus file for RevBayes input
+# ntaxa <- nrow(stagesData)
+# ncharacters <- 1
+# 
+# sink(paste(file_path_sans_ext(STAGES_FILE), ".nex",sep=""))
+# cat("#NEXUS\n")
+# cat("Begin TAXA;\n")
+# cat("\tDimensions NTAX=", ntaxa, ";\n", sep="")
+# cat("\tTaxLabels ", paste(stagesData$Taxon, collapse=" "), ";\n", sep="")
+# cat("End;\n")
+# 
+# cat("Begin CHARACTERS;\n")
+# cat("\tDimensions NCHAR=", ncharacters, ";\n", sep="")
+# cat("\tFormat DataType=Standard Symbols=\"0 1 2 3\";\n", sep="")
+# cat("\tCharLabels ", paste(colnames(stagesData)[-1], collapse=" "), ";\n", sep="")
+# cat("\tMatrix", sep="")
+# 
+# for (r in 1:nrow(stagesData)) {
+#   taxon <- stagesData$Taxon[r]
+#   characters <- paste(stagesData[r, -1], collapse="")
+#   cat("\n\t\t", taxon, " ", characters)
+# }
+# cat(";\n")
+# cat("End;")
+# sink()
 
 ```
 
 
 Wrangling plumage characters into a nexus file.
-```{r, echo=FALSE, include=FALSE}
+```{r wrangle plumages, include=FALSE}
 
 # A function to parse an individual plumage record into a matrix
 extractPlumageFile <- function(file) {
@@ -78,8 +73,9 @@ extractPlumageFile <- function(file) {
   plumage <- read_csv(paste(PLUMAGE_DIR, file, sep=""))
 
     if (nrow(plumage) == 0) {
-    plumage <- bind_rows(plumage, tibble(Character="Crown_S1", S1="Absent"))
-  }
+    plumage <- bind_rows(plumage, tibble(Character="Crown", S1="Absent"))
+    }
+  
   plumage <- plumage %>%
           pivot_longer(-Character, 
                        names_to="Stage",
@@ -99,49 +95,49 @@ extractPlumageFile <- function(file) {
 
 # Construct the plumage character matrix
 plumagesData <- list.files(PLUMAGE_DIR) %>%
-             map_df(extractPlumageFile)
+             purrr::map_df(extractPlumageFile)
 
 # All patches not indicated in the original plumage tables are absent
 plumagesData[is.na(plumagesData)] <- 0
 
-# Prepare and write nexus file for RevBayes input
-ntaxa <- nrow(plumagesData)
-ncharacters <- plumagesData %>%
-            select(-Taxon) %>%
-            ncol()
+## Prepare and write nexus file for RevBayes input
+# ntaxa <- nrow(plumagesData)
+# ncharacters <- plumagesData %>%
+#             select(-Taxon) %>%
+#             ncol()
 
-sink("Data/plumages_all.nex")
-cat("#NEXUS\n")
-cat("Begin TAXA;\n")
-cat("\tDimensions NTAX=", ntaxa, ";\n", sep="")
-cat("\tTaxLabels ", paste(plumagesData$Taxon, collapse=" "), ";\n", sep="")
-cat("End;\n")
-
-cat("Begin CHARACTERS;\n")
-cat("\tDimensions NCHAR=", ncharacters, ";\n", sep="")
-cat("\tFormat DataType=Standard Symbols=\"0 1 2 3\";\n", sep="")
-cat("\tCharLabels ", paste(colnames(plumagesData)[-1], collapse=" "), ";\n", sep="")
-cat("\tMatrix", sep="")
-
-for (r in 1:nrow(plumagesData)) {
-  taxon <- plumagesData$Taxon[r]
-  characters <- paste(as.numeric(plumagesData[r, -1]), collapse="")
-  cat("\n\t\t", taxon, " ", characters)
-}
-cat(";\n")
-cat("End;")
-sink()
+# sink("Data/plumages_all.nex")
+# cat("#NEXUS\n")
+# cat("Begin TAXA;\n")
+# cat("\tDimensions NTAX=", ntaxa, ";\n", sep="")
+# cat("\tTaxLabels ", paste(plumagesData$Taxon, collapse=" "), ";\n", sep="")
+# cat("End;\n")
+# 
+# cat("Begin CHARACTERS;\n")
+# cat("\tDimensions NCHAR=", ncharacters, ";\n", sep="")
+# cat("\tFormat DataType=Standard Symbols=\"0 1 2 3\";\n", sep="")
+# cat("\tCharLabels ", paste(colnames(plumagesData)[-1], collapse=" "), ";\n", sep="")
+# cat("\tMatrix", sep="")
+# 
+# for (r in 1:nrow(plumagesData)) {
+#   taxon <- plumagesData$Taxon[r]
+#   characters <- paste(as.numeric(plumagesData[r, -1]), collapse="")
+#   cat("\n\t\t", taxon, " ", characters)
+# }
+# cat(";\n")
+# cat("End;")
+# sink()
 ```
 
 ### Backbone Phylogeny
-```{r, echo=FALSE, include=FALSE}
+```{r tree pruning, include=TRUE}
 
 # Read the tree file
 tree <- read.nexus(TREE_FILE)
 treeTips <- tree$tip.label
 
 # Determine tips which are in the tree but not the data
-missingTips_stages <- treeTips[!(treeTips %in% stageData$Taxon)]
+missingTips_stages <- treeTips[!(treeTips %in% stagesData$Taxon)]
 missingTips_plumages <- treeTips[!(treeTips %in% plumagesData$Taxon)]
 
 if (length(setdiff(missingTips_stages, missingTips_plumages)) != 0) {
@@ -159,7 +155,7 @@ write.nexus(treePruned,
 
 ### Ancestral State Estimation: Predefinitive Plumage Stages
 Mk Model Selection for Stage Evolution
-```{r, echo=FALSE, include=FALSE}
+```{r ace - stage - model selection, include=TRUE}
 
 
 # Organize vector of stage data
@@ -212,17 +208,18 @@ fit_ARD <- fitMk(tree=treePruned, x=stagesVector, model=)
 
 AICs <- setNames(sapply(list(fit_ER,fit_eq_sym_ordered,fit_eq_asym_ordered,
                              fit_un_sym_ordered,fit_un_asym_ordered,fit_ARD),AIC),
-                 c("ER","eq_sym_ordered","eq_asym_ordered","un_sym_ordered","un_asym_ordered","ARD"))
+                 c("ER","eq_sym_ordered","eq_asym_ordered",
+                   "un_sym_ordered","un_asym_ordered","ARD"))
 
 ```
 
 Ancestral State Simulation for Stages
-```{r, echo=FALSE, include=FALSE}
+```{r ace - stage - simulation, echo=FALSE}
 
 maps <- make.simmap(tree=treePruned,
                     x=stagesVector,
                     model=mat_eq_sym_ordered,
-                    nsim=1000)
+                    nsim=100)
 
 summaries <- summary(maps)
 
@@ -238,14 +235,57 @@ colors <- c("0"="black",
 ```
 
 ### Ancestral State Estimation: Predefinitve Plumage Patches
-```{r, echo=FALSE, include=FALSE}
+Produce simmaps
+```{r ace - plumage, include=FALSE}
 
+colors <- c("0"="gray", 
+            "1"="red", 
+            "2"="black",
+            "3"="blue")
 
-# Organize vector of plumage patch data
-plumagesData <- read.nexus.data("Data/plumages_all.nex")
+# A function to generate simmap estimates for a given plumage character
+simCharacter <- function(character) {
+  chars <- map_dbl(treePruned$tip.label,
+                   ~ filter(plumagesData, Taxon==.) %>% pull(!!character))
+  
+  print(character)
+  chars
+  names(chars) <- treePruned$tip.label
+  
+  maps <- make.simmap(tree=treePruned,
+                      x=chars,
+                      model="ER",
+                      nsim=20)
+  return(maps)
+}
 
-plumagesVector <- purrr::map_chr(treePruned$tip.label,
-                                 ~ paste(plumagesData[.][[1]], sep="", collapse=""))
+plumageCharacters <- colnames(plumagesData[,-1])
+
+plumageMaps <- purrr::map(plumageCharacters, simCharacter)
+
+```
+
+Plot simmaps
+```{r ace - plumage plots, echo=FALSE}
+
+colors <- c("0"="gray", 
+            "1"="red", 
+            "2"="black",
+            "3"="blue")
+
+plotCharacter <- function(sims) {
+  
+  summaries <- summary(sims)
+  plot(summaries, colors=colors, ftype="off")
+  
+  ret <- recordPlot()
+  return(ret)
+}
+
+mapPlots <- purrr::map(plumageMaps, plotCharacter)
+
+plot_grid(plotlist = mapPlots, labels=plumageCharacters)
+
 ```
 
 
