@@ -2,6 +2,14 @@
 title: "Delayed Plumage Maturation Evolution in Manakins (Aves: Pipridae)"
 author: Liam U. Taylor
 output: github_document
+
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_file = "README.md",
+      envir = globalenv()
+    )
+  })
 ---
 
 ```{r setup, include=FALSE}
@@ -11,6 +19,7 @@ setwd("C://Users/Liam/Documents/EEB654/finalproject")
 library(tidyverse)
 library(tools)
 library(ape)
+library(geiger)
 library(phytools)
 library(gridGraphics)
 library(cowplot)
@@ -28,53 +37,43 @@ PLUMAGE_STATE_CODES <- c("Absent"=0,
 
 ### Plumage Characters
 Wrangling stage characters into a nexus file.
-```{r wrangle stages, include=FALSE}
+```{r wrangle stages, include=TRUE}
+
+# A function to convert binary characters into probability distributions,
+#   so that we can map missing data (NA) to a 50/50 probability across two columns
+probMap <- function(v) {
+  if (is.na(v)) {
+    return(0.5)
+  } 
+  return(v)
+}
 
 # Read in the raw data matrix and concatenate taxa names
 stagesData <- read_csv(STAGES_FILE) %>%
-          unite(Taxon, Genus, Species, sep="_")
-
-# # Prepare and write nexus file for RevBayes input
-# ntaxa <- nrow(stagesData)
-# ncharacters <- 1
-# 
-# sink(paste(file_path_sans_ext(STAGES_FILE), ".nex",sep=""))
-# cat("#NEXUS\n")
-# cat("Begin TAXA;\n")
-# cat("\tDimensions NTAX=", ntaxa, ";\n", sep="")
-# cat("\tTaxLabels ", paste(stagesData$Taxon, collapse=" "), ";\n", sep="")
-# cat("End;\n")
-# 
-# cat("Begin CHARACTERS;\n")
-# cat("\tDimensions NCHAR=", ncharacters, ";\n", sep="")
-# cat("\tFormat DataType=Standard Symbols=\"0 1 2 3\";\n", sep="")
-# cat("\tCharLabels ", paste(colnames(stagesData)[-1], collapse=" "), ";\n", sep="")
-# cat("\tMatrix", sep="")
-# 
-# for (r in 1:nrow(stagesData)) {
-#   taxon <- stagesData$Taxon[r]
-#   characters <- paste(stagesData[r, -1], collapse="")
-#   cat("\n\t\t", taxon, " ", characters)
-# }
-# cat(";\n")
-# cat("End;")
-# sink()
-
+          unite(Taxon, Genus, Species, sep="_") %>%
+          mutate(S1Binary = as.numeric(Stages>0),
+                 S2Binary = as.numeric(Stages>1),
+                 S3Binary = as.numeric(Stages>2),
+                 Coordinated_Present = map_dbl(Coordinated, probMap),
+                 Coordinated_Absent = 1 - Coordinated_Present,
+                 Concentrated_Present = map_dbl(Concentrated, probMap),
+                 Concentrated_Absent = 1 - Concentrated_Present)
 ```
 
 
 Wrangling plumage characters into a nexus file.
-```{r wrangle plumages, include=FALSE}
+```{r wrangle plumages, include=TRUE}
 
 # A function to parse an individual plumage record into a matrix
 extractPlumageFile <- function(file) {
   taxon <- strsplit(file, "\\.")[[1]][1]
 
-  plumage <- read_csv(paste(PLUMAGE_DIR, file, sep=""))
+  plumage <- read_csv(paste(PLUMAGE_DIR, file, sep=""),
+                        col_types = cols(.default = col_character()))
 
-    if (nrow(plumage) == 0) {
+  if (nrow(plumage) == 0) {
     plumage <- bind_rows(plumage, tibble(Character="Crown", S1="Absent"))
-    }
+  }
   
   plumage <- plumage %>%
           pivot_longer(-Character, 
@@ -100,33 +99,6 @@ plumagesData <- list.files(PLUMAGE_DIR) %>%
 # All patches not indicated in the original plumage tables are absent
 plumagesData[is.na(plumagesData)] <- 0
 
-## Prepare and write nexus file for RevBayes input
-# ntaxa <- nrow(plumagesData)
-# ncharacters <- plumagesData %>%
-#             select(-Taxon) %>%
-#             ncol()
-
-# sink("Data/plumages_all.nex")
-# cat("#NEXUS\n")
-# cat("Begin TAXA;\n")
-# cat("\tDimensions NTAX=", ntaxa, ";\n", sep="")
-# cat("\tTaxLabels ", paste(plumagesData$Taxon, collapse=" "), ";\n", sep="")
-# cat("End;\n")
-# 
-# cat("Begin CHARACTERS;\n")
-# cat("\tDimensions NCHAR=", ncharacters, ";\n", sep="")
-# cat("\tFormat DataType=Standard Symbols=\"0 1 2 3\";\n", sep="")
-# cat("\tCharLabels ", paste(colnames(plumagesData)[-1], collapse=" "), ";\n", sep="")
-# cat("\tMatrix", sep="")
-# 
-# for (r in 1:nrow(plumagesData)) {
-#   taxon <- plumagesData$Taxon[r]
-#   characters <- paste(as.numeric(plumagesData[r, -1]), collapse="")
-#   cat("\n\t\t", taxon, " ", characters)
-# }
-# cat(";\n")
-# cat("End;")
-# sink()
 ```
 
 ### Backbone Phylogeny
@@ -134,9 +106,27 @@ plumagesData[is.na(plumagesData)] <- 0
 
 # Read the tree file
 tree <- read.nexus(TREE_FILE)
-treeTips <- tree$tip.label
+
+# Refactor old taxon names which are common mislabeled across trees
+refactorNames <- read_csv("Data/taxon_refactoring_names.csv")
+
+# A function to conditionally refactor a taxon 
+refactorTaxon <- function(old) {
+  if (old %in% refactorNames$Taxon_Old) {
+    new <- refactorNames %>%
+        filter(Taxon_Old == old) %>%
+        pull(Taxon_New)
+    return(new)
+  }
+  return(old)
+}
+refactoredTips <- map_chr(tree$tip.label, refactorTaxon)
+tree$tip.label <- refactoredTips
 
 # Determine tips which are in the tree but not the data
+
+treeTips <- tree$tip.label
+
 missingTips_stages <- treeTips[!(treeTips %in% stagesData$Taxon)]
 missingTips_plumages <- treeTips[!(treeTips %in% plumagesData$Taxon)]
 
@@ -147,10 +137,6 @@ if (length(setdiff(missingTips_stages, missingTips_plumages)) != 0) {
 }
 
 treePruned <- drop.tip(tree, missingTips_stages)
-
-# Write the pruned tree to read in RevBayes
-write.nexus(treePruned, 
-            file="Data/pruned_tree.nex")
 ```
 
 ### Ancestral State Estimation: Predefinitive Plumage Stages
@@ -210,11 +196,10 @@ AICs <- setNames(sapply(list(fit_ER,fit_eq_sym_ordered,fit_eq_asym_ordered,
                              fit_un_sym_ordered,fit_un_asym_ordered,fit_ARD),AIC),
                  c("ER","eq_sym_ordered","eq_asym_ordered",
                    "un_sym_ordered","un_asym_ordered","ARD"))
-
 ```
 
 Ancestral State Simulation for Stages
-```{r ace - stage - simulation, echo=FALSE}
+```{r ace - stage - simulation, include=TRUE}
 
 maps <- make.simmap(tree=treePruned,
                     x=stagesVector,
@@ -233,6 +218,97 @@ colors <- c("0"="black",
   trash <- sapply(maps, markChanges, sapply(colors, make.transparent,0.05))
 }
 ```
+Correlated evolution
+```{r correlations - stage vs. social, include=TRUE}
+
+# First, convert stages to binary characters -- presence of each stage
+stage1Binary <- map_dbl(treePruned$tip.label,
+                        ~ filter(stagesData, Taxon==.)$S1Binary) 
+names(stage1Binary) <- treePruned$tip.label
+
+stage2Binary <- map_dbl(treePruned$tip.label,
+                        ~ filter(stagesData, Taxon==.)$S2Binary) 
+names(stage2Binary) <- treePruned$tip.label
+
+stage3Binary <- map_dbl(treePruned$tip.label,
+                        ~ filter(stagesData, Taxon==.)$S3Binary) 
+names(stage3Binary) <- treePruned$tip.label
+
+# Now get a matrix of concentrated lek trait coding
+concentrated <- map_df(treePruned$tip.label,
+                       ~ filter(stagesData, Taxon==.) %>% select(Concentrated_Present, Concentrated_Absent)) %>%
+             as.matrix()
+names(concentrated) <- treePruned$tip.label
+
+
+# And a named matrix of coordinated display trait coding
+coordinated <- map_df(treePruned$tip.label,
+                      ~ filter(stagesData, Taxon==.) %>% select(Coordinated_Present, Coordinated_Absent)) %>%
+            as.matrix()
+names(coordinated) <- treePruned$tip.label
+  
+# A function to extract key results from the fitPagel discrete correlation test
+tidyFitPagel <- function(x, y, model) {
+  results <- fitPagel(tree=treePruned,
+                      x=x,
+                      y=y,
+                      method="fitMk",
+                      model=model)
+  ret <- tibble(model=model, p=results$P,
+                AIC_ind=results$independent.AIC, AIC_dep=results$dependent.AIC) %>%
+      mutate(dAIC = AIC_dep - AIC_ind)
+  return(ret)
+}
+
+corrs_S1_Concentrated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage1Binary, concentrated, .)) %>%
+                      mutate(Social="Concentrated", .before=1) %>%
+                      mutate(Stage="S1", .before=2)
+
+corrs_S2_Concentrated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage2Binary, concentrated, .)) %>%
+                      mutate(Social="Concentrated", .before=1) %>%
+                      mutate(Stage="S2", .before=2)
+
+corrs_S3_Concentrated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage3Binary, concentrated, .)) %>%
+                      mutate(Social="Concentrated", .before=1) %>%
+                      mutate(Stage="S3", .before=2)
+
+corrs_Concentrated <- bind_rows(corrs_S1_Concentrated, corrs_S2_Concentrated, corrs_S3_Concentrated)
+
+
+corrs_S1_Coordinated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage1Binary, coordinated, .)) %>%
+                     mutate(Social="Coordinated", .before=1) %>%
+                     mutate(Stage="S1", .before=2)
+
+corrs_S2_Coordinated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage2Binary, coordinated, .)) %>%
+                     mutate(Social="Coordinated", .before=1) %>%
+                     mutate(Stage="S2", .before=2)
+
+corrs_S3_Coordinated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage3Binary, coordinated, .)) %>%
+                     mutate(Social="Coordinated", .before=1) %>%
+                     mutate(Stage="S3", .before=2)
+
+corrs_Coordinated <- bind_rows(corrs_S1_Coordinated, corrs_S2_Coordinated, corrs_S3_Coordinated)
+
+corrs <- bind_rows(corrs_Concentrated, corrs_Coordinated)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Ancestral State Estimation: Predefinitve Plumage Patches
 Produce simmaps
@@ -252,10 +328,11 @@ simCharacter <- function(character) {
   chars
   names(chars) <- treePruned$tip.label
   
-  maps <- make.simmap(tree=treePruned,
-                      x=chars,
-                      model="ER",
-                      nsim=20)
+  capture.output( maps <- make.simmap(tree=treePruned,
+                       x=chars,
+                       model="ARD",
+                       nsim=20), 
+                  file='NUL')
   return(maps)
 }
 
@@ -266,16 +343,16 @@ plumageMaps <- purrr::map(plumageCharacters, simCharacter)
 ```
 
 Plot simmaps
-```{r ace - plumage plots, echo=FALSE}
+```{r ace - plumage plots, include=FALSE}
 
 colors <- c("0"="gray", 
             "1"="red", 
             "2"="black",
             "3"="blue")
 
-plotCharacter <- function(sims) {
+plotCharacter <- function(maps) {
   
-  summaries <- summary(sims)
+  summaries <- summary(maps)
   plot(summaries, colors=colors, ftype="off")
   
   ret <- recordPlot()
@@ -288,21 +365,6 @@ plot_grid(plotlist = mapPlots, labels=plumageCharacters)
 
 ```
 
-
-I used [RevBayes](https://revbayes.github.io/) to perform a symmetric unordered ancestral state construction across all of the independent plumage characters. This analysis uses the very simple Mk model (Lewis 2001) with the three states for all plumage characters. The corresponding rate matrix ($Q$) is thus a symmetric 3x3 transition matrix governed by a single parameter ($\mu$).
-
-The code for this preliminary RevBayes analysis is available in ```Scripts/mcmc_ase_mk.Rev```. For a simple start to the analysis, I ran two independent chains of 500,000 iterations each with a thinning of 500 and a burn-in of 25%.
-
-We can quickly check that this analysis is clicking together by viewing posterior distributions and some preliminary character estimations. First, I can see that the single model parameter ($\mu$) is already mixing nicely within and across chains:
-![Trace for ($\mu$) parameter](Figures/trace_mu.png)
-
-And I can view the density distribution across the whole posterior:
-![Density plot for ($\mu$) parameter](Figures/dens_mu.png)
-
-Finally, I can start to view ancestral state estimations. Here is the same Ilicurini tree annotated with the states of "Crown" plumage patch (S1-S2-S3 at each node). White dots indicate a character state of 0, and Red dots indicate a state of 1.
-![Ancestral state reconstruction for the "Crown" plumage patch](Figures/anc_crown_tree.png)
-
-Kinda neat!
 
 ## References
 Alberch, P., S. J. Gould, G. F. Oster, and D. B. Wake. 1979. Size and shape in ontogeny and phylogeny. Paleobiology:296–317.

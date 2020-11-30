@@ -1,10 +1,6 @@
 .Rproj.user
 .Rhistory
 .RData
-docs/.*
-docs/_*
-_publish.R
-_book
-_bookdown_files
+*_files
 rsconnect
 history.txt
