@@ -2,9 +2,145 @@ Delayed Plumage Maturation Evolution in Manakins (Aves: Pipridae)
 ================
 Liam U. Taylor
 
-### Plumage Characters
+\[Note: All data wrangling, analyses, and this README are produced by
+the fully-automated RMarkdown file located in the base directory of this
+repository (`finalproject.rmd`). Knit that file to reproduce this one.\]
 
-Wrangling stage characters into a nexus file.
+# Introduction and Goals
+
+Organisms with deferred reproduction trade the opportunity of current
+reproduction for the opportunity of development while young
+\[@stearns1992\]. In birds with delayed plumage maturation (DPM), this
+youthful period of reproductive delay is accompanied by a drab
+“predefinitive” plumage during the periods when older individuals are
+molting into the colorful “definitive” plumages that characterize
+increased reproductive effort and success. Research on DPM has largely
+focused on functional hypotheses for the evolution of predefinitive
+plumage signals (i.e., three hypotheses on why it is “good to be
+green”). For example, the “crypsis” hypothesis suggests that drab
+predefinitive plumages help young males avoid predators \[@selander1965;
+@rohwer1978\] while the “social signalling” hypothesis suggests that
+predefinitive plumages allow young males to reduce the likelihood or
+costs of predation by signalling reduced reproductive capabilities
+\[@selander1965; @lyon1986\]. Studies on these function predefinitive
+hypotheses are limited on two fronts. First, direct benefits to
+instantaneous survival rate are insufficient for positive selection on
+the evolution of deferred reproduction, and are thus insufficient for
+positive selection on the “delayed maturation” part of “delayed plumage
+maturation” (Taylor in prep.).
+
+Second, very little research has taken a phylogenetic view of DPM
+evolution. There are only two such studies. The first phylogenetic
+paper, by Chu \[-@chu1994\], found evidence that the evolution
+predefinitive plumages in various shorebird taxa (Aves: Charadriiformes)
+was the result of the evolution of juvenile plumage and the retention of
+an ancestral partial molt. The result is that these shorebirds retain
+part of their juvenile plumage in their first breeding season. This
+study suggests that the evolution of DPM was the result of selection on
+and constraints in molt timing, as opposed to selection on predefinitive
+plumage patches. The second phylogenetic paper, by Hill \[-@hill1996\],
+found that the presence of DPM in *Haemorhous* finches is associated
+with a reduction in plumage patch size. This study recommends that
+reduced plumage patches in these finches are themselves associated with
+limits in carotenoid availability, and thus that the evolution of DPM is
+associated with an increase in the resource costs of plumage coloration.
+Unlike the (conceptually limited) functional hypotheses for the
+evolution of predefinitive plumage signals, phylogenetic investigations
+have supported constraint-based hypotheses for the evolution of
+predefinitive plumages in association with developmental shifts.
+
+Manakins (Aves:Passeriformes:Pipridae) are neotropical lekking birds
+known for their extravagant male plumages and gymnastic sexual displays
+\[@kirwan2011\]. Manakin species also vary widely in both the presence
+and duration of DPM \[@kirwan2011; @ryder2019\]. Most research into
+manakin predefinitive plumages has focused on the social signalling
+hypotheses, and ecological and behavioral results from some species
+indicates that DPM may play a role in cooperative interactions as young
+males engage in social and sexual behavior with older individuals
+\[e.g., @mcdonald1993\]. To date, there is no phylogenetic investigation
+of manakin DPM which broadens these taxon-specific studies. Further, the
+phylogenetic results of Chu \[-@chu1994\] and Hill \[-@hill1996\] cannot
+apply to manakins. Unlike molt-constrainted shorebirds, manakins with
+multiple predefinitive plumage stages have complete molts between
+plumages. Unlike carotenoid-restricted finches, manakins are frugivorous
+birds in the tropics that have ready access to food resources
+\[@snow1971\].
+
+Thus, we have neither a family-wide view of DPM in manakins, nor an
+evolutionary hypothesis which can sustain one. My goal for this project
+is to correct this gap. For the purposes of this class, I have three
+explicit sub-goals: (1) Investigate the phylogenetic distribution of the
+presence and duration of DPM in manakins, including estimating ancestral
+states; (2) Identify predefinitive plumage homologs across taxa (i.e.,
+which predefinitive plumage patches are present in the ancestral DPM
+stage nodes); (3) Perform comparative tests of the association between
+social characters and DPM evolution. The first two of these goals will
+hopefully open doors to additional analyses about sexual selection and
+discrete developmental processes in a phylogenetic context, while the
+third goal will directly address the standing social signalling
+hypotheses about DPM evolution in manakins.
+
+# Methods and Results
+
+## Character Coding
+
+I used a combination of literature reports, field guides, banding
+records, and photographs to code the number of DPM stages for each of 35
+taxa and the distinct plumage patches at those stages. All taxa had 0,
+1, 2, or 3 DPM stages, where a stage indicates an annual basic molt
+cycle that begins with the partial molt out of juvenal plumage
+\[@wolfe2014\]. A taxon with a DPM stage character state of 2 will
+generally have be in its definitive plumage only at its 4th breeding
+season (including its natal season), and so on. Unique partial or
+enduring molts that result in characteristic plumage substages (e.g.,
+*Chiroxiphia caudata*) were collapsed into these broader annual stages.
+Taxa and citations are as follows:
+
+| Taxon                         | Citations                                   |
+| ----------------------------- | ------------------------------------------- |
+| *Antilophia bokermanni*       | \[@azevedo1999; @kirwan2011; @gaiotti2016\] |
+| *Antilophia galeata*          | \[@allen1893; @marini1992; @kirwan2011      |
+| *Ceratopipra erythrocephala*  | \[@johnson2018\]                            |
+| *Ceratopipra mentalis*        | \[@wolfe2009; @kirwan2011; @johnson2018\]   |
+| *Chiroxiphia caudata*         | \[@mallet2012\]                             |
+| *Chiroxiphia lanceolata*      | \[@duval2005\]                              |
+| *Chiroxiphia linearis*        | \[@doucet2007\]                             |
+| *Chiroxiphia pareola*         | \[@cardenas2018\]                           |
+| *Chloropipo flavicapilla*     | \[@hellmayr1926; @kirwan2011\]              |
+| *Chloropipo unicolor*         | \[@kirwan2011\]                             |
+| *Corapipo altera*             | \[@jones2014\]                              |
+| *Corapipo gutturalis*         | \[@prum1986; @johnson2018; @aramuni2019\]   |
+| *Corapipo leucorrhoa*         | \[@rosselli1994\]                           |
+| *Cryptopipo holochlora*       | \[@wetmore1972\]                            |
+| *Heterocercus flavivertex*    | \[@prum1996; @kirwan2011\]                  |
+| *Heterocercus linteatus*      | \[@kirwan2011\]                             |
+| *Lepidothrix coeruleocapilla* | \[@kirwan2011\]                             |
+| *Lepidothrix coronata*        | \[@ryder2005; @kirwan2011\]                 |
+| *Lepidothrix serena*          | \[@prum1985; @snow2020\]                    |
+| *Lepidothrix suavissima*      | \[@hilty2003; @snow2020\]                   |
+| *Lepidothrix vilasboasi*      | \[@kirwan2011\]                             |
+| *Lepidothrix nattereri*       | \[@kirwan2011; @snow2020\]                  |
+| *Machaeropterus pyrocephalus* | \[@hilty2003; @kirwan2011\]                 |
+| *Manacus candei*              | \[@wolfe2009\]                              |
+| *Manacus manacus*             | \[@johnson2018; @tu2020\]                   |
+| *Masius chrysopterus*         | \[@taylor2020\]                             |
+| *Neopelma aurifrons*          | \[@kirwan2011\]                             |
+| *Neopelma pallescens*         | \[@kirwan2011\]                             |
+| *Pipra aureola*               | \[@kirwan2011\]                             |
+| *Pipra fasciicauda*           | \[@robbins1985; @kirwan2011\]               |
+| *Pipra filicauda*             | \[@ryder2005; @kirwan2011\]                 |
+| *Pseudopipra pipra*           | \[@johnson2018\]                            |
+| *Tyranneutes virescens*       | \[@johnson2018\]                            |
+| *Xenopipo atronitens*         | \[@kirwan2011\]                             |
+| *Xenopipo uniformis*          | \[@snow2020\]                               |
+
+I used the data from Prum \[-@1994\] to code two binary social
+characters: concentrated lekking and coordinated displays. Taxa with a 0
+score for concentrated lekking included both dispersed and non-lekking
+states, and taxa with a 1 score for coordinated displays included all of
+simple, coordinated, and cooperative male-male display behaviors. I
+supplemented some missing taxa with updated scores based on new
+literature reports, but most missing data is still unavailable.
 
 ``` r
 # A function to convert binary characters into probability distributions,
@@ -16,7 +152,9 @@ probMap <- function(v) {
   return(v)
 }
 
-# Read in the raw data matrix and concatenate taxa names
+# Read in the raw data matrix, concatenate taxa names,
+#   convert multistate stages to binaries for correlation tests,
+#   and convert unknown social states to uniform priors across two columns
 stagesData <- read_csv(STAGES_FILE) %>%
           unite(Taxon, Genus, Species, sep="_") %>%
           mutate(S1Binary = as.numeric(Stages>0),
@@ -38,7 +176,20 @@ stagesData <- read_csv(STAGES_FILE) %>%
     ##   Concentrated = col_double()
     ## )
 
-Wrangling plumage characters into a nexus file.
+I coded predefinitive patches based on non-female- and non-juvenile-like
+plumage patches at each DPM stage. It is necessary to code these patches
+as broad visual units, rather than standardized morphological
+components, because patches are metamodules which are the result of
+covariation across barbs and barbules within and across both feathers
+and feather tracts \[@prum2003\]. Although I initially coded patches
+based on broad coloration method (“Carotenoid”, “Melanin”,
+“Structural”), the analyses here collapse all coloaration methods
+down to a binary “Present” (v. “Absent”) state. Some taxa (e.g.,
+*Corapipo* manakins at stage 1) have an all female-like predefinitive
+plumage stage, which corresponds to a “Absent” score for all taxa. Each
+taxon has an individual plumage datasheet (see .csv files in
+`finalproject.rmd`), which are aligned across all taxa with
+post-alignment missing data correctly as “Absent”.
 
 ``` r
 # A function to parse an individual plumage record into a matrix
@@ -77,7 +228,23 @@ plumagesData <- list.files(PLUMAGE_DIR) %>%
 plumagesData[is.na(plumagesData)] <- 0
 ```
 
-### Backbone Phylogeny
+## Backbone Phylogeny
+
+I use a the backbone phylogeny from [BirdTree](http://birdtree.org/)
+\[@jetz2012\]. This is “supermatrix” tree which combines available
+genetic data with standing taxonomic information. In my case, the use of
+old taxonomic information results for some key edges (e.g., the
+placement of *Xenopipo*, *Cryptopipo*, and *Pseudopipra*). A new tree
+with UCE and exon genetic data from all species of manakins is in press
+\[@leite2020\] and will be used for this project if the results are made
+available in time for submission.
+
+I requested a trace of 10,000 subtrees from BirdTree which were
+generated with the all available tips in the family Pipridae. I used
+[TreeAnnotator](https://beast.community/treeannotator) to collapse that
+tree trace into a single consensus tree for analysis here. I then prune
+the tree to retain only those tips for which DPM stage and predefinitive
+plumage characters are available.
 
 ``` r
 # Read the tree file
@@ -123,249 +290,171 @@ if (length(setdiff(missingTips_stages, missingTips_plumages)) != 0) {
 treePruned <- drop.tip(tree, missingTips_stages)
 ```
 
-### Ancestral State Estimation: Predefinitive Plumage Stages
+The plot below shows the pruned backbone tree. Tip labels indicate DPM
+stage character states for each taxon.
+<img src="Figures/raw_tree.png" width="2400" />
 
-Mk Model Selection for Stage Evolution
+## DPM Stages: Model Selection
+
+I used a maximum-likelihood + information-theoretic approach to
+evolutionary model selection for the DPM stage character. This
+multi-state discrete character can be modeled with a 4-state Mk model
+\[@pagel1994\]. Character frequencies are set as equal for all models.
+Because this character happens to have four states within Pipridae, the
+resulting models resemble genetic sequence evolution models even more
+closely than normal.
+
+I tested five models:
+
+1.  Equal rates unordered | | 0 | 1 | 2 | 3 | | 0 | - | A | A | A | | 1
+    | A | - | A | A | | 2 | A | A | - | A | | 3 | A | A | A | - |
+
+2.  Equal rates ordered
+
+  | 0 | 1 | 2 | 3 |  
+0 | - | A | 0 | 0 |  
+1 | A | - | A | 0 |  
+2 | 0 | A | - | A |  
+3 | 0 | 0 | A | - |
+
+3.  Equal asymmetric rates ordered
+
+  | 0 | 1 | 2 | 3 |  
+0 | - | A | 0 | 0 |  
+1 | B | - | A | 0 |  
+2 | 0 | B | - | A |  
+3 | 0 | 0 | B | - |
+
+4.  Unequal symmetric rates ordered
+
+  | 0 | 1 | 2 | 3 |  
+0 | - | A | 0 | 0 |  
+1 | A | - | B | 0 |  
+2 | 0 | B | - | C |  
+3 | 0 | 0 | C | - |
+
+5.  Unequal asymmetric rates ordered
+
+  | 0 | 1 | 2 | 3 |  
+0 | - | A | 0 | 0 |  
+1 | B | - | C | 0 |  
+2 | 0 | D | - | E |  
+3 | 0 | 0 | F | - |
+
+Note that some of these models might have implications for the broader
+connection between DPM evolution and perspectives such as sexual
+selection theory. For example, the “equal asymmetric rates ordered”
+model would allow for the evolutionary rate of stage gains to outweight
+the rate of stage losses – this ratcheting of a sexual character might
+be expected from e.g., Fisher’s runaway process \[@fisher1930\].
+
+The transition rates which maximize the likelihood of the data were
+estimated with the `fitMk` method in phytools \[@revell2011\]. The table
+below shows AIC scores for each model. The preferred model, which
+minimizes AIC, was the
+
+And here are the transition rates which maximize the likelihood of the
+DPM stage data given our chosen model constraints:
 
 ``` r
-# Organize vector of stage data
-stagesVector <- map_dbl(treePruned$tip.label,
-                        ~ filter(stagesData, Taxon==.)$Stages[1])
-names(stagesVector) <- treePruned$tip.label
-
-
-# First, we test rates models
-
-# MODEL 1: Equal-rates unordered
-fit_ER <- fitMk(tree=treePruned, x=stagesVector, model="ER")
-
-# MODEL 2: Equal symmetric ordered
-mat_eq_sym_ordered <- matrix(c(0,1,0,0,
-                               1,0,1,0,
-                               0,1,0,1,
-                               0,0,1,0),4,4,byrow=TRUE)
-fit_eq_sym_ordered <- fitMk(tree=treePruned, x=stagesVector, model=mat_eq_sym_ordered)
-
-# MODEL 3: Equal asymmetric ordered
-mat_eq_asym_ordered <- matrix(c(0,1,0,0,
-                                2,0,1,0,
-                                0,2,0,1,
-                                0,0,2,0),4,4,byrow=TRUE)
-
-fit_eq_asym_ordered <- fitMk(tree=treePruned, x=stagesVector, model=mat_eq_asym_ordered)
-  
-# MODEL 4: Unequal symmetric ordered
-mat_un_sym_ordered <- matrix(c(0,1,0,0,
-                               1,0,2,0,
-                               0,2,0,3,
-                               0,0,3,0),4,4,byrow=TRUE)
-
-fit_un_sym_ordered <- fitMk(tree=treePruned, x=stagesVector, model=mat_un_sym_ordered)
-
-
-# MODEL 5: Unequal asymmetric ordered
-mat_un_asym_ordered <- matrix(c(0,1,0,0,
-                                2,0,3,0,
-                                0,4,0,5,
-                                0,0,6,0),4,4,byrow=TRUE)
-
-fit_un_asym_ordered <- fitMk(tree=treePruned, x=stagesVector, model=mat_un_asym_ordered)
-
-# MODEL 6: All rates different
-fit_ARD <- fitMk(tree=treePruned, x=stagesVector, model=)
-
-
-
-AICs <- setNames(sapply(list(fit_ER,fit_eq_sym_ordered,fit_eq_asym_ordered,
-                             fit_un_sym_ordered,fit_un_asym_ordered,fit_ARD),AIC),
-                 c("ER","eq_sym_ordered","eq_asym_ordered",
-                   "un_sym_ordered","un_asym_ordered","ARD"))
+fitQ <- as.Qmatrix(fit_eq_sym_ordered)
+fitQ
 ```
 
-Ancestral State Simulation for Stages
-
-``` r
-maps <- make.simmap(tree=treePruned,
-                    x=stagesVector,
-                    model=mat_eq_sym_ordered,
-                    nsim=100)
-```
-
-    ## make.simmap is sampling character histories conditioned on
-    ## the transition matrix
-    ## 
-    ## Q =
+    ## Estimated Q matrix:
     ##             0           1           2           3
     ## 0 -0.03321366  0.03321366  0.00000000  0.00000000
     ## 1  0.03321366 -0.06642732  0.03321366  0.00000000
     ## 2  0.00000000  0.03321366 -0.06642732  0.03321366
     ## 3  0.00000000  0.00000000  0.03321366 -0.03321366
-    ## (estimated using likelihood);
-    ## and (mean) root node prior probabilities
-    ## pi =
-    ##    0    1    2    3 
-    ## 0.25 0.25 0.25 0.25
 
-    ## Done.
+## DPM Stages: Ancestral State Estimation
 
-``` r
-summaries <- summary(maps)
+Now that we have established the structure of our underlying
+evolutionary model, I can estimate the probability DPM plumage character
+for internal nodes in the manakin phylogeny. Here I do this ancestral
+state estimation by simulating stochastic character maps along the tree
+under our equal symmetric ordered evolutionary model. I use the
+`make.sim` function from phytools to simulate 1000 maps. The summary of
+those maps is shown below. Taxon tips are assigned to their input data
+state and internal nodes are colored by the proportion of simulations in
+a given state. Ticks along each edge indicate simulated transitions
+across all simulations.
 
-colors <- c("0"="black", 
-            "1"="green", 
-            "2"="red",
-            "3"="blue")
+<img src="Figures/ace_tree.png" width="1800" />
 
-{ 
-  plot(summaries, colors=colors)
-  trash <- sapply(maps, markChanges, sapply(colors, make.transparent,0.05))
-}
-```
+In particular, note two key internal nodes:
 
-![](README_files/figure-gfm/ace%20-%20stage%20-%20simulation-1.png)<!-- -->
+1.  The parent node of the core manakins (i.e., the clade excluding the
+    tyrant-manakins, *Tyranneutes* and *Neopelma*) has a high
+    probability of 1-Stage DPM (probability = 0.98).
+2.  The parent node of the Ilicurini subclade (i.e., the clade including
+    *Masius*, *Corapipo*, *Chiroxiphia*, and *Antilophia*) has a
+    majority probability of 2-Stage DPM (probability = 0.601).
+
+I can also summarize the estimated stage transitions as the mean count
+of transitions across all simulations:
+
+    ##       0     1     2     3
+    ## 0    NA 1.625 0.000 0.000
+    ## 1 3.356    NA 4.931 0.000
+    ## 2 0.000 1.513    NA 2.061
+    ## 3 0.000 0.000 0.135    NA
+
+Despite gains and losses being governed by the same rate parameter
+across all states, there are on average more gains than losses (8.617
+gains vs.  5.004 losses).
+
+The most frequent transition is from stage 1 to stage 2.
+
+## Plumage Patches: Homologies within Stages
+
+Now that I have identified ancestral DPM plumage stages across the tree,
+I can take a closer look at plumage patch characters within each stage
+and determine whether there are homologies plumage patches across taxa.
+In this case, I can interpret homologous patches as those that estimated
+to be present in the ancestral nodes which also have an ancestral state
+for a given DPM stage. First, I can use stochastic maps to simulate the
+evolution of each patch for each stage as a separate binary character. I
+again use the `make.simmap` function to simulate the evolution of each
+plumage character (100 simulations per character). Each character is
+simulated under a separate evolutionary model in which gain and loss of
+the patch can have different rates (i.e., “all rates different” for a
+binary character). The transition rate matrix is estimated within the
+`make.simmap` function as the model which maximizes the likelihood of
+the data for the given character.
+
+First, we can view the results across all of the patches. The figures
+below show the simulation results for each character. Because there are
+now binary characters, we can view the probability density, across all
+simulations, for the presence of the character along every edge. Red
+indicates high probability of presence of a patch, blue indicates low
+probability.
+
 Correlated evolution
 
-``` r
-# First, convert stages to binary characters -- presence of each stage
-stage1Binary <- map_dbl(treePruned$tip.label,
-                        ~ filter(stagesData, Taxon==.)$S1Binary) 
-names(stage1Binary) <- treePruned$tip.label
+    ## Warning in kable_styling(kable_input, "none", htmltable_class = light_class, :
+    ## Please specify format in kable. kableExtra can customize either HTML or LaTeX
+    ## outputs. See https://haozhu233.github.io/kableExtra/ for details.
 
-stage2Binary <- map_dbl(treePruned$tip.label,
-                        ~ filter(stagesData, Taxon==.)$S2Binary) 
-names(stage2Binary) <- treePruned$tip.label
+| Social       | Stage |    p | AIC\_ind | AIC\_dep |   dAIC | Dependency |
+| :----------- | :---- | ---: | -------: | -------: | -----: | :--------- |
+| Concentrated | S1    | 0.36 |    67.17 |    69.12 |   1.94 | X\<-\>Y    |
+| Concentrated | S2    | 0.64 |    83.77 |    86.87 |   3.10 | X\<-\>Y    |
+| Concentrated | S3    | 0.74 |    64.41 |    67.82 |   3.41 | X\<-\>Y    |
+| Coordinated  | S1    | 0.11 |    65.95 |    65.60 | \-0.35 | X\<-\>Y    |
+| Coordinated  | S2    | 0.05 |    82.55 |    80.47 | \-2.08 | X\<-\>Y    |
+| Coordinated  | S3    | 0.07 |    63.19 |    61.97 | \-1.22 | X\<-\>Y    |
 
-stage3Binary <- map_dbl(treePruned$tip.label,
-                        ~ filter(stagesData, Taxon==.)$S3Binary) 
-names(stage3Binary) <- treePruned$tip.label
+    ## Warning in kable_styling(kable_input, "none", htmltable_class = light_class, :
+    ## Please specify format in kable. kableExtra can customize either HTML or LaTeX
+    ## outputs. See https://haozhu233.github.io/kableExtra/ for details.
 
-# Now get a matrix of concentrated lek trait coding
-concentrated <- map_df(treePruned$tip.label,
-                       ~ filter(stagesData, Taxon==.) %>% select(Concentrated_Present, Concentrated_Absent)) %>%
-             as.matrix()
-names(concentrated) <- treePruned$tip.label
+| Social      | Stage |    p | AIC\_ind | AIC\_dep |   dAIC | Dependency |
+| :---------- | :---- | ---: | -------: | -------: | -----: | :--------- |
+| Coordinated | S2    | 0.02 |    82.55 |    78.65 | \-3.89 | X\<-Y      |
+| Coordinated | S3    | 0.03 |    63.19 |    60.25 | \-2.94 | X\<-Y      |
 
+# Discussion and Conclusion
 
-# And a named matrix of coordinated display trait coding
-coordinated <- map_df(treePruned$tip.label,
-                      ~ filter(stagesData, Taxon==.) %>% select(Coordinated_Present, Coordinated_Absent)) %>%
-            as.matrix()
-names(coordinated) <- treePruned$tip.label
-  
-# A function to extract key results from the fitPagel discrete correlation test
-tidyFitPagel <- function(x, y, model) {
-  results <- fitPagel(tree=treePruned,
-                      x=x,
-                      y=y,
-                      method="fitMk",
-                      model=model)
-  ret <- tibble(model=model, p=results$P,
-                AIC_ind=results$independent.AIC, AIC_dep=results$dependent.AIC) %>%
-      mutate(dAIC = AIC_dep - AIC_ind)
-  return(ret)
-}
-
-corrs_S1_Concentrated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage1Binary, concentrated, .)) %>%
-                      mutate(Social="Concentrated", .before=1) %>%
-                      mutate(Stage="S1", .before=2)
-
-corrs_S2_Concentrated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage2Binary, concentrated, .)) %>%
-                      mutate(Social="Concentrated", .before=1) %>%
-                      mutate(Stage="S2", .before=2)
-
-corrs_S3_Concentrated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage3Binary, concentrated, .)) %>%
-                      mutate(Social="Concentrated", .before=1) %>%
-                      mutate(Stage="S3", .before=2)
-```
-
-    ## Warning in log(comp[1:M + N]): NaNs produced
-    
-    ## Warning in log(comp[1:M + N]): NaNs produced
-
-``` r
-corrs_Concentrated <- bind_rows(corrs_S1_Concentrated, corrs_S2_Concentrated, corrs_S3_Concentrated)
-
-
-corrs_S1_Coordinated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage1Binary, coordinated, .)) %>%
-                     mutate(Social="Coordinated", .before=1) %>%
-                     mutate(Stage="S1", .before=2)
-
-corrs_S2_Coordinated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage2Binary, coordinated, .)) %>%
-                     mutate(Social="Coordinated", .before=1) %>%
-                     mutate(Stage="S2", .before=2)
-
-corrs_S3_Coordinated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage3Binary, coordinated, .)) %>%
-                     mutate(Social="Coordinated", .before=1) %>%
-                     mutate(Stage="S3", .before=2)
-
-corrs_Coordinated <- bind_rows(corrs_S1_Coordinated, corrs_S2_Coordinated, corrs_S3_Coordinated)
-
-corrs <- bind_rows(corrs_Concentrated, corrs_Coordinated)
-```
-
-### Ancestral State Estimation: Predefinitve Plumage Patches
-
-Produce simmaps
-
-Plot simmaps
-
-## References
-
-Alberch, P., S. J. Gould, G. F. Oster, and D. B. Wake. 1979. Size and
-shape in ontogeny and phylogeny. Paleobiology:296–317.
-
-Anciães, M., A. Nemésio, and F. Sebaio. 2005. A case of plumage
-aberration in the Pin-tailed Manakin. Cotinga 23:39–43.
-
-Aramuni, F. V. 2019. Custo individual, ontogenia e visita de fêmeas como
-moduladores da exibição de corte de machos em *Corapipo gutturalis*
-(Aves: Pipridae). Thesis for the Instituto Nacional de Pesquisas da
-Amazônia.
-
-Cárdenas‐Posada, G., C. D. Cadena, J. G. Blake, and B. A. Loiselle.
-2018. Display behaviour, social organization and vocal repertoire of
-Blue-backed Manakin Chiroxiphia pareola napensis in northwest Amazonia.
-Ibis 160:269–282.
-
-Doucet, S. M., D. B. McDonald, M. S. Foster, and R. P. Clay. 2007.
-Plumage development and molt in Long-tailed Manakins (*Chiroxiphia
-linearis*): variation according to sex and age. The Auk 124:29–43.
-
-DuVal, E. H. 2005. Age-based plumage changes in the lance-tailed
-manakin: a two-year delay in plumage maturation. The Condor 107:915–920.
-
-Foster, M. S. 1987. Delayed maturation, neoteny, and social system
-differences in two manakins of the genus *Chiroxiphia*. Evolution
-41:547–558.
-
-Gaiotti, M. G. 2016. *Antilophia bokermanni* (Aves: Pipridae):
-Parâmetros reprodutivos, sistema de acasalamento social e genético e o
-papel da seleção sexual. Thesis for the Universidade de Brasília.
-
-Gould, S. J. 1977. Ontogeny and phylogeny. Harvard University Press.
-
-Hellmayr, C. E. 1929. A contribution to the ornithology of northeastern
-Brazil. Field Museum of Natural History 12.
-
-Jetz, W., G. H. Thomas, J. B. Joy, K. Hartmann, and A. O. Mooers. 2012.
-The global diversity of birds in space and time. Nature 491:444–448.
-
-Lewis P.O. 2001. A Likelihood Approach to Estimating Phylogeny from
-Discrete Morphological Character Data. Systematic Biology.
-
-Mallet-Rodrigues, F., and R. Dutra. 2012. Acquisition of definitive
-adult plumage in male Blue Manakins *Chiroxiphia caudata*. Cotinga 34.
-
-Marini, M. Â., and R. B. Cavalcanti. 1992. Mating System of the Helmeted
-Manakin (*Antilophia galeata*) in Central Brazil. The Auk 109:911–913.
-
-Prum, R. O. 1986. The displays of the White-throated Manakin *Corapipo
-gutturalis* in Suriname. Ibis 128:91–102.
-
-Prum, R. O., and J. Dyck. 2003. A hierarchical model of plumage:
-morphology, development, and evolution. Journal of Experimental Zoology
-Part B: Molecular and Developmental Evolution 298:73–90.
-
-Rosselli, L. 1994. The annual cycle of the White-ruffed Manakin
-*Corapipo leucorrhoa*, a tropical frugivorous altitudinal migrant, and
-its food plants. Bird Conservation International 4:143–160.
+# References
