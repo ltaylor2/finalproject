@@ -43,7 +43,7 @@
 		}
 	},
 	{
-		"id": "prum1986",
+		"id": "prum1985",
 		"type": "article-journal",
 		"container-title": "Ibis",
 		"DOI": "10.1111/j.1474-919X.1986.tb02096.x",
@@ -73,9 +73,56 @@
 		"issued": {
 			"date-parts": [
 				[
-					"1986",
+					"1985",
 					4,
 					3
+				]
+			]
+		}
+	},
+	{
+		"id": "jones2014",
+		"type": "article-journal",
+		"abstract": "Investigation of the ecological and evolutionary basis for the often-intriguing courtship behavior of animals requires that we understand the patterns of variation inherent in such behaviors. The courtship displays of the White-ruffed Manakin (Corapipo altera) are not well-known, and previously published descriptions and interpretations of displays conflict with one another. We studied the reproductive behavior of C. altera during 6 breeding seasons, observing 72 display courts (mean 29 6 2.5 courts annually) for a total of 2688 hr. We updated the behavioral characterization of C. altera by reconciling 8 previous ethologies and describing 2 new behavioral elements, vouchering all with audio and video recordings. We evaluated evidence for the occurrence of male–male cooperation and characterized the physical attributes and temporal dynamics of displays and display courts. We found strong evidence of cooperation among males; 32% of displays for females were highly coordinated displays performed by 2 males, and 8% of those ended in copulation. Males of the highest social status (alphas) retained that status for an average of 1.7 yr (range 1.5 mo to !5 yr). Most alphas remained at a single court during their alpha tenure and rarely declined in social status. Only 23% of second-ranked (beta) males transitioned to alpha status, and of those 70% became alphas at a new display court. Display courts did not seem to be limited because few measured physical attributes differed between active display logs and random logs. Several elements of C. altera display behavior and social organization were more variable than in other manakin species, including high turnover of the display courts. This work provides key information for comparative studies investigating the evolution of cooperation in Pipridae.",
+		"container-title": "The Auk",
+		"DOI": "10.1642/AUK-14-96.1",
+		"ISSN": "0004-8038, 1938-4254",
+		"issue": "4",
+		"journalAbbreviation": "The Auk",
+		"language": "en",
+		"page": "727-742",
+		"source": "DOI.org (Crossref)",
+		"title": "Individual and temporal variability in the courtship behavior of White-ruffed Manakins ( <i>Corapipo altera</i> ), a species with facultative cooperative displays",
+		"URL": "https://academic.oup.com/auk/article/131/4/727-742/5149397",
+		"volume": "131",
+		"author": [
+			{
+				"family": "Jones",
+				"given": "Megan A."
+			},
+			{
+				"family": "DuVal",
+				"given": "Emily H."
+			},
+			{
+				"family": "Boyle",
+				"given": "W. Alice"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					2,
+					29
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2014",
+					10
 				]
 			]
 		}
@@ -378,6 +425,42 @@
 			"date-parts": [
 				[
 					"2003"
+				]
+			]
+		}
+	},
+	{
+		"id": "prum1985",
+		"type": "article-journal",
+		"container-title": "The Auk",
+		"DOI": "10.2307/4086783",
+		"ISSN": "0004-8038",
+		"issue": "2",
+		"note": "publisher: American Ornithological Society",
+		"page": "384-387",
+		"source": "JSTOR",
+		"title": "Observations of the White-Fronted Manakin (Pipra serena) in Suriname",
+		"URL": "https://www.jstor.org/stable/4086783",
+		"volume": "102",
+		"author": [
+			{
+				"family": "Prum",
+				"given": "Richard Owen"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					11,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1985"
 				]
 			]
 		}
@@ -938,6 +1021,38 @@
 		}
 	},
 	{
+		"id": "wolfe2014",
+		"type": "article-journal",
+		"container-title": "The Auk: Ornithological Advances",
+		"issue": "3",
+		"note": "publisher: Oxford University Press",
+		"page": "371–377",
+		"source": "Google Scholar",
+		"title": "Searching for consensus in molt terminology 11 years after Howell et al.'s “first basic problem”",
+		"volume": "131",
+		"author": [
+			{
+				"family": "Wolfe",
+				"given": "Jared D."
+			},
+			{
+				"family": "Johnson",
+				"given": "Erik I."
+			},
+			{
+				"family": "Terrill",
+				"given": "Ryan S."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2014"
+				]
+			]
+		}
+	},
+	{
 		"id": "azevedo2000",
 		"type": "book",
 		"publisher": "Ararajuba",
@@ -1074,6 +1189,55 @@
 		}
 	},
 	{
+		"id": "robbins1985",
+		"type": "article-journal",
+		"container-title": "The Condor",
+		"issue": "4",
+		"note": "publisher: Oxford University Press",
+		"page": "449–456",
+		"source": "Google Scholar",
+		"title": "Social organization of the Band-tailed Manakin (Pipra fasciicauda)",
+		"volume": "87",
+		"author": [
+			{
+				"family": "Robbins",
+				"given": "Mark B."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1985"
+				]
+			]
+		}
+	},
+	{
+		"id": "prum1994",
+		"type": "article-journal",
+		"container-title": "Evolution",
+		"issue": "5",
+		"note": "publisher: Wiley Online Library",
+		"page": "1657–1675",
+		"source": "Google Scholar",
+		"title": "Phylogenetic analysis of the evolution of alternative social behavior in the manakins (Aves: Pipridae)",
+		"title-short": "Phylogenetic analysis of the evolution of alternative social behavior in the manakins (Aves",
+		"volume": "48",
+		"author": [
+			{
+				"family": "Prum",
+				"given": "Richard O."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1994"
+				]
+			]
+		}
+	},
+	{
 		"id": "fisher1930",
 		"type": "book",
 		"call-number": "31631",
@@ -1129,6 +1293,33 @@
 			"date-parts": [
 				[
 					"2012"
+				]
+			]
+		}
+	},
+	{
+		"id": "ryder2005",
+		"type": "article-journal",
+		"container-title": "Ornitologia Neotropical",
+		"page": "481–491",
+		"source": "Google Scholar",
+		"title": "It’s not easy being green: using molt and morphological criteria to age and sex green-plumage manakins (Aves: Pipridae)",
+		"title-short": "It’s not easy being green",
+		"volume": "16",
+		"author": [
+			{
+				"family": "Ryder",
+				"given": "Thomas B."
+			},
+			{
+				"family": "Durães",
+				"given": "Renata"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2005"
 				]
 			]
 		}
