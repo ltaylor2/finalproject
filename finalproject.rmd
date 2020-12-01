@@ -11,6 +11,23 @@ knit: (function(input, ...) {
     )
   })
 ---
+[Note: This README file is produced by the fully-automated RMarkdown file, `finalproject.rmd` located in the base directory of this repository. Knit that file to reproduce this one.]
+
+# Introduction and Goals
+Organisms with deferred reproduction trade the opportunity of current reproduction for the opportunity of development while young [@stearns1992]. In birds with delayed plumage maturation (DPM), this youthful period of reproductive delay is accompanied by a drab "predefinitive" plumage during the periods when older individuals are molting into the colorful "definitive" plumages that characterize increased reproductive effort and success. Research on DPM has largely focused on functional hypotheses for the evolution of predefinitive plumage signals (i.e., three hypotheses on why it is "good to be green"). For example, the "crypsis" hypothesis suggests that drab predefinitive plumages help young males avoid predators [@selander1965; @rohwer1978] while the "social signalling" hypothesis suggests that predefinitive plumages allow young males to reduce the likelihood or costs of predation by signalling reduced reproductive capabilities [@selander1965; @lyon1986]. Studies on these function predefinitive hypotheses are limited on two fronts. First, direct benefits to instantaneous survival rate are insufficient for positive selection on the evolution of deferred reproduction, and are thus insufficient for positive selection on the "delayed maturation" part of "delayed plumage maturation" (Taylor in prep.).
+
+Second, very little research has taken a phylogenetic view of DPM evolution. There are only two such studies. The first phylogenetic paper, by Chu [-@chu1994], found evidence that the evolution predefinitive plumages in various shorebird taxa (Aves: Charadriiformes) was the result of the evolution of juvenile plumage and the retention of an ancestral partial molt. The result is that these shorebirds retain part of their juvenile plumage in their first breeding season. This study suggests that the evolution of DPM was the result of selection on and constraints in molt timing, as opposed to selection on predefinitive plumage patches. The second phylogenetic paper, by Hill [-@hill1996], found that the presence of DPM in *Haemorhous* finches is associated with a reduction in plumage patch size. This study recommends that reduced plumage patches in these finches are themselves associated with limits in carotenoid availability, and thus that the evolution of DPM is associated with an increase in the resource costs of plumage coloration. Unlike the (conceptually limited) functional hypotheses for the evolution of predefinitive plumage signals, phylogenetic investigations have supported constraint-based hypotheses for the evolution of predefinitive plumages associated with developmental shifts.
+
+Manakins (Aves:Passeriformes:Pipridae) are neotropical lekking birds known for their extravagant male plumages and gymnastic sexual displays [@kirwan2011]. Manakin species also vary widely in both the presence and duration of DPM ..... ... .. .. .. . .
+
+```{r plumage examples, include=TRUE}
+library(kableExtra)
+predefExample <- read_csv("Data/Plumages/Chiroxiphia_linearis.csv")
+kbl(predefExample) %>%
+  kable_classic(full_width=FALSE, font_size=20, html_font="Arial")
+```
+
+# Methods and Results
 
 ```{r setup, include=FALSE}
 
@@ -48,7 +65,9 @@ probMap <- function(v) {
   return(v)
 }
 
-# Read in the raw data matrix and concatenate taxa names
+# Read in the raw data matrix, concatenate taxa names,
+#   convert multistate stages to binaries for correlation tests,
+#   and convert unknown social states to uniform priors across two columns
 stagesData <- read_csv(STAGES_FILE) %>%
           unite(Taxon, Genus, Species, sep="_") %>%
           mutate(S1Binary = as.numeric(Stages>0),
@@ -101,6 +120,7 @@ plumagesData[is.na(plumagesData)] <- 0
 
 ```
 
+
 ### Backbone Phylogeny
 ```{r tree pruning, include=TRUE}
 
@@ -139,16 +159,29 @@ if (length(setdiff(missingTips_stages, missingTips_plumages)) != 0) {
 treePruned <- drop.tip(tree, missingTips_stages)
 ```
 
-### Ancestral State Estimation: Predefinitive Plumage Stages
-Mk Model Selection for Stage Evolution
-```{r ace - stage - model selection, include=TRUE}
+```{r tree plot, include=FALSE}
 
+colors <- c("0"="black", 
+            "1"="green", 
+            "2"="red",
+            "3"="blue")
 
 # Organize vector of stage data
 stagesVector <- map_dbl(treePruned$tip.label,
                         ~ filter(stagesData, Taxon==.)$Stages[1])
 names(stagesVector) <- treePruned$tip.label
 
+
+png(filename="Figures/raw_tree.png", width=6, height=8, unit="in", res=400)
+dotTree(treePruned, factor(stagesVector), colors=colors, fsize=1.4, ftype="i", length=10)
+dev.off()
+
+```
+
+
+### Ancestral State Estimation: Predefinitive Plumage Stages
+Mk Model Selection for Stage Evolution
+```{r ace - stage - model selection, include=TRUE}
 
 # First, we test rates models
 
@@ -187,38 +220,88 @@ mat_un_asym_ordered <- matrix(c(0,1,0,0,
 
 fit_un_asym_ordered <- fitMk(tree=treePruned, x=stagesVector, model=mat_un_asym_ordered)
 
-# MODEL 6: All rates different
-fit_ARD <- fitMk(tree=treePruned, x=stagesVector, model=)
-
-
 
 AICs <- setNames(sapply(list(fit_ER,fit_eq_sym_ordered,fit_eq_asym_ordered,
-                             fit_un_sym_ordered,fit_un_asym_ordered,fit_ARD),AIC),
+                             fit_un_sym_ordered,fit_un_asym_ordered),AIC),
                  c("ER","eq_sym_ordered","eq_asym_ordered",
-                   "un_sym_ordered","un_asym_ordered","ARD"))
+                   "un_sym_ordered","un_asym_ordered"))
 ```
 
 Ancestral State Simulation for Stages
 ```{r ace - stage - simulation, include=TRUE}
-
-maps <- make.simmap(tree=treePruned,
-                    x=stagesVector,
-                    model=mat_eq_sym_ordered,
-                    nsim=100)
-
-summaries <- summary(maps)
-
 colors <- c("0"="black", 
             "1"="green", 
             "2"="red",
             "3"="blue")
 
-{ 
-  plot(summaries, colors=colors)
-  trash <- sapply(maps, markChanges, sapply(colors, make.transparent,0.05))
-}
+maps <- make.simmap(tree=treePruned,
+                    x=stagesVector,
+                    model=mat_eq_sym_ordered,
+                    nsim=1000)
+summaries <- summary(maps)
+
+png(filename="Figures/ace_tree.png", width=6, height=8, unit="in", res=100)
+plot(summaries, colors=colors)
+trash <- sapply(maps, markChanges, sapply(colors, make.transparent,0.01))
+dev.off()
 ```
+### Ancestral State Estimation: Predefinitive Plumage Patches
+
+```{r ace - plumage - ace, include=FALSE}
+# A function to generate simmap estimates for a given plumage character
+simCharacter <- function(character) {
+  chars <- map_dbl(treePruned$tip.label,
+                   ~ filter(plumagesData, Taxon==.) %>% pull(!!character))
+  
+  # Convert to binary
+  chars[chars > 0] <- 1
+  names(chars) <- treePruned$tip.label
+  
+  if (all(chars==0)) {
+    return(NA)
+  }
+  maps <- make.simmap(tree=treePruned,
+                      x=chars,
+                      model="ARD",
+                      nsim=100)
+  return(maps)
+}
+
+mapsPlumage <- purrr::map(plumageCharacters, simCharacter)
+names(mapsPlumage) <- plumageCharacters
+mapsPlumage <- mapsPlumage[!is.na(mapsPlumage)]
+```
+
+Plot simmaps
+```{r ace - plumage plots, include=TRUE}
+colors <- c("0"="gray", 
+            "1"="red")
+
+png(filename="Figures/ace_plumages.png", width=15, height=15, unit="in", res=50)
+par(mfrow=c(6,6))
+for (i in 1:length(mapsPlumage)) {
+  densityMap(mapsPlumage[[i]], colors=colors, ftype="off", mar=c(3,3,3,0), legend=FALSE)
+  title(main=plumageCharacters[i], cex.main=3)
+}
+dev.off()
+```
+
+```{r ace - plumage - transitions, include=FALSE}
+
+png(filename="Figures/sims_crown_s1.png", width=4, height=4, unit="in", res=400)
+densityMap(mapsPlumage[["Crown_S1"]], colors=colors, ftype="off", mar=c(3,3,3,0), legend=FALSE)
+title(main="Crown_S1", cex.main=2)
+dev.off()
+
+png(filename="Figures/sims_face_s2.png", width=4, height=4, unit="in", res=400)
+densityMap(mapsPlumage[["Face_S2"]], colors=colors, ftype="off", mar=c(3,3,3,0), legend=FALSE)
+title(main="Face_S2", cex.main=2)
+dev.off()
+
+```
+
 Correlated evolution
+
 ```{r correlations - stage vs. social, include=TRUE}
 
 # First, convert stages to binary characters -- presence of each stage
@@ -238,132 +321,149 @@ names(stage3Binary) <- treePruned$tip.label
 concentrated <- map_df(treePruned$tip.label,
                        ~ filter(stagesData, Taxon==.) %>% select(Concentrated_Present, Concentrated_Absent)) %>%
              as.matrix()
-names(concentrated) <- treePruned$tip.label
-
+rownames(concentrated) <- treePruned$tip.label
 
 # And a named matrix of coordinated display trait coding
 coordinated <- map_df(treePruned$tip.label,
                       ~ filter(stagesData, Taxon==.) %>% select(Coordinated_Present, Coordinated_Absent)) %>%
             as.matrix()
-names(coordinated) <- treePruned$tip.label
+rownames(coordinated) <- treePruned$tip.label
+
+```
+
+```{r correlations - stage vs. social, include=TRUE}
+colors <- c("0"="white",
+            "1"="gray",
+            "2"="black")
+
+multiTreeBinary <- map_df(treePruned$tip.label,
+                           ~ filter(stagesData, Taxon==.) %>% select(S2Binary, Coordinated, Concentrated)) %>%
+                as.matrix()
+rownames(multiTreeBinary) <- treePruned$tip.label
+
+multiTreeBinary <- multiTreeBinary + 1
+multiTreeBinary[is.na(multiTreeBinary)] <- 0
+
+png(filename="Figures/social_tree.png", width=6, height=6, unit="in", res=100)
+dotTree(tree=treePruned, x=multiTreeBinary, colors=colors, data.type="discrete", ftype="reg", legend=FALSE)
+dev.off()
+```
+
+
+
+```{r correlations - stage vs. social - Pagel test, include=TRUE}
+
+# Perform an Mk likelihood comparison for ER vs ARD models with the binary characters
+#   NOTE we cannot fit the model for the social characters themselves, because of missing data
+#     (even though the fitPagel method can account for that missing data as a flat prior)
+
+# A function to extract the AIC score from a fitMk run
+tidyFitMk <- function(chars, model) {
+  fit <- fitMk(tree=treePruned, x=chars, model=model)
+  ll <- fit$logLik
+  AIC <- AIC(fit)
   
+  ret <- tibble(Model=model, lhood=ll, AIC=AIC)
+  return(ret)
+}
+
+fitStage1Binary <- map_df(c("ER", "ARD"), ~ tidyFitMk(stage1Binary, .)) %>%
+                mutate(Character="Stage1Binary", .before=1)
+
+fitStage2Binary <- map_df(c("ER", "ARD"), ~ tidyFitMk(stage2Binary, .)) %>%
+                mutate(Character="Stage2Binary", .before=1)
+
+fitStage3Binary <- map_df(c("ER", "ARD"), ~ tidyFitMk(stage3Binary, .)) %>%
+                mutate(Character="Stage3Binary", .before=1)
+
+fitsStagesBinary <- bind_rows(fitStage1Binary, fitStage2Binary, fitStage3Binary) %>%
+                 group_by(Character) %>%
+                 filter(AIC == min(AIC))
+```
+
+
+```{r correlations - stage vs. social - Pagel test, include=TRUE}
+
+dependencyKey <- function(d) {
+  if (d == "x") {
+    return("X<-Y")
+  } else if (d == "y") {
+    return("X->Y")
+  } else if (d == "xy") {
+    return ("X<->Y")
+  }
+  return("ERROR")
+}
+
 # A function to extract key results from the fitPagel discrete correlation test
-tidyFitPagel <- function(x, y, model) {
+tidyFitPagel <- function(x, y, model, dep) {
   results <- fitPagel(tree=treePruned,
                       x=x,
                       y=y,
                       method="fitMk",
+                      dep.var=dep,
                       model=model)
   ret <- tibble(model=model, p=results$P,
                 AIC_ind=results$independent.AIC, AIC_dep=results$dependent.AIC) %>%
-      mutate(dAIC = AIC_dep - AIC_ind)
+      mutate(dAIC = AIC_dep - AIC_ind,
+             Dependency = map_chr(dep, dependencyKey))
   return(ret)
 }
 
-corrs_S1_Concentrated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage1Binary, concentrated, .)) %>%
+# Gone fishing
+corrs_S1_Concentrated <- map_df(c("xy", "x", "y"), ~ tidyFitPagel(stage1Binary, concentrated, "ER", .)) %>%
                       mutate(Social="Concentrated", .before=1) %>%
                       mutate(Stage="S1", .before=2)
 
-corrs_S2_Concentrated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage2Binary, concentrated, .)) %>%
+corrs_S2_Concentrated <- map_df(c("xy", "x", "y"), ~ tidyFitPagel(stage2Binary, concentrated, "ER", .)) %>%
                       mutate(Social="Concentrated", .before=1) %>%
                       mutate(Stage="S2", .before=2)
 
-corrs_S3_Concentrated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage3Binary, concentrated, .)) %>%
+corrs_S3_Concentrated <- map_df(c("xy", "x", "y"), ~ tidyFitPagel(stage3Binary, concentrated, "ER", .)) %>%
                       mutate(Social="Concentrated", .before=1) %>%
                       mutate(Stage="S3", .before=2)
 
 corrs_Concentrated <- bind_rows(corrs_S1_Concentrated, corrs_S2_Concentrated, corrs_S3_Concentrated)
 
 
-corrs_S1_Coordinated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage1Binary, coordinated, .)) %>%
-                     mutate(Social="Coordinated", .before=1) %>%
-                     mutate(Stage="S1", .before=2)
+corrs_S1_Coordinated <- map_df(c("xy", "x", "y"), ~ tidyFitPagel(stage1Binary, coordinated, "ER", .)) %>%
+                      mutate(Social="Coordinated", .before=1) %>%
+                      mutate(Stage="S1", .before=2)
 
-corrs_S2_Coordinated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage2Binary, coordinated, .)) %>%
-                     mutate(Social="Coordinated", .before=1) %>%
-                     mutate(Stage="S2", .before=2)
+corrs_S2_Coordinated <- map_df(c("xy", "x", "y"), ~ tidyFitPagel(stage2Binary, coordinated, "ER", .)) %>%
+                      mutate(Social="Coordinated", .before=1) %>%
+                      mutate(Stage="S2", .before=2)
 
-corrs_S3_Coordinated <- map_df(c("ER", "SYM","ARD"), ~ tidyFitPagel(stage3Binary, coordinated, .)) %>%
-                     mutate(Social="Coordinated", .before=1) %>%
-                     mutate(Stage="S3", .before=2)
+corrs_S3_Coordinated <- map_df(c("xy", "x", "y"), ~ tidyFitPagel(stage3Binary, coordinated, "ER", .)) %>%
+                      mutate(Social="Coordinated", .before=1) %>%
+                      mutate(Stage="S3", .before=2)
 
 corrs_Coordinated <- bind_rows(corrs_S1_Coordinated, corrs_S2_Coordinated, corrs_S3_Coordinated)
 
 corrs <- bind_rows(corrs_Concentrated, corrs_Coordinated)
 ```
 
+```{r correlations - tables, echo=TRUE}
+coevolutions <- corrs %>%
+             filter(Dependency == "X<->Y") %>%
+             select(-model)
 
+kbl(coevolutions, digits=2) %>%
+  kable_classic(full_width=FALSE, font_size=20, html_font="Arial")
 
+sigCorrs <- corrs %>%
+         filter(Dependency != "X<->Y", p <= 0.05) %>%
+         select(-model)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Ancestral State Estimation: Predefinitve Plumage Patches
-Produce simmaps
-```{r ace - plumage, include=FALSE}
-
-colors <- c("0"="gray", 
-            "1"="red", 
-            "2"="black",
-            "3"="blue")
-
-# A function to generate simmap estimates for a given plumage character
-simCharacter <- function(character) {
-  chars <- map_dbl(treePruned$tip.label,
-                   ~ filter(plumagesData, Taxon==.) %>% pull(!!character))
-  
-  print(character)
-  chars
-  names(chars) <- treePruned$tip.label
-  
-  capture.output( maps <- make.simmap(tree=treePruned,
-                       x=chars,
-                       model="ARD",
-                       nsim=20), 
-                  file='NUL')
-  return(maps)
-}
-
-plumageCharacters <- colnames(plumagesData[,-1])
-
-plumageMaps <- purrr::map(plumageCharacters, simCharacter)
-
+kbl(sigCorrs, digits=2) %>%
+  kable_classic(full_width=FALSE, font_size=20, html_font="Arial")
 ```
 
-Plot simmaps
-```{r ace - plumage plots, include=FALSE}
 
-colors <- c("0"="gray", 
-            "1"="red", 
-            "2"="black",
-            "3"="blue")
+# Discussion and Conclusion
 
-plotCharacter <- function(maps) {
-  
-  summaries <- summary(maps)
-  plot(summaries, colors=colors, ftype="off")
-  
-  ret <- recordPlot()
-  return(ret)
-}
+# References
 
-mapPlots <- purrr::map(plumageMaps, plotCharacter)
-
-plot_grid(plotlist = mapPlots, labels=plumageCharacters)
-
-```
 
 
 ## References
