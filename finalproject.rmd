@@ -3,6 +3,7 @@ title: "Delayed Plumage Maturation Evolution in Manakins (Aves: Pipridae)"
 subtitle: "Presentation Commit. 2020-12-01"
 author: Liam U. Taylor
 output: github_document
+bibliography: bibliography.json
 
 knit: (function(input, ...) {
     rmarkdown::render(
@@ -16,6 +17,8 @@ knit: (function(input, ...) {
 library(knitr)
 
 opts_knit$set(root.dir = "C://Users/Liam/Documents/EEB654/finalproject")
+opts_knit$set(knitr.table.format="latex")
+
 setwd("C://Users/Liam/Documents/EEB654/finalproject")
 
 library(tidyverse)
@@ -53,45 +56,45 @@ I used a combination of literature reports, field guides, banding records, and p
 
 | Taxon | Citations |
 |-------|-----------|
-| *Antilophia bokermanni*| [@azevedo1999; @kirwan2011; @gaiotti2016] |
+| *Antilophia bokermanni*| [@azevedo2000; @kirwan2011; @gaiotti2016] |
 | *Antilophia galeata* | [@allen1893; @marini1992; @kirwan2011 |
-| *Ceratopipra	erythrocephala* | [@johnson2018] |
-| *Ceratopipra	mentalis* | [@wolfe2009; @kirwan2011; @johnson2018] |
+| *Ceratopipra	erythrocephala* | [@johnson2017] |
+| *Ceratopipra	mentalis* | [@wolfe2009; @kirwan2011; @johnson2017] |
 | *Chiroxiphia	caudata* | [@mallet2012] |
 | *Chiroxiphia	lanceolata* | [@duval2005] |
 | *Chiroxiphia	linearis* | [@doucet2007] |
 | *Chiroxiphia	pareola* | [@cardenas2018] |
-| *Chloropipo	flavicapilla* | [@hellmayr1926; @kirwan2011] |
+| *Chloropipo	flavicapilla* | [@kirwan2011] |
 | *Chloropipo	unicolor* | [@kirwan2011] |
 | *Corapipo	altera* | [@jones2014] |
-| *Corapipo	gutturalis* | [@prum1986; @johnson2018; @aramuni2019] |
+| *Corapipo	gutturalis* | [@prum1986; @johnson2017; @aramuni2019] |
 | *Corapipo	leucorrhoa* | [@rosselli1994] |
 | *Cryptopipo	holochlora* | [@wetmore1972] |
 | *Heterocercus	flavivertex* | [@prum1996; @kirwan2011] |
 | *Heterocercus	linteatus* | [@kirwan2011] |
 | *Lepidothrix	coeruleocapilla* | [@kirwan2011] |
 | *Lepidothrix	coronata* | [@ryder2005; @kirwan2011] |
-| *Lepidothrix	serena* | [@prum1985; @snow2020] |
-| *Lepidothrix	suavissima* | [@hilty2003; @snow2020] |
+| *Lepidothrix	serena* | [@prum1985; BotW] |
+| *Lepidothrix	suavissima* | [@hilty2003; BotW] |
 | *Lepidothrix	vilasboasi* | [@kirwan2011] |
-| *Lepidothrix	nattereri* | [@kirwan2011; @snow2020] |
+| *Lepidothrix	nattereri* | [@kirwan2011; BotW] |
 | *Machaeropterus	pyrocephalus* | [@hilty2003; @kirwan2011] |
 | *Manacus	candei* | [@wolfe2009] |
-| *Manacus	manacus* | [@johnson2018; @tu2020] |
-| *Masius	chrysopterus* | [@taylor2020] |
+| *Manacus	manacus* | [@johnson2017] |
+| *Masius	chrysopterus* | (BotW) |
 | *Neopelma	aurifrons* | [@kirwan2011] |
 | *Neopelma	pallescens* | [@kirwan2011] |
 | *Pipra	aureola* | [@kirwan2011] |
 | *Pipra	fasciicauda* | [@robbins1985; @kirwan2011] |
 | *Pipra	filicauda* | [@ryder2005; @kirwan2011] |
-| *Pseudopipra	pipra* | [@johnson2018] |
-| *Tyranneutes	virescens* | [@johnson2018] |
+| *Pseudopipra	pipra* | [@johnson2017] |
+| *Tyranneutes	virescens* | [@johnson2017] |
 | *Xenopipo	atronitens* | [@kirwan2011] |
-| *Xenopipo	uniformis* | [@snow2020] |
+| *Xenopipo	uniformis* | (BotW) |
 
 I used the data from Prum [-@prum1994] to code two binary social characters: concentrated lekking and coordinated displays. Taxa with a 0 score for concentrated lekking included both dispersed and non-lekking states, and taxa with a 1 score for coordinated displays included all of simple, coordinated, and cooperative male-male display behaviors. I supplemented some missing taxa with updated scores based on new literature reports, but most missing data is still unavailable.
 
-```{r wrangle stages, include=TRUE}
+```{r wrangle stages, include=FALSE}
 
 # A function to convert binary characters into probability distributions,
 #   so that we can map missing data (NA) to a 50/50 probability across two columns
@@ -118,7 +121,7 @@ stagesData <- read_csv(STAGES_FILE) %>%
 
 I coded predefinitive patches based on non-female- and non-juvenile-like plumage patches at each DPM stage. It is necessary to code these patches as broad visual units, rather than standardized morphological components, because patches are metamodules which are the result of covariation across barbs and barbules within and across both feathers and feather tracts [@prum2003]. Although I initially coded patches based on broad coloration method ("Carotenoid", "Melanin", "Structural"), the analyses here collapse all coloaration methods down to a binary "Present" (v. "Absent") state. Some taxa (e.g., *Corapipo* manakins at stage 1) have an all female-like predefinitive plumage stage, which corresponds to a "Absent" score for all taxa. Each taxon has an individual plumage datasheet (see .csv files in `finalproject.rmd`), which are aligned across all taxa with post-alignment missing data correctly as "Absent".
 
-```{r wrangle plumages, include=TRUE}
+```{r wrangle plumages, include=FALSE}
 
 # A function to parse an individual plumage record into a matrix
 extractPlumageFile <- function(file) {
@@ -161,7 +164,7 @@ I use a the backbone phylogeny from [BirdTree](http://birdtree.org/) [@jetz2012]
 
 I requested a trace of 10,000 subtrees from BirdTree which were generated with the all available tips in the family Pipridae. I used [TreeAnnotator](https://beast.community/treeannotator) to collapse that tree trace into a single consensus tree for analysis here. I then prune the tree to retain only those tips for which DPM stage and predefinitive plumage characters are available.
 
-```{r tree pruning, include=TRUE}
+```{r tree pruning, include=FALSE}
 
 # Read the tree file
 tree <- read.nexus(TREE_FILE)
@@ -211,13 +214,15 @@ stagesVector <- map_dbl(treePruned$tip.label,
 names(stagesVector) <- treePruned$tip.label
 
 
-png(filename="Figures/raw_tree.png", width=6, height=8, unit="in", res=400)
-dotTree(treePruned, factor(stagesVector), colors=colors, fsize=1.4, ftype="reg", length=10)
+png(filename="Figures/raw_tree.png", width=6, height=6, unit="in", res=400)
+dotTree(treePruned, factor(stagesVector), colors=colors)
 dev.off()
 ```
 
 The plot below shows the pruned backbone tree. Tip labels indicate DPM stage character states for each taxon.
-`r include_graphics("Figures/raw_tree.png") `
+```{r, out.width = "80%", echo=FALSE}  
+include_graphics("Figures/raw_tree.png")
+```
 
 ## DPM Stages: Model Selection
 
@@ -225,44 +230,73 @@ I used a maximum-likelihood + information-theoretic approach to evolutionary mod
 
 I tested five models: 
 
+```{r stage - model print prep, include=FALSE}
+
+eru <- matrix(c("-","A","A","A",
+                "A","-","A","A",
+                "A","A","-","A",
+                "A","A","A","-"),
+              nrow=4, byrow=TRUE,
+              dimnames=list(as.character(0:3), as.character(0:3)))
+
+ero <- matrix(c("-","A","0","0",
+                "A","-","A","0",
+                "0","A","-","A",
+                "0","0","A","-"),
+              nrow=4, byrow=TRUE,
+              dimnames=list(as.character(0:3), as.character(0:3)))
+
+eao <- matrix(c("-","A","0","0",
+                "B","-","A","0",
+                "0","B","-","A",
+                "0","0","B","-"),
+              nrow=4, byrow=TRUE,
+              dimnames=list(as.character(0:3), as.character(0:3)))
+
+uso <- matrix(c("-","A","0","0",
+                "A","-","B","0",
+                "0","B","-","C",
+                "0","0","C","-"),
+              nrow=4, byrow=TRUE,
+              dimnames=list(as.character(0:3), as.character(0:3)))
+
+uao <- matrix(c("-","A","0","0",
+                "B","-","C","0",
+                "0","D","-","E",
+                "0","0","F","-"),
+              nrow=4, byrow=TRUE,
+              dimnames=list(as.character(0:3), as.character(0:3)))
+```
+
 1. Equal rates unordered
-|   | 0 | 1 | 2 | 3 |
-| 0 | - | A | A | A |
-| 1 | A | - | A | A |
-| 2 | A | A | - | A |
-| 3 | A | A | A | - |
+
+```{r echo=FALSE}
+noquote(eru)
+```
 
 2. Equal rates ordered 
 
-|   | 0 | 1 | 2 | 3 |
-| 0 | - | A | 0 | 0 |
-| 1 | A | - | A | 0 |
-| 2 | 0 | A | - | A |
-| 3 | 0 | 0 | A | - |
+```{r echo=FALSE}
+noquote(ero)
+```
 
 3. Equal asymmetric rates ordered
 
-|   | 0 | 1 | 2 | 3 |
-| 0 | - | A | 0 | 0 |
-| 1 | B | - | A | 0 |
-| 2 | 0 | B | - | A |
-| 3 | 0 | 0 | B | - |
+```{r echo=FALSE}
+noquote(eao)
+```
 
 4. Unequal symmetric rates ordered
 
-|   | 0 | 1 | 2 | 3 |
-| 0 | - | A | 0 | 0 |
-| 1 | A | - | B | 0 |
-| 2 | 0 | B | - | C |
-| 3 | 0 | 0 | C | - |
+```{r echo=FALSE}
+noquote(uso)
+```
 
 5. Unequal asymmetric rates ordered
 
-|   | 0 | 1 | 2 | 3 |
-| 0 | - | A | 0 | 0 |
-| 1 | B | - | C | 0 |
-| 2 | 0 | D | - | E |
-| 3 | 0 | 0 | F | - |
+```{r echo=FALSE}
+noquote(uao)
+```
 
 Note that some of these models might have implications for the broader connection between DPM evolution and perspectives such as sexual selection theory. For example, the "equal asymmetric rates ordered" model would allow for the evolutionary rate of stage gains to outweight the rate of stage losses -- this ratcheting of a sexual character might be expected from e.g., Fisher's runaway process [@fisher1930].
 
@@ -304,10 +338,9 @@ mat_un_asym_ordered <- matrix(c(0,1,0,0,
 fit_un_asym_ordered <- fitMk(tree=treePruned, x=stagesVector, model=mat_un_asym_ordered)
 ```
 
+The transition rates which maximize the likelihood of the data were estimated with the `fitMk` method in phytools [@revell2012]. The table below shows AIC scores for each model. The preferred model, which minimizes AIC, was the Equal Symmetric Ordered Model.
 
-The transition rates which maximize the likelihood of the data were estimated with the `fitMk` method in phytools [@revell2011]. The table below shows AIC scores for each model. The preferred model, which minimizes AIC, was the 
-
-```{r stage - model aic, include=FALSE}
+```{r stage - model aic, echo=FALSE}
 
 modelList <- list(fit_ER,
                   fit_eq_sym_ordered,
@@ -324,20 +357,20 @@ modelNames <- c("Equal Rates Unordered",
 AICs <- map2_df(modelList, modelNames, ~ tibble(Model=.y, AIC=AIC(.x))) %>%
      mutate(dAIC = AIC - min(AIC))
 
-
-kbl(AICs, digits=2,  format="pandoc") %>%
-  kable_classic(full_width=FALSE, font_size=12, html_font="Arial") %>%
+kable(AICs, digits=2) %>%
+  kable_classic(full_width=FALSE, font_size=20, html_font="Arial") %>%
   row_spec(which(AICs$dAIC == 0), bold=TRUE, background="#D6EED4")
 
 ```
+
 And here are the transition rates which maximize the likelihood of the DPM stage data given our chosen model constraints:
 
-```{r stage - fit transition rates, echo=TRUE}
+```{r stage - fit transition rates, echo=FALSE}
 fitQ <- as.Qmatrix(fit_eq_sym_ordered)
-fitQ
+round(fitQ, 3)
 ```
 ## DPM Stages: Ancestral State Estimation
-Now that we have established the structure of our underlying evolutionary model, I can estimate the probability DPM plumage character for internal nodes in the manakin phylogeny. Here I do this ancestral state estimation by simulating stochastic character maps along the tree under our equal symmetric ordered evolutionary model. I use the `make.sim` function from phytools to simulate 1000 maps. The summary of those maps is shown below. Taxon tips are assigned to their input data state and internal nodes are colored by the proportion of simulations in a given state. Ticks along each edge indicate simulated transitions across all simulations.
+Now that I have established the structure of our underlying evolutionary model, I can estimate the probability DPM plumage character for internal nodes in the manakin phylogeny. Here I do this ancestral state estimation by simulating stochastic character maps along the tree under our equal symmetric ordered evolutionary model. I use the `make.sim` function from phytools to simulate 1000 maps. The summary of those maps is shown below. Taxon tips are assigned to their input data state and internal nodes are colored by the proportion of simulations in a given state. Ticks along each edge indicate simulated transitions across all simulations.
 
 ```{r stage - ace sim, include=FALSE, cache=TRUE}
 maps <- make.simmap(tree=treePruned,
@@ -359,12 +392,14 @@ trash <- sapply(maps, markChanges, sapply(colors, make.transparent,0.01))
 dev.off()
 ```
 
-`r include_graphics("Figures/ace_tree.png") `
+```{r, out.width = "80%", echo=FALSE}
+include_graphics("Figures/ace_tree.png")
+```
 
 In particular, note two key internal nodes:
 
-1. The parent node of the core manakins (i.e., the clade excluding the tyrant-manakins, *Tyranneutes* and *Neopelma*) has a high probability of 1-Stage DPM (probability = `r summaries$ace["37", 2]`).
-2. The parent node of the Ilicurini subclade (i.e., the clade including *Masius*, *Corapipo*, *Chiroxiphia*, and *Antilophia*) has a majority probability of 2-Stage DPM (probability = `r summaries$ace["39", 3]`).
+1. The parent node of the core manakins (i.e., the clade excluding the tyrant-manakins, *Tyranneutes* and *Neopelma*) has a high probability of 1-Stage DPM (probability = `r round(summaries$ace["37", 2],2)`).
+2. The parent node of the Ilicurini subclade (i.e., the clade including *Masius*, *Corapipo*, *Chiroxiphia*, and *Antilophia*) has a majority probability of 2-Stage DPM (probability = `r round(summaries$ace["39", 3],2)`).
 
 I can also summarize the estimated stage transitions as the mean count of transitions across all simulations:
 
@@ -395,16 +430,16 @@ transitionCountMatrix
 ```
 
 Despite gains and losses being governed by the same rate parameter across all states, there are on average more gains than losses 
-(`r sum(transitionCountMatrix[upper.tri(transitionCountMatrix)])` gains vs. 
- `r sum(transitionCountMatrix[lower.tri(transitionCountMatrix)])` losses).
+(`r sum(transitionCountMatrix[upper.tri(transitionCountMatrix)])` gains vs. `r sum(transitionCountMatrix[lower.tri(transitionCountMatrix)])` losses).
  
-The most frequent transition is from stage `r strsplit(maxV, ",")[[1]][1]` to stage `r strsplit(maxV, ",")[[1]][2]`.
+The most frequent transition is from Stage `r strsplit(maxV, ",")[[1]][1]` to Stage `r strsplit(maxV, ",")[[1]][2]`.
 
 ## Plumage Patches: Homologies within Stages
 
-Now that I have identified ancestral DPM plumage stages across the tree, I can take a closer look at plumage patch characters within each stage and determine whether there are homologies plumage patches across taxa. In this case, I can interpret homologous patches as those that estimated to be present in the ancestral nodes which also have an ancestral state for a given DPM stage. First, I can use stochastic maps to simulate the evolution of each patch for each stage as a separate binary character. I again use the `make.simmap` function to simulate the evolution of each plumage character (100 simulations per character). Each character is simulated under a separate evolutionary model in which gain and loss of the patch can have different rates (i.e., "all rates different" for a binary character). The transition rate matrix is estimated within the `make.simmap` function as the model which maximizes the likelihood of the data for the given character.
+Now that I have identified ancestral DPM plumage stages across the tree, I can take a closer look at plumage patch characters within each stage and determine whether there are homologies plumage patches across taxa. In this case, I can interpret homologous patches as those that estimated to be present in the ancestral nodes which also have an ancestral state for a given DPM stage. First, I can use stochastic maps to simulate the evolution of each patch for each stage as a separate binary character. I again use the `make.simmap` function to simulate the evolution of each plumage character (1000 simulations per character). Each character is simulated under a separate equal rates model. The transition rate matrix is estimated within the `make.simmap` function as the model which maximizes the likelihood of the data for each separate character.
 
 ```{r plumage - ace, include=FALSE, cache=TRUE}
+
 # A function to generate simmap estimates for a given plumage character
 simCharacter <- function(character) {
   chars <- map_dbl(treePruned$tip.label,
@@ -420,22 +455,28 @@ simCharacter <- function(character) {
   maps <- make.simmap(tree=treePruned,
                       x=chars,
                       model="ARD",
-                      nsim=100)
+                      nsim=1000)
   return(maps)
 }
 
+# Simulate each character separately
 plumageCharacters <- names(plumagesData)[-1]
 mapsPlumage <- purrr::map(plumageCharacters, simCharacter)
 names(mapsPlumage) <- plumageCharacters
+
+# You have to remove the character that is absent across all taxa
+#   usually just Face_S3, because it is present in C. linearis S2 but absent S3,
+#   so is rendered into the table during the initial data wrangling.
 mapsPlumage <- mapsPlumage[!is.na(mapsPlumage)]
 ```
 
-First, we can view the results across all of the patches. The figures below show the simulation results for each character. Because there are now binary characters, we can view the probability density, across all simulations, for the presence of the character along every edge. Red indicates high probability of presence of a patch, blue indicates low probability.
+First, I can view the results across all of the patches. The figures below show the simulation results for each character. Because there are now binary characters, I can view the probability density, across all simulations, for the presence of the character along every edge. Red indicates high probability of presence of a patch, blue indicates low probability.
 
 ```{r plumage - plots, include=FALSE, cache=TRUE}
 colors <- c("0"="gray", 
             "1"="red")
 
+# Plot a grid of stochastic density maps, one for each binary plumage patch character
 png(filename="Figures/ace_plumages.png", width=15, height=15, unit="in", res=50)
 par(mfrow=c(6,6))
 for (i in 1:length(mapsPlumage)) {
@@ -445,21 +486,52 @@ for (i in 1:length(mapsPlumage)) {
 dev.off()
 ```
 
-```{r plumage - key patches, include=FALSE}
+```{r plumage - show sims, out.width="80%", echo=FALSE}
+include_graphics("Figures/ace_plumages.png")
+```
 
-png(filename="Figures/sims_crown_s1.png", width=4, height=4, unit="in", res=400)
-densityMap(mapsPlumage[["Crown_S1"]], colors=colors, ftype="off", mar=c(3,3,3,0), legend=FALSE)
-title(main="Crown_S1", cex.main=2)
-dev.off()
+Note the uncertain edges between the root node and its child nodes. This is . Note also that this model seems ill-equipped to parse the evolutionary history of the Body_S1 plumage patch, which is is widely distributed across the tips with many presumed gains and losses. The result is that the state of this patch is uncertain throughout the tree. Two further steps might make these simulations more realistic: (1) incorporating information about coloration method (i.e., Absent vs. Carotenoid/Melanin/Structural rather than Absent/Present) and (2) developing a model which is informed by all plumage patches together rather than establishing parameters for each patch separately. 
 
-png(filename="Figures/sims_face_s2.png", width=4, height=4, unit="in", res=400)
-densityMap(mapsPlumage[["Face_S2"]], colors=colors, ftype="off", mar=c(3,3,3,0), legend=FALSE)
-title(main="Face_S2", cex.main=2)
-dev.off()
+In the meantime, I want to consider the two key internal nodes I derived in the ancestral state estimations for DPM stages: the Stage 1 ancestor of the core manakin clade and the Stage 2 ancestor of the Ilicurini subclade. What might those predefinitive plumages have looked like?
+
+```{r plumage - key patches, include=FALSE, cache=TRUE}
+
+# A function to retrieve the probability of all patch characters at a given node
+getPatchNode <- function(p, node) {
+  patchName <- names(mapsPlumage)[p]
+  summary <- summary(mapsPlumage[[p]])
+  Presence_Prob <- summary$ace[node, 2]
+  ret <- tibble(Character=patchName, Presence_Prob=Presence_Prob)
+  return(ret)
+}
+
+keyCoreAncestorPatches <- map_df(1:length(mapsPlumage), ~ getPatchNode(., "37"))
+keyIlicuriniAncestorPatches <- map_df(1:length(mapsPlumage), ~ getPatchNode(., "39"))
 
 ```
 
-Correlated evolution
+Here are the highest probability predefinitive plumage patches for the core manakin ancestor:
+```{r plumage - core ancestor patches, echo=FALSE, cache=TRUE}
+topCore <- keyCoreAncestorPatches %>%
+        arrange(Presence_Prob) %>%
+        top_n(2)
+
+kable(topCore, digits=2) %>%
+  kable_classic(full_width=FALSE, font_size=20, html_font="Arial")
+```
+And here are the highest probability patches for the Ilicurini ancestor:
+```{r plumage - ilicurini ancestor patches , echo=FALSE, cache=TRUE}
+topIlic <- keyIlicuriniAncestorPatches %>%
+        arrange(Presence_Prob) %>%
+        top_n(4)
+
+kable(topIlic, digits=2) %>%
+  kable_classic(full_width=FALSE, font_size=20, html_font="Arial")
+```
+In this version of the analysis (i.e., with binary characters and separate models for each character), there are no patches which even pass a 50% probability of occurrence in the ancestral DPM stages. This has a reasonable biological interpretation for the core Stage 1 ancestor, which might be thought of as a "female-like", patchless predefinitive plumage However, there are no female-like Stage 2 plumages in manakins. If I take the highest probability patches for each of these stages as the description of plumage, I get an ancestral core Stage 1 plumage with a crown and body patch, as well as an ancestral Ilicurini Stage 2 plumage with a face patch (in current taxa, usually a black mask). In general, this binary+separate character analysis does not show strong support any particular predefinitive plumage characters conserved across these clades with DPM stage synapomorphies.
+
+## Social Correlations
+Finally, I want to address the hypothesis that the evolution of DPM is associated with social and sexual behaviors in manakins. In a phylogenetic context, I can extend this hypothesis to predict that there is correlated coevolution between social characters and DPM stages. To test this prediction, I can use Pagel's phylogenetic correlation assement for binary, discrete characters [@pagel1994]. In particular, I will test for two sets of coevolutionary dependencies: (1) coevolution between DPM stages and concentrated lekking, and (2) coevolution between DPM stages and coordinated male-male displays. As described above, I have already coded concentrated lekking and cooperative displays as binary characters. I can also convert the discrete multistate DPM stage character to a set of binary characters (i.e., three separate characters for the Presence/Absence of Stage 1, Stage 2, and Stage 3 in each taxon).
 
 ```{r social correlations - prep characters, include=FALSE}
 
@@ -490,13 +562,19 @@ rownames(coordinated) <- treePruned$tip.label
 
 ```
 
+The tree below shows these all of these recoded characters. From left to right, dots at the tips indicate the Presence (black), Absence (gray) or missing data (white) state for: (1) Stage 1 DPM, (2) Stage 2; (3) Stage 3; (4) Concentrated Lekking; (5) Coordinated Displays. Note the missing data in the social characters for some taxa. In the context of the Pagel discrete coevolution assessment, characters with missing data can be reinterpreted as prior probabilities of Presence or Absence. For taxa with known codings, the prior probability of the assigned state is 1. For taxa with missing data, the prior probability is 0.5 for both states.
+
 ```{r social correlations - tree plot, include=FALSE}
 colors <- c("0"="white",
             "1"="gray",
             "2"="black")
 
 multiTreeBinary <- map_df(treePruned$tip.label,
-                           ~ filter(stagesData, Taxon==.) %>% select(S2Binary, Coordinated, Concentrated)) %>%
+                           ~ filter(stagesData, Taxon==.) %>% select(S1Binary, 
+                                                                     S2Binary,
+                                                                     S3Binary,
+                                                                     Concentrated, 
+                                                                     Coordinated)) %>%
                 as.matrix()
 rownames(multiTreeBinary) <- treePruned$tip.label
 
@@ -508,13 +586,11 @@ dotTree(tree=treePruned, x=multiTreeBinary, colors=colors, data.type="discrete",
 dev.off()
 ```
 
-```{r social correlations - Pagel test, include=FALSE}
+I can now test for signs of coevolution between each of the three plumage stages and the two social characters. I use the `fitPagel` method from phytools to compare the AIC scores for two models for each pair of characters. One model asserts the independent evolution of the two paired characters. The second, more parameter-rich model uses dependent evolution, where, for example, the transition from 0->1 in character X depends on the state (0 or 1) of character Y. Support for coevolution is associated with a lower AIC score for the dependent evolution model, which in turn is associated with a *p* value. Here, I use an equal rates model for all characters with a different rate parameter fit to each set of characters.
 
-# Perform an Mk likelihood comparison for ER vs ARD models with the binary characters
-#   NOTE we cannot fit the model for the social characters themselves, because of missing data
-#     (even though the fitPagel method can account for that missing data as a flat prior)
+```{r social correlations - results, include=FALSE, cache=TRUE}
 
-# A function to extract the AIC score from a fitMk run
+# A function to extract the AIC score from a fitMk run (not used)
 tidyFitMk <- function(chars, model) {
   fit <- fitMk(tree=treePruned, x=chars, model=model)
   ll <- fit$logLik
@@ -524,22 +600,8 @@ tidyFitMk <- function(chars, model) {
   return(ret)
 }
 
-fitStage1Binary <- map_df(c("ER", "ARD"), ~ tidyFitMk(stage1Binary, .)) %>%
-                mutate(Character="Stage1Binary", .before=1)
-
-fitStage2Binary <- map_df(c("ER", "ARD"), ~ tidyFitMk(stage2Binary, .)) %>%
-                mutate(Character="Stage2Binary", .before=1)
-
-fitStage3Binary <- map_df(c("ER", "ARD"), ~ tidyFitMk(stage3Binary, .)) %>%
-                mutate(Character="Stage3Binary", .before=1)
-
-fitsStagesBinary <- bind_rows(fitStage1Binary, fitStage2Binary, fitStage3Binary) %>%
-                 group_by(Character) %>%
-                 filter(AIC == min(AIC))
-```
-
-```{r social correlations - results, include=FALSE}
-
+# Recode dependency settings, just
+#   for aesthetic purposes in the output table
 dependencyKey <- function(d) {
   if (d == "x") {
     return("X<-Y")
@@ -566,7 +628,7 @@ tidyFitPagel <- function(x, y, model, dep) {
   return(ret)
 }
 
-# Gone fishing
+# Gone fishing -- Pagel tests for all dependency directions in all Stage/Social pairs
 corrs_S1_Concentrated <- map_df(c("xy", "x", "y"), ~ tidyFitPagel(stage1Binary, concentrated, "ER", .)) %>%
                       mutate(Social="Concentrated", .before=1) %>%
                       mutate(Stage="S1", .before=2)
@@ -599,23 +661,33 @@ corrs_Coordinated <- bind_rows(corrs_S1_Coordinated, corrs_S2_Coordinated, corrs
 corrs <- bind_rows(corrs_Concentrated, corrs_Coordinated)
 ```
 
-```{r social correlations - show tables, echo=FALSE}
+The first step is to check for a sign of coevolution in general. I do this by viewing the results of model comparison where dependency runs in both ways (i.e., social character and DPM stage transitions depends on the state of both characters). The table below shows the result. Negative values in the dAIC column indicate that the dependent (i.e., coevolutionary) model was preferred to the independent model.
+
+```{r social correlations - codependency results, echo=FALSE}
 coevolutions <- corrs %>%
              filter(Dependency == "X<->Y") %>%
              select(-model)
 
-kbl(coevolutions, digits=2,  format="pandoc") %>%
-  kable_classic(full_width=FALSE, font_size=20, html_font="Arial")
+kable(coevolutions, digits=2) %>%
+  kable_classic(full_width=FALSE, font_size=20, html_font="Arial") %>%
+  row_spec(which(dAIC < 0), bold=TRUE, background="#D6EED4")
+```
+
+Finally, I can dig a bit deeper and test for the dependency direction in those models which showed some support for coevolution. The table below shows the results. I find some support for the evolutionary association between coordinated display behavior and the presence of 2 or 3 DPM stages across the manakin tree. In particular, the evolution of these DPM stages is dependent on the evolution of coordinated displays. Returning to the social character tree plotted above, I can see this association at work -- the presence of Stage 2 DPM is associated with coordinated display behavior in multiple taxa. Recall, however, that there are only two taxa with Stage 3 DPM.
+
+```{r social correlations - directional results, echo=FALSE}
 
 sigCorrs <- corrs %>%
          filter(Dependency != "X<->Y", p <= 0.05) %>%
          select(-model)
 
-kbl(sigCorrs, digits=2,  format="pandoc") %>%
+kable(sigCorrs, digits=2) %>%
   kable_classic(full_width=FALSE, font_size=20, html_font="Arial")
 ```
 
-
 # Discussion and Conclusion
 
+To be completed for final submission.
+
 # References
+

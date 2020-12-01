@@ -134,47 +134,13 @@ Taxa and citations are as follows:
 | *Xenopipo atronitens*         | \[@kirwan2011\]                             |
 | *Xenopipo uniformis*          | \[@snow2020\]                               |
 
-I used the data from Prum \[-@1994\] to code two binary social
+I used the data from Prum \[-@prum1994\] to code two binary social
 characters: concentrated lekking and coordinated displays. Taxa with a 0
 score for concentrated lekking included both dispersed and non-lekking
 states, and taxa with a 1 score for coordinated displays included all of
 simple, coordinated, and cooperative male-male display behaviors. I
 supplemented some missing taxa with updated scores based on new
 literature reports, but most missing data is still unavailable.
-
-``` r
-# A function to convert binary characters into probability distributions,
-#   so that we can map missing data (NA) to a 50/50 probability across two columns
-probMap <- function(v) {
-  if (is.na(v)) {
-    return(0.5)
-  } 
-  return(v)
-}
-
-# Read in the raw data matrix, concatenate taxa names,
-#   convert multistate stages to binaries for correlation tests,
-#   and convert unknown social states to uniform priors across two columns
-stagesData <- read_csv(STAGES_FILE) %>%
-          unite(Taxon, Genus, Species, sep="_") %>%
-          mutate(S1Binary = as.numeric(Stages>0),
-                 S2Binary = as.numeric(Stages>1),
-                 S3Binary = as.numeric(Stages>2),
-                 Coordinated_Present = map_dbl(Coordinated, probMap),
-                 Coordinated_Absent = 1 - Coordinated_Present,
-                 Concentrated_Present = map_dbl(Concentrated, probMap),
-                 Concentrated_Absent = 1 - Concentrated_Present)
-```
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   Genus = col_character(),
-    ##   Species = col_character(),
-    ##   Stages = col_double(),
-    ##   Dichromatism = col_double(),
-    ##   Coordinated = col_double(),
-    ##   Concentrated = col_double()
-    ## )
 
 I coded predefinitive patches based on non-female- and non-juvenile-like
 plumage patches at each DPM stage. It is necessary to code these patches
@@ -190,43 +156,6 @@ plumage stage, which corresponds to a “Absent” score for all taxa. Each
 taxon has an individual plumage datasheet (see .csv files in
 `finalproject.rmd`), which are aligned across all taxa with
 post-alignment missing data correctly as “Absent”.
-
-``` r
-# A function to parse an individual plumage record into a matrix
-extractPlumageFile <- function(file) {
-  taxon <- strsplit(file, "\\.")[[1]][1]
-
-  plumage <- read_csv(paste(PLUMAGE_DIR, file, sep=""),
-                        col_types = cols(.default = col_character()))
-
-  if (nrow(plumage) == 0) {
-    plumage <- bind_rows(plumage, tibble(Character="Crown", S1="Absent"))
-  }
-  
-  plumage <- plumage %>%
-          pivot_longer(-Character, 
-                       names_to="Stage",
-                       values_to="Value") %>%
-          unite(CharacterStage, Character, Stage, sep="_") %>%
-          arrange(CharacterStage) %>%
-          pivot_wider(names_from=CharacterStage, 
-                      values_from=Value) %>%
-          purrr::map(~ PLUMAGE_STATE_CODES[.]) %>%
-          as.list() %>%
-          as_tibble() %>%
-          mutate(Taxon=taxon, .before=1)
-  
-  return(plumage)
-}
-
-
-# Construct the plumage character matrix
-plumagesData <- list.files(PLUMAGE_DIR) %>%
-             purrr::map_df(extractPlumageFile)
-
-# All patches not indicated in the original plumage tables are absent
-plumagesData[is.na(plumagesData)] <- 0
-```
 
 ## Backbone Phylogeny
 
@@ -246,53 +175,9 @@ tree trace into a single consensus tree for analysis here. I then prune
 the tree to retain only those tips for which DPM stage and predefinitive
 plumage characters are available.
 
-``` r
-# Read the tree file
-tree <- read.nexus(TREE_FILE)
-
-# Refactor old taxon names which are common mislabeled across trees
-refactorNames <- read_csv("Data/taxon_refactoring_names.csv")
-```
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   Taxon_Old = col_character(),
-    ##   Taxon_New = col_character()
-    ## )
-
-``` r
-# A function to conditionally refactor a taxon 
-refactorTaxon <- function(old) {
-  if (old %in% refactorNames$Taxon_Old) {
-    new <- refactorNames %>%
-        filter(Taxon_Old == old) %>%
-        pull(Taxon_New)
-    return(new)
-  }
-  return(old)
-}
-refactoredTips <- map_chr(tree$tip.label, refactorTaxon)
-tree$tip.label <- refactoredTips
-
-# Determine tips which are in the tree but not the data
-
-treeTips <- tree$tip.label
-
-missingTips_stages <- treeTips[!(treeTips %in% stagesData$Taxon)]
-missingTips_plumages <- treeTips[!(treeTips %in% plumagesData$Taxon)]
-
-if (length(setdiff(missingTips_stages, missingTips_plumages)) != 0) {
-  stop(paste("You do not have the same tip data available for stage and plumage patches\n",
-             "Here are the different tips:\n",
-             paste(setdiff(treeTips_stages, treeTips_plumages), collapse="  ")))
-}
-
-treePruned <- drop.tip(tree, missingTips_stages)
-```
-
 The plot below shows the pruned backbone tree. Tip labels indicate DPM
 stage character states for each taxon.
-<img src="Figures/raw_tree.png" width="2400" />
+<img src="Figures/raw_tree.png" width="80%" />
 
 ## DPM Stages: Model Selection
 
@@ -306,40 +191,55 @@ closely than normal.
 
 I tested five models:
 
-1.  Equal rates unordered | | 0 | 1 | 2 | 3 | | 0 | - | A | A | A | | 1
-    | A | - | A | A | | 2 | A | A | - | A | | 3 | A | A | A | - |
+1.  Equal rates unordered
+
+<!-- end list -->
+
+    ##   0 1 2 3
+    ## 0 - A A A
+    ## 1 A - A A
+    ## 2 A A - A
+    ## 3 A A A -
 
 2.  Equal rates ordered
 
-  | 0 | 1 | 2 | 3 |  
-0 | - | A | 0 | 0 |  
-1 | A | - | A | 0 |  
-2 | 0 | A | - | A |  
-3 | 0 | 0 | A | - |
+<!-- end list -->
+
+    ##   0 1 2 3
+    ## 0 - A 0 0
+    ## 1 A - A 0
+    ## 2 0 A - A
+    ## 3 0 0 A -
 
 3.  Equal asymmetric rates ordered
 
-  | 0 | 1 | 2 | 3 |  
-0 | - | A | 0 | 0 |  
-1 | B | - | A | 0 |  
-2 | 0 | B | - | A |  
-3 | 0 | 0 | B | - |
+<!-- end list -->
+
+    ##   0 1 2 3
+    ## 0 - A 0 0
+    ## 1 B - A 0
+    ## 2 0 B - A
+    ## 3 0 0 B -
 
 4.  Unequal symmetric rates ordered
 
-  | 0 | 1 | 2 | 3 |  
-0 | - | A | 0 | 0 |  
-1 | A | - | B | 0 |  
-2 | 0 | B | - | C |  
-3 | 0 | 0 | C | - |
+<!-- end list -->
+
+    ##   0 1 2 3
+    ## 0 - A 0 0
+    ## 1 A - B 0
+    ## 2 0 B - C
+    ## 3 0 0 C -
 
 5.  Unequal asymmetric rates ordered
 
-  | 0 | 1 | 2 | 3 |  
-0 | - | A | 0 | 0 |  
-1 | B | - | C | 0 |  
-2 | 0 | D | - | E |  
-3 | 0 | 0 | F | - |
+<!-- end list -->
+
+    ##   0 1 2 3
+    ## 0 - A 0 0
+    ## 1 B - C 0
+    ## 2 0 D - E
+    ## 3 0 0 F -
 
 Note that some of these models might have implications for the broader
 connection between DPM evolution and perspectives such as sexual
@@ -351,22 +251,161 @@ be expected from e.g., Fisher’s runaway process \[@fisher1930\].
 The transition rates which maximize the likelihood of the data were
 estimated with the `fitMk` method in phytools \[@revell2011\]. The table
 below shows AIC scores for each model. The preferred model, which
-minimizes AIC, was the
+minimizes AIC, was the Equal Symmetric Ordered Model.
+
+<table class=" lightable-classic" style="font-size: 15px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+Model
+
+</th>
+
+<th style="text-align:right;">
+
+AIC
+
+</th>
+
+<th style="text-align:right;">
+
+dAIC
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+Equal Rates Unordered
+
+</td>
+
+<td style="text-align:right;">
+
+77.31
+
+</td>
+
+<td style="text-align:right;">
+
+7.84
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;font-weight: bold;background-color: #D6EED4 !important;">
+
+Equal Symmetric Ordered
+
+</td>
+
+<td style="text-align:right;font-weight: bold;background-color: #D6EED4 !important;">
+
+69.47
+
+</td>
+
+<td style="text-align:right;font-weight: bold;background-color: #D6EED4 !important;">
+
+0.00
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Equal Asymmetric Ordered
+
+</td>
+
+<td style="text-align:right;">
+
+71.14
+
+</td>
+
+<td style="text-align:right;">
+
+1.67
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Unequal Symmetric Ordered
+
+</td>
+
+<td style="text-align:right;">
+
+72.59
+
+</td>
+
+<td style="text-align:right;">
+
+3.12
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Unequal Asymmetric Ordered
+
+</td>
+
+<td style="text-align:right;">
+
+77.01
+
+</td>
+
+<td style="text-align:right;">
+
+7.53
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 And here are the transition rates which maximize the likelihood of the
 DPM stage data given our chosen model constraints:
 
-``` r
-fitQ <- as.Qmatrix(fit_eq_sym_ordered)
-fitQ
-```
-
     ## Estimated Q matrix:
-    ##             0           1           2           3
-    ## 0 -0.03321366  0.03321366  0.00000000  0.00000000
-    ## 1  0.03321366 -0.06642732  0.03321366  0.00000000
-    ## 2  0.00000000  0.03321366 -0.06642732  0.03321366
-    ## 3  0.00000000  0.00000000  0.03321366 -0.03321366
+    ##        0      1      2      3
+    ## 0 -0.033  0.033  0.000  0.000
+    ## 1  0.033 -0.066  0.033  0.000
+    ## 2  0.000  0.033 -0.066  0.033
+    ## 3  0.000  0.000  0.033 -0.033
 
 ## DPM Stages: Ancestral State Estimation
 
@@ -381,7 +420,7 @@ state and internal nodes are colored by the proportion of simulations in
 a given state. Ticks along each edge indicate simulated transitions
 across all simulations.
 
-<img src="Figures/ace_tree.png" width="1800" />
+<img src="Figures/ace_tree.png" width="80%" />
 
 In particular, note two key internal nodes:
 
@@ -390,7 +429,7 @@ In particular, note two key internal nodes:
     probability of 1-Stage DPM (probability = 0.98).
 2.  The parent node of the Ilicurini subclade (i.e., the clade including
     *Masius*, *Corapipo*, *Chiroxiphia*, and *Antilophia*) has a
-    majority probability of 2-Stage DPM (probability = 0.601).
+    majority probability of 2-Stage DPM (probability = 0.6).
 
 I can also summarize the estimated stage transitions as the mean count
 of transitions across all simulations:
@@ -405,7 +444,7 @@ Despite gains and losses being governed by the same rate parameter
 across all states, there are on average more gains than losses (8.617
 gains vs.  5.004 losses).
 
-The most frequent transition is from stage 1 to stage 2.
+The most frequent transition is from Stage 1 to Stage 2.
 
 ## Plumage Patches: Homologies within Stages
 
@@ -431,29 +470,493 @@ simulations, for the presence of the character along every edge. Red
 indicates high probability of presence of a patch, blue indicates low
 probability.
 
+<img src="Figures/ace_plumages.png" width="80%" />
+
 Correlated evolution
 
-    ## Warning in kable_styling(kable_input, "none", htmltable_class = light_class, :
-    ## Please specify format in kable. kableExtra can customize either HTML or LaTeX
-    ## outputs. See https://haozhu233.github.io/kableExtra/ for details.
+<table class=" lightable-classic" style="font-size: 15px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
 
-| Social       | Stage |    p | AIC\_ind | AIC\_dep |   dAIC | Dependency |
-| :----------- | :---- | ---: | -------: | -------: | -----: | :--------- |
-| Concentrated | S1    | 0.36 |    67.17 |    69.12 |   1.94 | X\<-\>Y    |
-| Concentrated | S2    | 0.64 |    83.77 |    86.87 |   3.10 | X\<-\>Y    |
-| Concentrated | S3    | 0.74 |    64.41 |    67.82 |   3.41 | X\<-\>Y    |
-| Coordinated  | S1    | 0.11 |    65.95 |    65.60 | \-0.35 | X\<-\>Y    |
-| Coordinated  | S2    | 0.05 |    82.55 |    80.47 | \-2.08 | X\<-\>Y    |
-| Coordinated  | S3    | 0.07 |    63.19 |    61.97 | \-1.22 | X\<-\>Y    |
+<thead>
 
-    ## Warning in kable_styling(kable_input, "none", htmltable_class = light_class, :
-    ## Please specify format in kable. kableExtra can customize either HTML or LaTeX
-    ## outputs. See https://haozhu233.github.io/kableExtra/ for details.
+<tr>
 
-| Social      | Stage |    p | AIC\_ind | AIC\_dep |   dAIC | Dependency |
-| :---------- | :---- | ---: | -------: | -------: | -----: | :--------- |
-| Coordinated | S2    | 0.02 |    82.55 |    78.65 | \-3.89 | X\<-Y      |
-| Coordinated | S3    | 0.03 |    63.19 |    60.25 | \-2.94 | X\<-Y      |
+<th style="text-align:left;">
+
+Social
+
+</th>
+
+<th style="text-align:left;">
+
+Stage
+
+</th>
+
+<th style="text-align:right;">
+
+p
+
+</th>
+
+<th style="text-align:right;">
+
+AIC\_ind
+
+</th>
+
+<th style="text-align:right;">
+
+AIC\_dep
+
+</th>
+
+<th style="text-align:right;">
+
+dAIC
+
+</th>
+
+<th style="text-align:left;">
+
+Dependency
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+Concentrated
+
+</td>
+
+<td style="text-align:left;">
+
+S1
+
+</td>
+
+<td style="text-align:right;">
+
+0.36
+
+</td>
+
+<td style="text-align:right;">
+
+67.17
+
+</td>
+
+<td style="text-align:right;">
+
+69.12
+
+</td>
+
+<td style="text-align:right;">
+
+1.94
+
+</td>
+
+<td style="text-align:left;">
+
+X\<-\>Y
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Concentrated
+
+</td>
+
+<td style="text-align:left;">
+
+S2
+
+</td>
+
+<td style="text-align:right;">
+
+0.64
+
+</td>
+
+<td style="text-align:right;">
+
+83.77
+
+</td>
+
+<td style="text-align:right;">
+
+86.87
+
+</td>
+
+<td style="text-align:right;">
+
+3.10
+
+</td>
+
+<td style="text-align:left;">
+
+X\<-\>Y
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Concentrated
+
+</td>
+
+<td style="text-align:left;">
+
+S3
+
+</td>
+
+<td style="text-align:right;">
+
+0.74
+
+</td>
+
+<td style="text-align:right;">
+
+64.41
+
+</td>
+
+<td style="text-align:right;">
+
+67.82
+
+</td>
+
+<td style="text-align:right;">
+
+3.41
+
+</td>
+
+<td style="text-align:left;">
+
+X\<-\>Y
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Coordinated
+
+</td>
+
+<td style="text-align:left;">
+
+S1
+
+</td>
+
+<td style="text-align:right;">
+
+0.11
+
+</td>
+
+<td style="text-align:right;">
+
+65.95
+
+</td>
+
+<td style="text-align:right;">
+
+65.60
+
+</td>
+
+<td style="text-align:right;">
+
+\-0.35
+
+</td>
+
+<td style="text-align:left;">
+
+X\<-\>Y
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Coordinated
+
+</td>
+
+<td style="text-align:left;">
+
+S2
+
+</td>
+
+<td style="text-align:right;">
+
+0.05
+
+</td>
+
+<td style="text-align:right;">
+
+82.55
+
+</td>
+
+<td style="text-align:right;">
+
+80.47
+
+</td>
+
+<td style="text-align:right;">
+
+\-2.08
+
+</td>
+
+<td style="text-align:left;">
+
+X\<-\>Y
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Coordinated
+
+</td>
+
+<td style="text-align:left;">
+
+S3
+
+</td>
+
+<td style="text-align:right;">
+
+0.07
+
+</td>
+
+<td style="text-align:right;">
+
+63.19
+
+</td>
+
+<td style="text-align:right;">
+
+61.97
+
+</td>
+
+<td style="text-align:right;">
+
+\-1.22
+
+</td>
+
+<td style="text-align:left;">
+
+X\<-\>Y
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<table class=" lightable-classic" style="font-size: 15px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+Social
+
+</th>
+
+<th style="text-align:left;">
+
+Stage
+
+</th>
+
+<th style="text-align:right;">
+
+p
+
+</th>
+
+<th style="text-align:right;">
+
+AIC\_ind
+
+</th>
+
+<th style="text-align:right;">
+
+AIC\_dep
+
+</th>
+
+<th style="text-align:right;">
+
+dAIC
+
+</th>
+
+<th style="text-align:left;">
+
+Dependency
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+Coordinated
+
+</td>
+
+<td style="text-align:left;">
+
+S2
+
+</td>
+
+<td style="text-align:right;">
+
+0.02
+
+</td>
+
+<td style="text-align:right;">
+
+82.55
+
+</td>
+
+<td style="text-align:right;">
+
+78.65
+
+</td>
+
+<td style="text-align:right;">
+
+\-3.89
+
+</td>
+
+<td style="text-align:left;">
+
+X\<-Y
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Coordinated
+
+</td>
+
+<td style="text-align:left;">
+
+S3
+
+</td>
+
+<td style="text-align:right;">
+
+0.03
+
+</td>
+
+<td style="text-align:right;">
+
+63.19
+
+</td>
+
+<td style="text-align:right;">
+
+60.25
+
+</td>
+
+<td style="text-align:right;">
+
+\-2.94
+
+</td>
+
+<td style="text-align:left;">
+
+X\<-Y
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 # Discussion and Conclusion
 
