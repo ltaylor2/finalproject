@@ -249,42 +249,149 @@ estimated with the `fitMk` method in phytools (Revell 2012). The table
 below shows AIC scores for each model. The preferred model, which
 minimizes AIC, was the Equal Symmetric Ordered Model.
 
-    ## <table class=" lightable-classic" style="font-size: 20px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
-    ##  <thead>
-    ##   <tr>
-    ##    <th style="text-align:left;"> Model </th>
-    ##    <th style="text-align:right;"> AIC </th>
-    ##    <th style="text-align:right;"> dAIC </th>
-    ##   </tr>
-    ##  </thead>
-    ## <tbody>
-    ##   <tr>
-    ##    <td style="text-align:left;"> Equal Rates Unordered </td>
-    ##    <td style="text-align:right;"> 77.31 </td>
-    ##    <td style="text-align:right;"> 7.84 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;font-weight: bold;background-color: #D6EED4 !important;"> Equal Symmetric Ordered </td>
-    ##    <td style="text-align:right;font-weight: bold;background-color: #D6EED4 !important;"> 69.47 </td>
-    ##    <td style="text-align:right;font-weight: bold;background-color: #D6EED4 !important;"> 0.00 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> Equal Asymmetric Ordered </td>
-    ##    <td style="text-align:right;"> 71.14 </td>
-    ##    <td style="text-align:right;"> 1.67 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> Unequal Symmetric Ordered </td>
-    ##    <td style="text-align:right;"> 72.59 </td>
-    ##    <td style="text-align:right;"> 3.12 </td>
-    ##   </tr>
-    ##   <tr>
-    ##    <td style="text-align:left;"> Unequal Asymmetric Ordered </td>
-    ##    <td style="text-align:right;"> 77.01 </td>
-    ##    <td style="text-align:right;"> 7.53 </td>
-    ##   </tr>
-    ## </tbody>
-    ## </table>
+<table class=" lightable-classic" style="font-size: 20px; font-family: Arial; width: auto !important; margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+Model
+
+</th>
+
+<th style="text-align:right;">
+
+AIC
+
+</th>
+
+<th style="text-align:right;">
+
+dAIC
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+Equal Rates Unordered
+
+</td>
+
+<td style="text-align:right;">
+
+77.31
+
+</td>
+
+<td style="text-align:right;">
+
+7.84
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;font-weight: bold;background-color: #D6EED4 !important;">
+
+Equal Symmetric Ordered
+
+</td>
+
+<td style="text-align:right;font-weight: bold;background-color: #D6EED4 !important;">
+
+69.47
+
+</td>
+
+<td style="text-align:right;font-weight: bold;background-color: #D6EED4 !important;">
+
+0.00
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Equal Asymmetric Ordered
+
+</td>
+
+<td style="text-align:right;">
+
+71.14
+
+</td>
+
+<td style="text-align:right;">
+
+1.67
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Unequal Symmetric Ordered
+
+</td>
+
+<td style="text-align:right;">
+
+72.59
+
+</td>
+
+<td style="text-align:right;">
+
+3.12
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+Unequal Asymmetric Ordered
+
+</td>
+
+<td style="text-align:right;">
+
+77.01
+
+</td>
+
+<td style="text-align:right;">
+
+7.53
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 And here are the transition rates which maximize the likelihood of DPM
 stage data given our chosen model constraints:

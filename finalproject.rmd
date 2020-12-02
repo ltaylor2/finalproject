@@ -359,9 +359,9 @@ modelNames <- c("Equal Rates Unordered",
 AICs <- map2_df(modelList, modelNames, ~ tibble(Model=.y, AIC=AIC(.x))) %>%
      mutate(dAIC = AIC - min(AIC))
 
-print( kbl(AICs, digits=2) %>%
-        kable_classic(full_width=FALSE, font_size=20, html_font="Arial") %>%
-        row_spec(which(AICs$dAIC == 0), bold=TRUE, background="#D6EED4") )
+kbl(AICs, digits=2) %>%
+  kable_classic(full_width=FALSE, font_size=20, html_font="Arial") %>%
+  row_spec(which(AICs$dAIC == 0), bold=TRUE, background="#D6EED4")
 ```
 
 And here are the transition rates which maximize the likelihood of DPM stage data given our chosen model constraints:
