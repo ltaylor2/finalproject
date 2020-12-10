@@ -39,16 +39,16 @@ PLUMAGE_STATE_CODES <- c("Absent"=0,
                          "Structural"=3)
 ```
 
-[Note: All data wrangling and analyses fully automated in the RMarkdown file located in the base directory of this repository (`finalproject.rmd`). Knit that file to reproduce this one.]
+NOTE: All data wrangling and analyses fully automated in the RMarkdown file located in the base directory of this repository (`finalproject.rmd`). Knit that file to reproduce this one.
 
 # Introduction and Goals
 Organisms with deferred reproduction forgo the production of offspring for the opportunities of development while young [@stearns1992]. In birds with delayed plumage maturation (DPM), this youthful period of reproductive delay is accompanied by a drab "predefinitive" plumage during the periods when older individuals are molting into the colorful "definitive" plumages that characterize increased reproductive effort and success. Research on DPM has largely focused on functional hypotheses for the evolution of predefinitive plumage signals (i.e., hypotheses on why it is "good to be green"). For example, the "crypsis" hypothesis suggests that drab predefinitive plumages help young males avoid predators [@selander1965; @rohwer1978] while the "social signalling" hypothesis suggests that predefinitive plumages allow young males to reduce the likelihood or costs of competition by signalling reduced reproductive capabilities [@selander1965; @lyon1986]. Studies of these functional hypotheses are limited on two fronts. First, direct benefits to instantaneous survival rate are insufficient for positive selection on the evolution of deferred reproduction, and are thus insufficient for positive selection on the "delayed maturation" part of "delayed plumage maturation" (Taylor in prep.).
 
 Second, very little research has taken a phylogenetic view of DPM evolution. There are only two such studies. The first phylogenetic paper, by Chu [-@chu1994], found evidence that the evolution of predefinitive plumages in various shorebird taxa (Aves: Charadriiformes) was the result of the evolution of *juvenile* plumage in combination with retained partial molts. The result is that these shorebirds retain part of their juvenile plumage in their first breeding season. This study suggests that the evolution of DPM was the result of selection on juvenile plumages and constraints in molt timing, as opposed to selection on predefinitive plumages themselves. The second phylogenetic paper, by Hill [-@hill1996], found that the presence of DPM in *Haemorhous* finches is associated with a reduction in plumage patch size across species. This study recommends that reduced plumage patches are themselves associated with limits in carotenoid availability, and thus that the evolution of DPM is associated with an increase in the resource costs of plumage coloration. In opposition to functional hypotheses for the evolution of predefinitive plumage signals, phylogenetic investigations have supported constraint-based hypotheses for DPM evolution.
 
-Manakins (Aves:Passeriformes:Pipridae) are neotropical lekking birds known for their extravagant male plumages and gymnastic sexual displays [@kirwan2011]. Manakin species also vary widely in both the presence and duration of DPM [@kirwan2011; @johnson2017]. Most research into manakin predefinitive plumages has focused on the social signalling hypothesis, and ecological and behavioral results from some species indicates that DPM may play a role in cooperative interactions as young males engage in social and sexual behavior with older individuals [e.g., @mcdonald1993]. To date, there is no phylogenetic investigation of manakin DPM which broadens these taxon-specific studies. Further, the phylogenetic conclusions of Chu [-@chu1994] and Hill [-@hill1996] cannot be applied to manakins. Unlike molt-constrained shorebirds, manakins with multiple predefinitive plumage stages have complete molts between plumages. Unlike carotenoid-restricted finches, manakins are frugivorous birds in the tropics that have ready access to food resources [@snow1971].
+Manakins (Aves: Passeriformes: Pipridae) are neotropical lekking birds known for their extravagant male plumages and gymnastic sexual displays [@kirwan2011]. Manakin species also vary widely in both the presence and duration of DPM [@kirwan2011; @johnson2017]. Most research into manakin predefinitive plumages has focused on the social signalling hypothesis, and ecological and behavioral results from some species indicates that DPM may play a role in cooperative interactions as young males engage in social and sexual behavior with older individuals [e.g., @mcdonald1993]. To date, there is no phylogenetic investigation of manakin DPM which broadens these taxon-specific studies. Further, the phylogenetic conclusions of Chu [-@chu1994] and Hill [-@hill1996] cannot be applied to manakins. Unlike molt-constrained shorebirds, manakins with multiple predefinitive plumage stages have complete molts between plumages. Unlike carotenoid-restricted finches, manakins are frugivorous birds in the tropics that have ready access to food resources [@snow1971].
 
-Thus, we have neither a family-wide view of DPM in manakins nor an evolutionary hypothesis which can underpin such a view. My goal for this project is to correct this gap. For the purposes of this class, I have three explicit sub-goals: (1) Investigate the phylogenetic distribution of the presence and duration of DPM in manakins, including estimating ancestral states; (2) Identify predefinitive plumage homologs across taxa; and (3) Perform comparative tests of the association between social characters and DPM evolution. The first two goals will hopefully open doors to additional analyses about sexual selection and discrete developmental processes in a phylogenetic context, while the third goal will directly address the standing social signalling hypotheses about DPM evolution in manakins. 
+Thus, we have neither a family-wide view of DPM in manakins nor an evolutionary hypothesis which can underpin such a view. My goal for this project is to correct this gap. For the purposes of this class, I have three explicit sub-goals: (1) Investigate the phylogenetic distribution of the presence and duration of DPM in manakins, including estimating ancestral states; (2) Identify predefinitive plumage homologs across taxa; and (3) Perform comparative tests of the association between social characters and DPM evolution. The first two goals will hopefully open doors to additional analyses about sexual selection and discrete developmental processes in a phylogenetic context, while the third goal will directly address the standing social signalling hypotheses about DPM evolution in manakins.
 
 # Methods and Results
 
@@ -59,7 +59,7 @@ I used a combination of literature reports, field guides, banding records, and p
 | Taxon | Citations |
 |-------|-----------|
 | *Antilophia bokermanni*| [@azevedo2000; @kirwan2011; @gaiotti2016] |
-| *Antilophia galeata* | [@marini1992; @kirwan2011 |
+| *Antilophia galeata* | [@marini1992; @kirwan2011] |
 | *Ceratopipra	erythrocephala* | [@johnson2017] |
 | *Ceratopipra	mentalis* | [@wolfe2009; @kirwan2011; @johnson2017] |
 | *Chiroxiphia	caudata* | [@mallet2012] |
@@ -103,7 +103,7 @@ I used the data from Prum [-@prum1994] to code two binary social characters: con
 probMap <- function(v) {
   if (is.na(v)) {
     return(0.5)
-  } 
+  }
   return(v)
 }
 
@@ -121,7 +121,7 @@ stagesData <- read_csv(STAGES_FILE) %>%
                  Concentrated_Absent = 1 - Concentrated_Present)
 ```
 
-I coded predefinitive plumages with non-female- and non-juvenile-like plumage patches at each DPM stage. It is necessary to code these patches as broad visual units, rather than standardized morphological components, because patches are metamodules that result from covariation across barbs and barbules within and across both feathers and feather tracts [@prum2003]. Although I initially coded patches based on broad coloration method ("Carotenoid", "Melanin", "Structural"), the analyses here collapse all coloration methods down to a binary "Present" (vs. "Absent") state. Some taxa (e.g., *Corapipo* manakins at stage 1) have a fully female-like predefinitive plumage stage which corresponds to a "Absent" score for all patches. Each taxon is associated with an individual plumage datasheet (see .csv files in the `Data` directory). These sheets are then aligned across taxa with missing data marked correctly as "Absent."
+I coded predefinitive plumages with non-female- and non-juvenile-like plumage patches at each DPM stage. It is necessary to code these patches as broad visual units, rather than standardized morphological components, because patches are metamodules that result from covariation across barbs and barbules within and across both feathers and feather tracts [@prum2003]. Although I initially coded patches based on broad coloration method ("Carotenoid", "Melanin", "Structural"), the analyses here collapse all coloration methods down to a binary "Present"=1 *vs.* "Absent"=0 state. Some taxa (e.g., *Corapipo* manakins at Stage 1) have a fully female-like predefinitive plumage stage which corresponds to a "Absent" score for all patches. Each taxon is associated with an individual plumage datasheet (see .csv files in the `Data` directory). These sheets are then aligned across taxa with missing data marked correctly as "Absent."
 
 ```{r wrangle plumages, include=FALSE}
 
@@ -135,20 +135,20 @@ extractPlumageFile <- function(file) {
   if (nrow(plumage) == 0) {
     plumage <- bind_rows(plumage, tibble(Character="Crown", S1="Absent"))
   }
-  
+
   plumage <- plumage %>%
-          pivot_longer(-Character, 
+          pivot_longer(-Character,
                        names_to="Stage",
                        values_to="Value") %>%
           unite(CharacterStage, Character, Stage, sep="_") %>%
           arrange(CharacterStage) %>%
-          pivot_wider(names_from=CharacterStage, 
+          pivot_wider(names_from=CharacterStage,
                       values_from=Value) %>%
           purrr::map(~ PLUMAGE_STATE_CODES[.]) %>%
           as.list() %>%
           as_tibble() %>%
           mutate(Taxon=taxon, .before=1)
-  
+
   return(plumage)
 }
 
@@ -162,9 +162,9 @@ plumagesData[is.na(plumagesData)] <- 0
 ```
 
 ## Backbone Phylogeny
-I use a backbone phylogeny from [BirdTree](http://birdtree.org/) [@jetz2012]. This tree combines publicly available genetic data with standing taxonomic information. In my case, the use of old taxonomic information results in some important erroneous splits (e.g., the placement of *Xenopipo*, *Cryptopipo*, and *Pseudopipra*). A new tree with UCE data from all manakin species is in press [@leite2020] and will be used for this project if the results are made available before the submission deadline.
+I use a backbone phylogeny from [BirdTree](http://birdtree.org/) [@jetz2012]. This tree combines publicly available genetic data with standing taxonomic information. In my case, the use of old taxonomic information results in some important erroneous splits (e.g., the placement of *Xenopipo*, *Cryptopipo*, and *Pseudopipra*), but for the purposes of this project I have taken the tree as-is.
 
-I imported a trace of 10,000 subtrees from BirdTree which were generated with the all available Pipridae taxa. I used [TreeAnnotator](https://beast.community/treeannotator) to collapse that trace into a single consensus tree for all analyses. I then prune the tree to retain only those tips for which DPM stage and predefinitive plumage characters are available.
+I imported a trace of 10,000 subtrees from BirdTree which were generated with all available Pipridae taxa. I used [TreeAnnotator](https://beast.community/treeannotator) to collapse that trace into a single consensus tree for all analyses. I then prune the tree to retain only those tips for which DPM stage and predefinitive plumage characters are available.
 
 ```{r tree pruning, include=FALSE}
 
@@ -174,7 +174,7 @@ tree <- read.nexus(TREE_FILE)
 # Refactor old taxon names which are common mislabeled across trees
 refactorNames <- read_csv("Data/taxon_refactoring_names.csv")
 
-# A function to conditionally refactor a taxon 
+# A function to conditionally refactor a taxon
 refactorTaxon <- function(old) {
   if (old %in% refactorNames$Taxon_Old) {
     new <- refactorNames %>%
@@ -205,8 +205,8 @@ treePruned <- drop.tip(tree, missingTips_stages)
 
 ```{r tree plot, include=FALSE}
 
-colors <- c("0"="black", 
-            "1"="green", 
+colors <- c("0"="black",
+            "1"="green",
             "2"="red",
             "3"="blue")
 
@@ -222,15 +222,15 @@ dev.off()
 ```
 
 The plot below shows the pruned backbone tree. Tip labels indicate DPM stages for each taxon.
-```{r, out.width = "80%", echo=FALSE}  
+```{r, out.width = "80%", echo=FALSE}
 include_graphics("Figures/raw_tree.png")
 ```
 
 ## DPM Stages: Model Selection
 
-I used a maximum-likelihood + information-theoretic approach to DPM stage evolutionary model selection. This multi-state discrete character can be modeled with a 4-state Mk model [@pagel1994]. Prior state frequencies are equal for all models. Because this character happens to have four states within Pipridae, the resulting models resemble genetic models even more closely than usual. 
+I used a maximum-likelihood + information-theoretic approach to DPM stage evolutionary model selection. This multi-state discrete character can be modeled with a 4-state Mk model [@pagel1994]. Prior state frequencies are equal for all models. Because this character happens to have four states within Pipridae, the resulting models resemble genetic models even more closely than usual.
 
-I tested five models: 
+I tested five models:
 
 ```{r stage - model print prep, include=FALSE}
 
@@ -276,7 +276,7 @@ uao <- matrix(c("-","A","0","0",
 noquote(eru)
 ```
 
-2. Equal rates ordered 
+2. Equal rates ordered
 
 ```{r echo=FALSE}
 noquote(ero)
@@ -321,7 +321,7 @@ mat_eq_asym_ordered <- matrix(c(0,1,0,0,
                                 0,0,2,0),4,4,byrow=TRUE)
 
 fit_eq_asym_ordered <- fitMk(tree=treePruned, x=stagesVector, model=mat_eq_asym_ordered)
-  
+
 # MODEL 4: Unequal symmetric ordered
 mat_un_sym_ordered <- matrix(c(0,1,0,0,
                                1,0,2,0,
@@ -350,7 +350,7 @@ modelList <- list(fit_ER,
                   fit_un_sym_ordered,
                   fit_un_asym_ordered)
 
-modelNames <- c("Equal Rates Unordered", 
+modelNames <- c("Equal Rates Unordered",
                 "Equal Symmetric Ordered",
                 "Equal Asymmetric Ordered",
                 "Unequal Symmetric Ordered",
@@ -383,8 +383,8 @@ summaries <- summary(maps)
 ```
 
 ```{r stage - ace plot, include=FALSE, cache=TRUE}
-colors <- c("0"="black", 
-            "1"="green", 
+colors <- c("0"="black",
+            "1"="green",
             "2"="red",
             "3"="blue")
 
@@ -410,10 +410,10 @@ I can also summarize the estimated stage transitions as the mean count of transi
 # A function to convert vector of transitions to a matrix, including diagonal
 countVectorToMatrix <- function(v, states) {
   v <- v[-1] # remove total count
-  mat <- matrix(NA, 
+  mat <- matrix(NA,
                 nrow=length(states), ncol=length(states),
                 dimnames=list(states, states))
-  
+
   for (i in 1:length(v)) {
     r <- strsplit(names(v)[i], ",")[[1]][1]
     c <- strsplit(names(v)[i], ",")[[1]][2]
@@ -433,7 +433,7 @@ transitionCountMatrix
 
 Despite gains and losses being governed by the same rate parameter across all states, there are more gains than losses on average
 (`r sum(transitionCountMatrix[upper.tri(transitionCountMatrix)])` gains vs. `r sum(transitionCountMatrix[lower.tri(transitionCountMatrix)])` losses).
- 
+
 The most frequent transition is from Stage `r strsplit(maxV, ",")[[1]][1]` to Stage `r strsplit(maxV, ",")[[1]][2]`.
 
 ## Plumage Patches: Homologies within Stages
@@ -446,11 +446,11 @@ Now that I have identified ancestral DPM plumage stages across the tree, I can t
 simCharacter <- function(character) {
   chars <- map_dbl(treePruned$tip.label,
                    ~ filter(plumagesData, Taxon==.) %>% pull(!!character))
-  
+
   # Convert to binary
   chars[chars > 0] <- 1
   names(chars) <- treePruned$tip.label
-  
+
   if (all(chars==0)) {
     return(NA)
   }
@@ -475,7 +475,7 @@ mapsPlumage <- mapsPlumage[!is.na(mapsPlumage)]
 I can first view the results across all patches. The figures below show the simulation results for each character. Because these patches are now binary characters, I can view the probability density, across all simulations, for the presence of the character along every edge. Red indicates high probability of presence of a patch, blue indicates low probability.
 
 ```{r plumage - plots, include=FALSE, cache=TRUE}
-colors <- c("0"="gray", 
+colors <- c("0"="gray",
             "1"="red")
 
 # Plot a grid of stochastic density maps, one for each binary plumage patch character
@@ -532,24 +532,24 @@ kbl(topIlic, digits=2) %>%
   kable_classic(full_width=FALSE, font_size=20)
 ```
 
-In this version of the analysis (i.e., with binary characters and separate models for each character), there are only two patches which pass even a meager 50% threshold at the ancestral DPM stage nodes. This has a reasonable biological interpretation for the core Stage 1 ancestor, which might be thought of as a "female-like" predefinitive plumage without additional patches. On the other hand, there are no female-like Stage 2 plumages in manakins. If I take the highest probability patches for each of these stages as the description of plumage, I get an ancestral core Stage 1 plumage with a crown and body patch, as well as an ancestral Ilicurini Stage 2 plumage with a face patch (in current taxa, usually a black mask). In general, this binary+separate character analysis does not show strong support any particular predefinitive plumage characters conserved across these clades which share DPM stage synapomorphies.
+In this version of the analysis (i.e., with binary characters and separate models for each character), there are only two patches which pass even a meager 50% threshold at the ancestral DPM stage nodes. This has a reasonable biological interpretation for the core Stage 1 ancestor, which might be thought of as a "female-like" predefinitive plumage without additional patches. On the other hand, there are no female-like Stage 2 plumages in manakins. If I take the highest probability patches for each of these stages as the description of plumage, I get an ancestral core Stage 1 plumage with a crown patch, as well as an ancestral Ilicurini Stage 2 plumage with a face patch (in current taxa, usually a black mask). In general, this binary+separate character analysis does not show strong support any particular predefinitive plumage characters conserved across clades which share DPM stage synapomorphies.
 
 ## Social Correlations
-Finally, I want to address the hypothesis that the evolution of DPM is associated with social and sexual behaviors in manakins. In a phylogenetic context, I can extend this hypothesis to predict that there is correlated coevolution between social characters and DPM stages. To test this prediction, I can use Pagel's phylogenetic correlation method for binary, discrete characters [@pagel1994]. In particular, I will test for two sets of coevolutionary dependencies: (1) coevolution between DPM stages and concentrated lekking and (2) coevolution between DPM stages and coordinated male-male displays. As described above, I have already coded concentrated lekking and cooperative displays as binary characters. I can also convert the discrete multi-state DPM stage character to a set of binary characters. The result is three separate characters for the Presence vs. Absence of Stage 1, Stage 2, and Stage 3, respectively, for each taxon. 
+Finally, I want to address the hypothesis that the evolution of DPM is associated with social and sexual behaviors in manakins. In a phylogenetic context, I can extend this hypothesis to predict that there is correlated coevolution between social characters and DPM stages. To test this prediction, I can use Pagel's phylogenetic correlation method for binary, discrete characters [@pagel1994]. In particular, I will test for two sets of coevolutionary dependencies: (1) coevolution between DPM stages and concentrated lekking and (2) coevolution between DPM stages and coordinated male-male displays. As described above, I have already coded concentrated lekking and cooperative displays as binary characters. I can also convert the discrete multi-state DPM stage character to a set of binary characters. The result is three separate characters for the Presence vs. Absence of Stage 1, Stage 2, and Stage 3, respectively, for each taxon.
 
 ```{r social correlations - prep characters, include=FALSE}
 
 # First, convert stages to binary characters -- presence of each stage
 stage1Binary <- map_dbl(treePruned$tip.label,
-                        ~ filter(stagesData, Taxon==.)$S1Binary) 
+                        ~ filter(stagesData, Taxon==.)$S1Binary)
 names(stage1Binary) <- treePruned$tip.label
 
 stage2Binary <- map_dbl(treePruned$tip.label,
-                        ~ filter(stagesData, Taxon==.)$S2Binary) 
+                        ~ filter(stagesData, Taxon==.)$S2Binary)
 names(stage2Binary) <- treePruned$tip.label
 
 stage3Binary <- map_dbl(treePruned$tip.label,
-                        ~ filter(stagesData, Taxon==.)$S3Binary) 
+                        ~ filter(stagesData, Taxon==.)$S3Binary)
 names(stage3Binary) <- treePruned$tip.label
 
 # Now get a matrix of concentrated lek trait coding
@@ -574,10 +574,10 @@ colors <- c("0"="white",
             "2"="black")
 
 multiTreeBinary <- map_df(treePruned$tip.label,
-                           ~ filter(stagesData, Taxon==.) %>% select(S1Binary, 
+                           ~ filter(stagesData, Taxon==.) %>% select(S1Binary,
                                                                      S2Binary,
                                                                      S3Binary,
-                                                                     Concentrated, 
+                                                                     Concentrated,
                                                                      Coordinated)) %>%
                 as.matrix()
 rownames(multiTreeBinary) <- treePruned$tip.label
@@ -604,7 +604,7 @@ tidyFitMk <- function(chars, model) {
   fit <- fitMk(tree=treePruned, x=chars, model=model)
   ll <- fit$logLik
   AIC <- AIC(fit)
-  
+
   ret <- tibble(Model=model, lhood=ll, AIC=AIC)
   return(ret)
 }
@@ -670,7 +670,7 @@ corrs_Coordinated <- bind_rows(corrs_S1_Coordinated, corrs_S2_Coordinated, corrs
 corrs <- bind_rows(corrs_Concentrated, corrs_Coordinated)
 ```
 
-The first step is to check for a sign of coevolution in general. I do this by viewing the results of model comparison where dependency runs in both ways The table below shows the result. Negative values in the dAIC column indicate that the dependent (i.e., coevolutionary) model was preferred to the independent model.
+The first step is to check for a sign of coevolution in general. I do this by viewing the results of model comparison where dependency runs in both ways. The table below shows the result (X = Stage Character, Y = Social character). Negative values in the dAIC column indicate that the dependent (i.e., coevolutionary) model was preferred to the independent model.
 
 ```{r social correlations - codependency results, echo=FALSE}
 coevolutions <- corrs %>%
@@ -694,9 +694,36 @@ kbl(sigCorrs, digits=2) %>%
   kable_classic(full_width=FALSE, font_size=20)
 ```
 
-# Discussion and Conclusion
+# Discussion
 
-To be completed for final submission.
+## Key results
+In this project, I initated a phylogenetic view of both deferred reproduction and delayed plumage maturation by coding two sets of characters: (1) the number of annual predefinitive plumage stages and (2) the characteristic patches for individual predefinitive plumages. Across 35 species that span all genera in the family Pipridae, I used stochastic maps to identify an ancestral "Stage 1" DPM phenotype in the ancestor of all core manakins (i.e., excluding *Tyranneutes* and *Neopelma*), an ancestral "Stage 2" DPM phenotype for the ancestor of the Ilicurini tribe, and losses in DPM stages on the edges leading to the  *Cryptopipo*, *Xenopipo*, and *Antilophia* species. With stochastic maps of individual predefinitive plumage patches, I began the process of reconstructing homologous predefinitive plumage qualities across species. In particular, I identified a fully female-like plumage, or female-like-with-crown plumage, in the Stage 1 ancestor of the core manakins. I also supported the possibility of a mask patch in the Stage 2 ancestor of Ilicurini. In line with the social-signalling hypothesis for individual manakin taxa, coevolutionary model testing supported the hypothesis that Stage 2 DPM evolution is related to the presence of coordinated male-male displays across taxa.
+
+## Sexual selection in a phylogeny
+Prum [-@prum1997a] probed the manakin phylogeny for signals of macroevolution via Fisherian sexual selection processes. The study focused on the rate and skew of evolution of manakin definitive plumage and display characters, finding high levels of diversity and hierarchical evolution biased towards the tips. At several points in this project, I continue to address the possibilities of registering a signal of evolution via sexual selection (in contrast to telenomic natural selection; [@prum2017]) on a phylogeny.
+
+1. Gains *vs.* losses in DPM stage evolution. In most manakins, the predefinitive plumage period is a time of sexual and social development. It is during these predefinitive stage(s) that young birds develop the abilities to display or learn the rules of the game in terms of access to sexual displays [@mcdonald1993; and see @collis1993; @prum1997b]. Thus, one possible signal of sexual selection is the acceleration of DPM stages driven by the accelearation of DPM characters. Put most simply, one might expect DPM stage gains to proceed at a faster rate than losses. Although my analysis did count more gains than losses along the Pipridae tree, AIC-based model comparison favored an underlying evolutionary model in which gains and losses were governed by the same parameter. This model decision does not support a novel "ratcheting" process that might attend sexual trait run-aways [@fisher1930].
+
+2. Losses themselves in DPM stage evolution. It is worth highlighting the three major loss events suggested by my DPM stage analysis: Stage 1->0 along the edges leading to *Cryptopipo holochlora* and *Xenopipo unformis*, as well as Stage 2->1 along the edge leading to *Antilophia*. Losses in *Cryptopipo* and *Xenopipo* are noteworthy because those two taxa are the core manakins that are fully sexually monochromatic. Without a non-juvenile-like definitive male plumage, the first partial molt from the juvenile plumages in these species recapitulates the final definitive plumage in both sexes. This result is essentially the opposite transition as the one highlighted for shorebirds in Chu [-@chu1994]. That study found the evolution of DPM via the evolution of unique juvenile plumage traits with a retained partial molt. Here, the evolution of definitive plumages which resemble juvenile plumages results in no distinction of a first predefinitive plumage. These losses are not a fluke of coding or human observation; strictly speaking, it is possible to evolve DPM that includes predefinitive plumages which are neither juvenile-like nor definitive-like in sexually monochromatic species (e.g., in some large gulls [@maclean1986]). However, this ontogenetic pattern is absent in the manakin tree. The stage loss in the ancestor of *Antilophia* is also noteworthy, as *Antilophia* manakins have novel mating systems that are more territorial and competitive than the wildly cooperative leks of many other Ilicurini species [@marini1992; @gaiotti2016]. Although patterns across the tree did not support a broader association between Stage 2 DPM and concentrated lekking, these phenomena in *Antilophia* might be a joint and dynamic consequence of underlying demographic patterns. *Antilophia bokermanni*, for example, is a critically endangered species limited to fewer than 1000 individuals [@gaiotti2019]. This demographic restriction can have surprising consequences for breeding systems, such as extra-pair paternity by young green males in *Antilophia bokermanni* [@gaiotti2016].
+
+## Discrete developmental phylogenetics
+It is not for nothing that this project considers an *ontogenetic* process along a phylogeny. The study of the relationship between ontogeny and phylogeny is as old as the concepts themselves. In the 1820's, von Baer conceived of taxonomic relationships with the conjecture that development evolved by the specialization of adult forms out of general embryonic ones [@abzhanov2013]. With von Baer’s conjecture, taxonomies could be reconstructed based on traits shared early in development. By the 1860's, Haeckel conceived of phylogenetic relationships *per se* with the conjecture that development evolves through the speeding of ancestral trajectories with the terminal addition of new ones [@gould1977]. With Haeckel’s conjecture, phylogenetic relationships could be reconstructed based on the ways in which developmental trajectories recapitulated a chain of ancestral forms. Both of these conjectures were assumptions about the process of developmental evolution such that embryos might be used as a tool for taxonomists. Gould [-@gould1977] and Alberch et al. [-@alberch1979] shifted this perspective to focus on the variety of processes of developmental evolution that emerge from changes in the timing or rate of growth. Fink [-@fink1982] formalized these approaches in the context of an *a priori* phylogenetic pattern, demonstrating that questions about the evolution of development were indeed questions about processes that might be answered with phylogenetic patterns, as opposed to clues to those patterns themselves. After nearly 200 years of taxonomic conjecture, the joint study of ontogeny and phylogeny can now investigate the actual relationship between developmental evolution and evolution more generally.
+
+Even still, the formalization of ontogenetic phylogenetics by Gould, Alberch, and Fink is predicated on development as a *continuous* phenomenon. In this view, development is always akin to somatic growth and always reducible to a set of rates and periods. In contrast, my project here begins to emphasize the process of development as a series of discrete events in the life of, well, an actual bird. First, the DPM stage character is discrete *despite* being temporal. Because breeding seasons are structured by real environmental fluctuations (e.g., precipitation and photoperiod, even in the tropics [@hau2001]), which instantiate social institutions (a lone bird cannot a breeding season make!), these birds cannot meaningfully evolve DPM which lasts for, for example, 2.1 breeding seasons. Second, predefinitive plumages are signalling elements only on the level of discrete patches rather than continuous subunits which accumulate towards a definitive plumage [@prum2003]. Although this discrete-ness creates a genuine obstacle for an analysis of selection or other modes of evolution (see, e.g., the "threshold" solution of Felsenstein [-@felsenstein2012], which makes a discrete character into a continuous one for the sake of analysis), it is also a fundamental part of my empirical system.
+
+<sidebar>
+Because I'm jamming now, I want to highlight a fairly esoteric cross-disciplinary analogy for the pursuit of discrete developmental phylogenetics: the development of historical materialism in political philosophy. In early 19th century, there was an emphasis on an idealist view of history that posited a progression of states as ethical, spiritual, or political ideals.  History was quite literally a history of ideas (e.g., Feuerbach; [@gooch2020]). In his *Theses On Feuerbach*, Marx famously critiqued this idealist stance and established a historical materialism that focused on not movement of ideas but on the processes of change underlying actual labor power and actual capital [@marx1972]. History became a history of material transitions and transitions of material. In a moment of crisis and revelation, Benjamin disassembled this historical materialism to uncover the remnants of its idealist *arc* -- Marx and his ilfk, Benjamin argued, assumed an underlying notion of progress. In [*On the Concept of History*](https://www.sfu.ca/~andrewf/CONCEPT2.html), Benjamin furnished a critique of Marx that paralleled Marx's critique of Feuerbach. Benjamin argued that "history is the subject of a structure whose site is not homogenous, empty time, but time filled by the presence of the now."
+
+An archaic view of the role of development in evolutionary history is predicated on genotypic idealism. Genotypes (*literally* an immaterial unit of potential information, never genetic material itself) evolve along a tree with no need for the intrusion of development. This is an idealist history. A materialist view, furnished by the discoveries of evolutionary developmental biology [@gould1977; @amundson2005], sees organisms and evolution as the result of material developmental processes. Now development is involved, and taxa within a phylogeny are material units; but still that materiality is a directional, progressive, and continuous process. A critique of this continuous view would require understanding development not as a *progressive, continuous process*, but rather a series of events within the life of a material organism -- actual ecologies, actual behaviors -- development as a series of *nows*. This would be a view akin to Benjamin. But anyways, what kind of history is evolutionary history?
+</sidebar>
+
+## Next steps
+This project reprents only the first step towards a phylogenetic view of manakin DPM and its underlying processes of sexual selection, development, and life history evolution. In particular, I am eager to take two key steps that can productively extend this work in the coming weeks.
+
+1. A new backbone tree. The tree used in this iteration of the project [@jetz2012] imputed the location of some tips using old taxonomic information. We know some splits in this tree are wrong. For instance, *Antilophia* is often resolved *within* a paraphyletic *Chiroxiphia* and *Tyranneutes* is often resolved *within* a paraphyletic *Neopelma*. For the purposes of this project, I have treated the backbone tree as valid and attempted to interpret results accordingly. A new tree, published just last week, presents an better view of even more manakin taxa using multiple UCE and exon datasets [@leite2020]. All of my analyses are built to run automatically with any tree, so I look forward to replicating these results with the new tree once data are publicly available.
+
+2. Integrating developmental dependencies. In my initial proposal, I assumed it would be straightforward to integrate multiple dependencies into the DPM characters. In particular, for manakins, the evolution of a particular male-like predefinitive plumage patch is hierarchically dependent on the evolution of that patch in the definitive plumage itself. Consider again, for example, the collapse of DPM in sexually monochromatic species. In my next steps, I hope to explicitly model the *joint* evolution of DPM stages, predefinitive plumage patches, and definitive plumages Although I cannot yet see a clear method to do all of this, one intuition I have is to model plumage ontogenies as an explicit sequence, beginning at the natal plumage and ending in a repeating segment for the definitive plumage. Evolution can then shift the characters at each point in the sequence, aligned across all taxa, and some loci may be linked with others.
+
+I look forward to diving into these next steps, and more, as I carry the lessons from this great course into my research!
 
 # References
-

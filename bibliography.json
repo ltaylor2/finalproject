@@ -58,7 +58,7 @@
 		"author": [
 			{
 				"family": "Prum",
-				"given": "Richard Owen"
+				"given": "Richard"
 			}
 		],
 		"accessed": {
@@ -414,7 +414,7 @@
 		"author": [
 			{
 				"family": "Prum",
-				"given": "Richard O."
+				"given": "Richard"
 			},
 			{
 				"family": "Dyck",
@@ -445,7 +445,7 @@
 		"author": [
 			{
 				"family": "Prum",
-				"given": "Richard Owen"
+				"given": "Richard"
 			}
 		],
 		"accessed": {
@@ -1140,7 +1140,7 @@
 		"author": [
 			{
 				"family": "Prum",
-				"given": "Richard O."
+				"given": "Richard"
 			},
 			{
 				"family": "Kaplan",
@@ -1226,7 +1226,7 @@
 		"author": [
 			{
 				"family": "Prum",
-				"given": "Richard O."
+				"given": "Richard"
 			}
 		],
 		"issued": {
@@ -1323,5 +1323,554 @@
 				]
 			]
 		}
-	}
+	},
+	{
+		"id": "abzhanov2013",
+		"type": "article-journal",
+		"abstract": "In 1828, Karl Ernst von Baer formulated a series of empirically defined rules, which became widely known as the ‘Law of Development’ or ‘von Baer's law of embryology’. This was one the most significant attempts to define the principles that connected morphological complexity and embryonic development. Understanding this relation is central to both evolutionary biology and developmental genetics. Von Baer's ideas have been both a source of inspiration to generations of biologists and a target of continuous criticism over many years. With advances in multiple fields, including paleontology, cladistics, phylogenetics, genomics, and cell and developmental biology, it is now possible to examine carefully the significance of von Baer's law and its predictions. In this review, I argue that, 185 years after von Baer's law was first formulated, its main concepts after proper refurbishing remain surprisingly relevant in revealing the fundamentals of the evolution–development connection, and suggest that their explanation should become the focus of renewed research.",
+		"container-title": "Trends in Genetics",
+		"DOI": "10.1016/j.tig.2013.09.004",
+		"ISSN": "0168-9525",
+		"issue": "12",
+		"journalAbbreviation": "Trends in Genetics",
+		"language": "en",
+		"page": "712-722",
+		"source": "ScienceDirect",
+		"title": "von Baer's law for the ages: lost and found principles of developmental evolution",
+		"title-short": "von Baer's law for the ages",
+		"URL": "http://www.sciencedirect.com/science/article/pii/S0168952513001649",
+		"volume": "29",
+		"author": [
+			{
+				"family": "Abzhanov",
+				"given": "Arhat"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					10,
+					6
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2013",
+					12,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "alberch1979",
+		"type": "article-journal",
+		"container-title": "Paleobiology",
+		"note": "publisher: JSTOR",
+		"page": "296–317",
+		"source": "Google Scholar",
+		"title": "Size and shape in ontogeny and phylogeny",
+		"author": [
+			{
+				"family": "Alberch",
+				"given": "Pere"
+			},
+			{
+				"family": "Gould",
+				"given": "Stephen Jay"
+			},
+			{
+				"family": "Oster",
+				"given": "George F."
+			},
+			{
+				"family": "Wake",
+				"given": "David B."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1979"
+				]
+			]
+		}
+	},
+	{
+		"id": "gould1977",
+		"type": "book",
+		"publisher": "Harvard University Press",
+		"source": "Google Scholar",
+		"title": "Ontogeny and phylogeny",
+		"author": [
+			{
+				"family": "Gould",
+				"given": "Stephen Jay"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1977"
+				]
+			]
+		}
+	},
+	{
+		"id": "leite2020",
+		"type": "article-journal",
+		"abstract": "Target capture sequencing effectively generates molecular marker arrays useful for molecular systematics. These extensive data sets are advantageous where previous studies using a few loci have failed to resolve relationships confidently. Moreover, target capture is well-suited to fragmented source DNA, allowing data collection from species that lack fresh tissues. Herein we use target capture to generate data for a phylogeny of the avian family Pipridae (manakins), a group that has been the subject of many behavioral and ecological studies. Most manakin species feature lek mating systems, where males exhibit complex behavioral displays including mechanical and vocal sounds, coordinated movements of multiple males, and high speed movements. We analyzed thousands of ultraconserved element (UCE) loci along with a smaller number of coding exons and their flanking regions from all but one species of Pipridae. We examined three different methods of phylogenetic estimation (concatenation and two multispecies coalescent methods). Phylogenetic inferences using UCE data yielded strongly supported estimates of phylogeny regardless of analytical method. Exon probes had limited capability to capture sequence data and resulted in phylogeny estimates with reduced support and modest topological differences relative to the UCE trees, although these conflicts had limited support. Two genera were paraphyletic among all analyses and data sets, with Antilophia nested within Chiroxiphia and Tyranneutes nested within Neopelma. The Chiroxiphia–Antilophia clade was an exception to the generally high support we observed; the topology of this clade differed among analyses, even those based on UCE data. To further explore relationships within this group, we employed two filtering strategies to remove low-information loci. Those analyses resulted in distinct topologies, suggesting that the relationships we identified within Chiroxiphia–Antilophia should be interpreted with caution. Despite the existence of a few continuing uncertainties, our analyses resulted in a robust phylogenetic hypothesis of the family Pipridae that provides a comparative framework for future ecomorphological and behavioral studies.",
+		"container-title": "Molecular Phylogenetics and Evolution",
+		"DOI": "10.1016/j.ympev.2020.107013",
+		"ISSN": "1055-7903",
+		"journalAbbreviation": "Molecular Phylogenetics and Evolution",
+		"language": "en",
+		"page": "107013",
+		"source": "ScienceDirect",
+		"title": "Phylogenomics of manakins (Aves: Pipridae) using alternative locus filtering strategies based on informativeness",
+		"title-short": "Phylogenomics of manakins (Aves",
+		"URL": "http://www.sciencedirect.com/science/article/pii/S1055790320302852",
+		"author": [
+			{
+				"family": "Leite",
+				"given": "Rafael N."
+			},
+			{
+				"family": "Kimball",
+				"given": "Rebecca T."
+			},
+			{
+				"family": "Braun",
+				"given": "Edward L."
+			},
+			{
+				"family": "Derryberry",
+				"given": "Elizabeth P."
+			},
+			{
+				"family": "Hosner",
+				"given": "Peter A."
+			},
+			{
+				"family": "Derryberry",
+				"given": "Graham E."
+			},
+			{
+				"family": "Anciães",
+				"given": "Marina"
+			},
+			{
+				"family": "McKay",
+				"given": "Jessica S."
+			},
+			{
+				"family": "Aleixo",
+				"given": "Alexandre"
+			},
+			{
+				"family": "Ribas",
+				"given": "Camila C."
+			},
+			{
+				"family": "Brumfield",
+				"given": "Robb T."
+			},
+			{
+				"family": "Cracraft",
+				"given": "Joel"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					11,
+					21
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2020",
+					11,
+					17
+				]
+			]
+		}
+	},
+	{
+		"id": "gaiotti2019",
+		"type": "article-journal",
+		"container-title": "The Wilson Journal of Ornithology",
+		"issue": "3",
+		"note": "publisher: Wilson Ornithological Society",
+		"page": "571–582",
+		"source": "Google Scholar",
+		"title": "Breeding biology of the critically endangered Araripe Manakin (Antilophia bokermanni) in Brazil",
+		"volume": "131",
+		"author": [
+			{
+				"family": "Gaiotti",
+				"given": "Milene G."
+			},
+			{
+				"family": "Oliveira",
+				"given": "João H."
+			},
+			{
+				"family": "Macedo",
+				"given": "Regina H."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2019"
+				]
+			]
+		}
+	},
+	{
+		"id": "hau2001",
+		"type": "article-journal",
+		"abstract": "Animals need to adjust reproductive decisions to environmental seasonality. In contrast to species from the well-studied temperate zones, little is known for tropical birds about the environmental cues that stimulate reproductive activity and the physiological mechanisms that regulate reproduction. I am investigating the environmental and endocrine mechanisms that underlie the timing of reproduction in spotted antbirds from the near-equatorial Panamanian rainforest and in small ground finches from the equatorial arid Galápagos islands. Spotted antbirds live in a fairly predictable seasonal environment and show regular changes in gonad sizes and some reproductive hormones. Despite the small annual variation in photoperiod close to the equator, these birds can measure slight photoperiodic increases and use it to initiate reproductive activity. Spotted antbirds also respond to seasonal changes in food availability, which allows them to flexibly adjust gonad growth to environmental conditions. Testosterone is involved in regulating song and aggressive behavior in these year-round territorial birds, although it can remain at low plasma levels throughout the year. In contrast, small ground finches exposed to a rather unpredictable climate on Galápagos appear to grow their gonads whenever heavy rains fall and have regressed gonads during other times of the year. The lack of a physiological preparation for the breeding season and their response to short-term cues related to rainfall indicate a striking flexibility in the regulation of breeding in small ground finches. I suggest that tropical birds can serve as model systems to study the physiological adaptations to different environments. Unraveling the neuroendocrine mechanisms behind the flexibility in reproductive timing will clarify whether differences found between temperate and tropical birds represent variations of the same basic mechanism or instead reflect a fundamental divergence in physiological control systems.",
+		"container-title": "Hormones and Behavior",
+		"DOI": "10.1006/hbeh.2001.1673",
+		"ISSN": "0018-506X",
+		"issue": "2",
+		"journalAbbreviation": "Hormones and Behavior",
+		"language": "en",
+		"page": "281-290",
+		"source": "ScienceDirect",
+		"title": "Timing of Breeding in Variable Environments: Tropical Birds as Model Systems",
+		"title-short": "Timing of Breeding in Variable Environments",
+		"URL": "http://www.sciencedirect.com/science/article/pii/S0018506X01916733",
+		"volume": "40",
+		"author": [
+			{
+				"family": "Hau",
+				"given": "Michaela"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					12,
+					10
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2001",
+					9,
+					1
+				]
+			]
+		}
+	},
+	{
+		"id": "gooch2020",
+		"type": "chapter",
+		"abstract": "For a number of years in the mid-nineteenth century Ludwig Feuerbach(1804–1872) played an important role in the history ofpost-Hegelian German philosophy, and in the transition from idealismto various forms of naturalism, materialism and positivism that is oneof the most notable developments of this period. To the extent that heis remembered today by non-specialists in the history ofnineteenth-century religious thought, it is mainly as the object ofMarx’s criticism in his famous Theses on Feuerbach,originally penned in 1845 and first published posthumously byFriedrich Engels as an appendix to his book, Ludwig Feuerbach andthe End of Classical German Philosophy (Engels 1888). Althoughnever without his admirers, who have included several leadingpopularizers of scientific materialism in the second half thenineteenth century (cf. Gregory 1977), not to mention the theologian,Karl Barth, Feuerbach’s public influence declined rapidly afterthe failed revolution of 1848/49 (in approximately inverse proportionto the rising popularity of Schopenhauer). Renewed philosophicalattention paid to him in the middle of the twentieth century islargely attributable to the publication, beginning in the late 1920s,of Marx’s early philosophical manuscripts, including TheGerman Ideology, which revealed the extent of Feuerbach’sinfluence on Marx and Engels during the period culminating in thecomposition of that historic work (1845–46). , Apart from this influence, and the continuing interest of his work asa theorist of religion, Feuerbach’s importance for the historyof modern philosophy is also due to the fact that the publication ofThe Essence of Christianity in 1841 can be taken, as it wasby Engels, to symbolically mark the end of the period of classicalGerman philosophy that had begun sixty years earlier with theappearance of Kant’s Critique of PureReason—though some might want to question the assumptioninvolved in this way of putting things that classical Germanphilosophy culminated in the Hegelian system that Engels thought ofFeuerbach as having overthrown. In any case, Feuerbach’sbiography and the trajectory of his thinking are both closelyintertwined with political and intellectual developments in the periodreferred to by historians as the Vormärz, which extendsfrom 1830–1848.[1] Although he remained unable to bring to fruition the“philosophy of the future”, the aphoristically formulated“principles” of which he attempted to set out in 1843, theemphases in his later essays on corporeality, the senses, finitude,inter-subjectivity, and drive psychology introduced into the historyof modern thought themes developed further by Marx, Nietzsche, Freud,Martin Buber, Karl Löwith, Maurice Merleu-Ponty and AlfredSchmidt, among others.",
+		"container-title": "The Stanford Encyclopedia of Philosophy",
+		"edition": "Spring 2020",
+		"publisher": "Metaphysics Research Lab, Stanford University",
+		"source": "Stanford Encyclopedia of Philosophy",
+		"title": "Ludwig Andreas Feuerbach",
+		"URL": "https://plato.stanford.edu/archives/spr2020/entries/ludwig-feuerbach/",
+		"author": [
+			{
+				"family": "Gooch",
+				"given": "Todd"
+			}
+		],
+		"editor": [
+			{
+				"family": "Zalta",
+				"given": "Edward N."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2020",
+					12,
+					10
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"2020"
+				]
+			]
+		}
+	},
+	{
+		"id": "prum1997a",
+		"type": "article-journal",
+		"abstract": "Alternativmeechanismosf intersexuaslelectionyielddistinctmacroevolutionary predictionasboutthemagnitudaendpatternosftraitandrepertoirdeiversitiyncladesexposed topersisteninttersexusael lectionP.hylogenetaincalysesoftheevolutionoflekdisplayelements and secondarysexualplumagesin manakin(sAves: Pipridae)wereconductedto testthese predictionasnddeterminwehichsexualselectionmechanismms ayhavehada predominanrotle in theevolutionof traitswithina clade of lekkingspecies.The diversetraitrepertoireosf manakinasrecomposedofindependenht,ierarchicaldlyistribute(hdistoricallnyested),behavioral,andmorphologicnaol veltiesI.n comparisown iththecloselyrelatedp, redominantmlyonogamoutsyranftlycatche(rTsyrannidaet),hediversitoyfmanakintraitsandtraitrepertoires is explosive,indicatintghatmanakintraitshave evolvedby an unconstraineedvolutionary mechanismT.he macroevolutionapraytternisn manakintraitsareconsistenwt iththepredictionsoftheFisherianandbroadsensorybiasmechanismbs,uttheyarenotconsistenwt iththe predictionosftheindicatord,irectselections,peciesisolationo,r sensorydrivemechanisms. Thediverserepertoiraens dhierarchicaldlyistributetdraitisnthelekkinmg anakincladeindicate thatFisherianselectionmayhaveplayedanimportanrtoleindiversificatioofnsecondarysexual traitsinothergroupsofpolygynouasnimals.",
+		"container-title": "The American Naturalist",
+		"DOI": "10.1086/286014",
+		"ISSN": "0003-0147, 1537-5323",
+		"issue": "4",
+		"journalAbbreviation": "The American Naturalist",
+		"language": "en",
+		"page": "668-692",
+		"source": "DOI.org (Crossref)",
+		"title": "Phylogenetic Tests of Alternative Intersexual Selection Mechanisms: Trait Macroevolution in a Polygynous Clade (Aves: Pipridae)",
+		"title-short": "Phylogenetic Tests of Alternative Intersexual Selection Mechanisms",
+		"URL": "https://www.journals.uchicago.edu/doi/10.1086/286014",
+		"volume": "149",
+		"author": [
+			{
+				"family": "Prum",
+				"given": "Richard"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2019",
+					5,
+					5
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1997",
+					4
+				]
+			]
+		}
+	},
+	{
+		"id": "collis1993",
+		"type": "article-journal",
+		"abstract": "The costs associated with the evolution of male display traits has attracted much attention in regard to the type of traits that evolve and the timing of their expression. We investigate these costs by using testosterone implants 1.0alter the development of male display traits in the satin bowerbird (Ptzlonorhynchwsviolucews).Testosterone implants advanced the development of adult display traits in males with juvenile plumage. We then measured the costs of early expression of these characters in treated males. Testosterone implants caused young males to (1) become more involved in behavior normally carried out by older males when visiting bowers, (2) build bowers, and (3) molt prematurely into an adult plumage. No difference was observed between the testosterone-treated birds and controls in return rate o r condition the year following treatment, suggesting that the physical costs of display are not high. We fourd that males in adult plumage are tolerated less, and are not displayed to as frequently as juvenile plumage males at the bowers of established bower holders. The causes of delayed plumage maturation are most consistent with the facilitated-learning hypothesis. That is, early development of adult characteristics reduces the opportunity of young males to learn display behavior critical for later reproductive success.",
+		"container-title": "Ethology",
+		"DOI": "10.1111/j.1439-0310.1993.tb00547.x",
+		"ISSN": "01791613, 14390310",
+		"issue": "1",
+		"language": "en",
+		"page": "59-71",
+		"source": "DOI.org (Crossref)",
+		"title": "The Costs of Male Display and Delayed Plumage Maturation in the Satin Bowerbird (<i>Ptilonorhynchus violaceus</i>)",
+		"URL": "http://doi.wiley.com/10.1111/j.1439-0310.1993.tb00547.x",
+		"volume": "94",
+		"author": [
+			{
+				"family": "Collis",
+				"given": "Ken"
+			},
+			{
+				"family": "Borgia",
+				"given": "Gerald"
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2019",
+					4,
+					10
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1993"
+				]
+			]
+		}
+	},
+	{
+		"id": "prum1997b",
+		"type": "article-journal",
+		"abstract": "Observations of territoriality, vocalizations, display behavior, and nesting of the Velvet Asity (Philepitta castanea: Eurylaimidae: Philepittinae) indicate that this species is polygynous. Males defend nonresource-based, display territories that are distributed in dispersed leks. Male display repertoires include six elaborate secondary sexual display elements which are performed in both intrasexual and intersexual contexts. Pairs of female-plumage birds construct the nest outside of male territories, and females perform post-fledging parental care. Occasional observations of adult males in association with female-plumaged birds at the nest indicate potential plasticity in breeding behavior within the species. The evolution of the breeding system, display behavior, plumage, delayed male plumage maturation, and molt of the asities is discussed in a phylogenetic context. Two displays of P. castanea originally evolved in the common ancestor of the asities. The distinctive appearance of P. castanea in the breeding season is a worn basic plumage which has evolved by acquisition of a sexually dichromatic basic plumage and the loss of the prealternate molt. Delayed plumage maturation originally evolved in the common ancestor of the genus Philepitta. An additional, distinctive, predefinitive plumage stage-classhas evolved in Schlegel’s Asity (P. schlegeli). Received 27 Feb. 1996, accepted 7 April 1997.",
+		"container-title": "The Wilson Bulletin",
+		"issue": "3",
+		"language": "en",
+		"page": "371-560",
+		"source": "Zotero",
+		"title": "Lek behavior and natural history of the Velvet Asity (<i>Philepina castanea</i>: Eurylaimidae)",
+		"volume": "109",
+		"author": [
+			{
+				"family": "Prum",
+				"given": "Richard"
+			},
+			{
+				"family": "Razafindratsita",
+				"given": "Vololontiana R"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1997"
+				]
+			]
+		}
+	},
+	{
+		"id": "maclean1986",
+		"type": "article-journal",
+		"abstract": "From 1976 to 1978, I studied the foraging performances of all age classes of the Bonaparte's Gull (Larus philadelphia), the Ring-billed Gull (L. delawarensis), and the Herring Gull (L. argentatus). In all species, immatures foraged less efficiently than did adults. There was improvement in performance with age, the adult level of efficiency being achieved in the spring of the final year of adolescence. A correlation was established between the extent of performance depression in the immatures and the length of the species-specific prereproductive period. Search, pursuit-capture, and handling improved at different rates and in different sequences in the three species. Implications for deferred breeding are discussed.",
+		"archive": "JSTOR",
+		"container-title": "The Wilson Bulletin",
+		"ISSN": "0043-5643",
+		"issue": "2",
+		"page": "267-279",
+		"source": "JSTOR",
+		"title": "Age-Specific Foraging Ability and the Evolution of Deferred Breeding in Three Species of Gulls",
+		"URL": "https://www.jstor.org/stable/4162231",
+		"volume": "98",
+		"author": [
+			{
+				"family": "MacLean",
+				"given": "Alexis A. E."
+			}
+		],
+		"accessed": {
+			"date-parts": [
+				[
+					"2019",
+					8,
+					8
+				]
+			]
+		},
+		"issued": {
+			"date-parts": [
+				[
+					"1986"
+				]
+			]
+		}
+	},
+	{
+		"id": "fink1982",
+		"type": "article-journal",
+		"container-title": "Paleobiology",
+		"issue": "3",
+		"note": "publisher: Cambridge University Press",
+		"page": "254–264",
+		"source": "Google Scholar",
+		"title": "The conceptual relationship between ontogeny and phylogeny",
+		"volume": "8",
+		"author": [
+			{
+				"family": "Fink",
+				"given": "William L."
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1982"
+				]
+			]
+		}
+	},
+	{
+		"id": "marx1972",
+		"type": "book",
+		"publisher": "Norton New York",
+		"source": "Google Scholar",
+		"title": "The marx-engels reader",
+		"volume": "4",
+		"author": [
+			{
+				"family": "Marx",
+				"given": "Karl"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"1972"
+				]
+			]
+		}
+	},
+	{
+		"id": "amundson2005",
+		"type": "book",
+		"event-place": "Cambridge",
+		"publisher": "Cambridge University Press",
+		"publisher-place": "Cambridge",
+		"source": "Google Scholar",
+		"title": "The changing role of the embryo in evolutionary thought: roots of evo-devo",
+		"title-short": "The changing role of the embryo in evolutionary thought",
+		"author": [
+			{
+				"family": "Amundson",
+				"given": "Ron"
+			}
+		],
+		"issued": {
+			"date-parts": [
+				[
+					"2005"
+				]
+			]
+		}
+	},
+  {
+    "id": "felsenstein2012",
+    "type": "article-journal",
+    "container-title": "The American Naturalist",
+    "issue": "2",
+    "note": "publisher: University of Chicago Press Chicago, IL",
+    "page": "145–156",
+    "source": "Google Scholar",
+    "title": "A comparative method for both discrete and continuous characters using the threshold model",
+    "volume": "179",
+    "author": [
+      {
+        "family": "Felsenstein",
+        "given": "Joseph"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          "2012"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "prum2017",
+    "type": "book",
+    "publisher": "Anchor",
+    "source": "Google Scholar",
+    "title": "The evolution of beauty: How Darwin's forgotten theory of mate choice shapes the animal world-and us",
+    "title-short": "The evolution of beauty",
+    "author": [
+      {
+        "family": "Prum",
+        "given": "Richard"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          "2017"
+        ]
+      ]
+    }
+  }
 ]

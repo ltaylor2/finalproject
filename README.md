@@ -2,9 +2,9 @@ Delayed Plumage Maturation Evolution in Manakins (Aves: Pipridae)
 ================
 Liam U. Taylor
 
-\[Note: All data wrangling and analyses fully automated in the RMarkdown
+NOTE: All data wrangling and analyses fully automated in the RMarkdown
 file located in the base directory of this repository
-(`finalproject.rmd`). Knit that file to reproduce this one.\]
+(`finalproject.rmd`). Knit that file to reproduce this one.
 
 # Introduction and Goals
 
@@ -48,7 +48,7 @@ the evolution of predefinitive plumage signals, phylogenetic
 investigations have supported constraint-based hypotheses for DPM
 evolution.
 
-Manakins (Aves:Passeriformes:Pipridae) are neotropical lekking birds
+Manakins (Aves: Passeriformes: Pipridae) are neotropical lekking birds
 known for their extravagant male plumages and gymnastic sexual displays
 (Kirwan, Green, and Barnes 2011). Manakin species also vary widely in
 both the presence and duration of DPM (Kirwan, Green, and Barnes 2011;
@@ -97,7 +97,7 @@ Taxa and citations are as follows:
 | Taxon                         | Citations                                                                                       |
 | ----------------------------- | ----------------------------------------------------------------------------------------------- |
 | *Antilophia bokermanni*       | (Azevedo-Júnior, Nascimento, and Nascimento 2000; Kirwan, Green, and Barnes 2011; Gaiotti 2016) |
-| *Antilophia galeata*          | \[Marini and Cavalcanti (1992); Kirwan, Green, and Barnes (2011)                                |
+| *Antilophia galeata*          | (Marini and Cavalcanti 1992; Kirwan, Green, and Barnes 2011)                                    |
 | *Ceratopipra erythrocephala*  | (Johnson and Wolfe 2017)                                                                        |
 | *Ceratopipra mentalis*        | (Wolfe, Pyle, and Ralph 2009; Kirwan, Green, and Barnes 2011; Johnson and Wolfe 2017)           |
 | *Chiroxiphia caudata*         | (Mallet-Rodrigues and Dutra 2012)                                                               |
@@ -147,13 +147,13 @@ components, because patches are metamodules that result from covariation
 across barbs and barbules within and across both feathers and feather
 tracts (Prum and Dyck 2003). Although I initially coded patches based on
 broad coloration method (“Carotenoid”, “Melanin”, “Structural”), the
-analyses here collapse all coloration methods down to a binary “Present”
-(vs. “Absent”) state. Some taxa (e.g., *Corapipo* manakins at stage 1)
-have a fully female-like predefinitive plumage stage which corresponds
-to a “Absent” score for all patches. Each taxon is associated with an
-individual plumage datasheet (see .csv files in the `Data` directory).
-These sheets are then aligned across taxa with missing data marked
-correctly as “Absent.”
+analyses here collapse all coloration methods down to a binary
+“Present”=1 *vs.* “Absent”=0 state. Some taxa (e.g., *Corapipo*
+manakins at Stage 1) have a fully female-like predefinitive plumage
+stage which corresponds to a “Absent” score for all patches. Each taxon
+is associated with an individual plumage datasheet (see .csv files in
+the `Data` directory). These sheets are then aligned across taxa with
+missing data marked correctly as “Absent.”
 
 ## Backbone Phylogeny
 
@@ -161,13 +161,11 @@ I use a backbone phylogeny from [BirdTree](http://birdtree.org/) (Jetz
 et al. 2012). This tree combines publicly available genetic data with
 standing taxonomic information. In my case, the use of old taxonomic
 information results in some important erroneous splits (e.g., the
-placement of *Xenopipo*, *Cryptopipo*, and *Pseudopipra*). A new tree
-with UCE data from all manakin species is in press (Leite et al. 2020)
-and will be used for this project if the results are made available
-before the submission deadline.
+placement of *Xenopipo*, *Cryptopipo*, and *Pseudopipra*), but for the
+purposes of this project I have taken the tree as-is.
 
 I imported a trace of 10,000 subtrees from BirdTree which were generated
-with the all available Pipridae taxa. I used
+with all available Pipridae taxa. I used
 [TreeAnnotator](https://beast.community/treeannotator) to collapse that
 trace into a single consensus tree for all analyses. I then prune the
 tree to retain only those tips for which DPM stage and predefinitive
@@ -628,12 +626,12 @@ ancestor, which might be thought of as a “female-like” predefinitive
 plumage without additional patches. On the other hand, there are no
 female-like Stage 2 plumages in manakins. If I take the highest
 probability patches for each of these stages as the description of
-plumage, I get an ancestral core Stage 1 plumage with a crown and body
-patch, as well as an ancestral Ilicurini Stage 2 plumage with a face
-patch (in current taxa, usually a black mask). In general, this
-binary+separate character analysis does not show strong support any
-particular predefinitive plumage characters conserved across these
-clades which share DPM stage synapomorphies.
+plumage, I get an ancestral core Stage 1 plumage with a crown patch, as
+well as an ancestral Ilicurini Stage 2 plumage with a face patch (in
+current taxa, usually a black mask). In general, this binary+separate
+character analysis does not show strong support any particular
+predefinitive plumage characters conserved across clades which share DPM
+stage synapomorphies.
 
 ## Social Correlations
 
@@ -677,9 +675,10 @@ Here, I use separate equal rates model for each pair of characters.
 
 The first step is to check for a sign of coevolution in general. I do
 this by viewing the results of model comparison where dependency runs in
-both ways The table below shows the result. Negative values in the dAIC
-column indicate that the dependent (i.e., coevolutionary) model was
-preferred to the independent model.
+both ways. The table below shows the result (X = Stage Character, Y =
+Social character). Negative values in the dAIC column indicate that the
+dependent (i.e., coevolutionary) model was preferred to the independent
+model.
 
 <table class=" lightable-classic" style='font-size: 20px; font-family: "Arial Narrow", "Source Sans Pro", sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'>
 
@@ -1172,13 +1171,247 @@ X\<-Y
 
 </table>
 
-# Discussion and Conclusion
+# Discussion
 
-To be completed for final submission.
+## Key results
+
+In this project, I initated a phylogenetic view of both deferred
+reproduction and delayed plumage maturation by coding two sets of
+characters: (1) the number of annual predefinitive plumage stages and
+(2) the characteristic patches for individual predefinitive plumages.
+Across 35 species that span all genera in the family Pipridae, I used
+stochastic maps to identify an ancestral “Stage 1” DPM phenotype in the
+ancestor of all core manakins (i.e., excluding *Tyranneutes* and
+*Neopelma*), an ancestral “Stage 2” DPM phenotype for the ancestor of
+the Ilicurini tribe, and losses in DPM stages on the edges leading to
+the *Cryptopipo*, *Xenopipo*, and *Antilophia* species. With stochastic
+maps of individual predefinitive plumage patches, I began the process of
+reconstructing homologous predefinitive plumage qualities across
+species. In particular, I identified a fully female-like plumage, or
+female-like-with-crown plumage, in the Stage 1 ancestor of the core
+manakins. I also supported the possibility of a mask patch in the Stage
+2 ancestor of Ilicurini. In line with the social-signalling hypothesis
+for individual manakin taxa, coevolutionary model testing supported the
+hypothesis that Stage 2 DPM evolution is related to the presence of
+coordinated male-male displays across taxa.
+
+## Sexual selection in a phylogeny
+
+Prum (1997) probed the manakin phylogeny for signals of macroevolution
+via Fisherian sexual selection processes. The study focused on the rate
+and skew of evolution of manakin definitive plumage and display
+characters, finding high levels of diversity and hierarchical evolution
+biased towards the tips. At several points in this project, I continue
+to address the possibilities of registering a signal of evolution via
+sexual selection (in contrast to telenomic natural selection; (Prum
+2017)) on a phylogeny.
+
+1.  Gains *vs.* losses in DPM stage evolution. In most manakins, the
+    predefinitive plumage period is a time of sexual and social
+    development. It is during these predefinitive stage(s) that young
+    birds develop the abilities to display or learn the rules of the
+    game in terms of access to sexual displays (McDonald 1993; and see
+    Collis and Borgia 1993; Prum and Razafindratsita 1997). Thus, one
+    possible signal of sexual selection is the acceleration of DPM
+    stages driven by the accelearation of DPM characters. Put most
+    simply, one might expect DPM stage gains to proceed at a faster rate
+    than losses. Although my analysis did count more gains than losses
+    along the Pipridae tree, AIC-based model comparison favored an
+    underlying evolutionary model in which gains and losses were
+    governed by the same parameter. This model decision does not support
+    a novel “ratcheting” process that might attend sexual trait
+    run-aways (Fisher 1930).
+
+2.  Losses themselves in DPM stage evolution. It is worth highlighting
+    the three major loss events suggested by my DPM stage analysis:
+    Stage 1-\>0 along the edges leading to *Cryptopipo holochlora* and
+    *Xenopipo unformis*, as well as Stage 2-\>1 along the edge leading
+    to *Antilophia*. Losses in *Cryptopipo* and *Xenopipo* are
+    noteworthy because those two taxa are the core manakins that are
+    fully sexually monochromatic. Without a non-juvenile-like definitive
+    male plumage, the first partial molt from the juvenile plumages in
+    these species recapitulates the final definitive plumage in both
+    sexes. This result is essentially the opposite transition as the one
+    highlighted for shorebirds in Chu (1994). That study found the
+    evolution of DPM via the evolution of unique juvenile plumage traits
+    with a retained partial molt. Here, the evolution of definitive
+    plumages which resemble juvenile plumages results in no distinction
+    of a first predefinitive plumage. These losses are not a fluke of
+    coding or human observation; strictly speaking, it is possible to
+    evolve DPM that includes predefinitive plumages which are neither
+    juvenile-like nor definitive-like in sexually monochromatic species
+    (e.g., in some large gulls (MacLean 1986)). However, this
+    ontogenetic pattern is absent in the manakin tree. The stage loss in
+    the ancestor of *Antilophia* is also noteworthy, as *Antilophia*
+    manakins have novel mating systems that are more territorial and
+    competitive than the wildly cooperative leks of many other Ilicurini
+    species (Marini and Cavalcanti 1992; Gaiotti 2016). Although
+    patterns across the tree did not support a broader association
+    between Stage 2 DPM and concentrated lekking, these phenomena in
+    *Antilophia* might be a joint and dynamic consequence of underlying
+    demographic patterns. *Antilophia bokermanni*, for example, is a
+    critically endangered species limited to fewer than 1000 individuals
+    (Gaiotti, Oliveira, and Macedo 2019). This demographic restriction
+    can have surprising consequences for breeding systems, such as
+    extra-pair paternity by young green males in *Antilophia bokermanni*
+    (Gaiotti 2016).
+
+## Discrete developmental phylogenetics
+
+It is not for nothing that this project considers an *ontogenetic*
+process along a phylogeny. The study of the relationship between
+ontogeny and phylogeny is as old as the concepts themselves. In the
+1820’s, von Baer conceived of taxonomic relationships with the
+conjecture that development evolved by the specialization of adult forms
+out of general embryonic ones (Abzhanov 2013). With von Baer’s
+conjecture, taxonomies could be reconstructed based on traits shared
+early in development. By the 1860’s, Haeckel conceived of phylogenetic
+relationships *per se* with the conjecture that development evolves
+through the speeding of ancestral trajectories with the terminal
+addition of new ones (Gould 1977). With Haeckel’s conjecture,
+phylogenetic relationships could be reconstructed based on the ways in
+which developmental trajectories recapitulated a chain of ancestral
+forms. Both of these conjectures were assumptions about the process of
+developmental evolution such that embryos might be used as a tool for
+taxonomists. Gould (1977) and Alberch et al. (1979) shifted this
+perspective to focus on the variety of processes of developmental
+evolution that emerge from changes in the timing or rate of growth. Fink
+(1982) formalized these approaches in the context of an *a priori*
+phylogenetic pattern, demonstrating that questions about the evolution
+of development were indeed questions about processes that might be
+answered with phylogenetic patterns, as opposed to clues to those
+patterns themselves. After nearly 200 years of taxonomic conjecture, the
+joint study of ontogeny and phylogeny can now investigate the actual
+relationship between developmental evolution and evolution more
+generally.
+
+Even still, the formalization of ontogenetic phylogenetics by Gould,
+Alberch, and Fink is predicated on development as a *continuous*
+phenomenon. In this view, development is always akin to somatic growth
+and always reducible to a set of rates and periods. In contrast, my
+project here begins to emphasize the process of development as a series
+of discrete events in the life of, well, an actual bird. First, the DPM
+stage character is discrete *despite* being temporal. Because breeding
+seasons are structured by real environmental fluctuations (e.g.,
+precipitation and photoperiod, even in the tropics (Hau 2001)), which
+instantiate social institutions (a lone bird cannot a breeding season
+make\!), these birds cannot meaningfully evolve DPM which lasts for, for
+example, 2.1 breeding seasons. Second, predefinitive plumages are
+signalling elements only on the level of discrete patches rather than
+continuous subunits which accumulate towards a definitive plumage (Prum
+and Dyck 2003). Although this discrete-ness creates a genuine obstacle
+for an analysis of selection or other modes of evolution (see, e.g., the
+“threshold” solution of Felsenstein (2012), which makes a discrete
+character into a continuous one for the sake of analysis), it is also a
+fundamental part of my empirical system.
+
+<sidebar>
+
+Because I’m jamming now, I want to highlight a fairly esoteric
+cross-disciplinary analogy for the pursuit of discrete developmental
+phylogenetics: the development of historical materialism in political
+philosophy. In early 19th century, there was an emphasis on an idealist
+view of history that posited a progression of states as ethical,
+spiritual, or political ideals. History was quite literally a history of
+ideas (e.g., Feuerbach; (Gooch 2020)). In his *Theses On Feuerbach*,
+Marx famously critiqued this idealist stance and established a
+historical materialism that focused on not movement of ideas but on the
+processes of change underlying actual labor power and actual capital
+(Marx 1972). History became a history of material transitions and
+transitions of material. In a moment of crisis and revelation, Benjamin
+disassembled this historical materialism to uncover the remnants of its
+idealist *arc* – Marx and his ilfk, Benjamin argued, assumed an
+underlying notion of progress. In [*On the Concept of
+History*](https://www.sfu.ca/~andrewf/CONCEPT2.html), Benjamin furnished
+a critique of Marx that paralleled Marx’s critique of Feuerbach.
+Benjamin argued that “history is the subject of a structure whose site
+is not homogenous, empty time, but time filled by the presence of the
+now.”
+
+An archaic view of the role of development in evolutionary history is
+predicated on genotypic idealism. Genotypes (*literally* an immaterial
+unit of potential information, never genetic material itself) evolve
+along a tree with no need for the intrusion of development. This is an
+idealist history. A materialist view, furnished by the discoveries of
+evolutionary developmental biology (Gould 1977; Amundson 2005), sees
+organisms and evolution as the result of material developmental
+processes. Now development is involved, and taxa within a phylogeny are
+material units; but still that materiality is a directional,
+progressive, and continuous process. A critique of this continuous view
+would require understanding development not as a *progressive,
+continuous process*, but rather a series of events within the life of a
+material organism – actual ecologies, actual behaviors – development as
+a series of *nows*. This would be a view akin to Benjamin. But anyways,
+what kind of history is evolutionary history?
+
+</sidebar>
+
+## Next steps
+
+This project reprents only the first step towards a phylogenetic view of
+manakin DPM and its underlying processes of sexual selection,
+development, and life history evolution. In particular, I am eager to
+take two key steps that can productively extend this work in the coming
+weeks.
+
+1.  A new backbone tree. The tree used in this iteration of the project
+    (Jetz et al. 2012) imputed the location of some tips using old
+    taxonomic information. We know some splits in this tree are wrong.
+    For instance, *Antilophia* is often resolved *within* a paraphyletic
+    *Chiroxiphia* and *Tyranneutes* is often resolved *within* a
+    paraphyletic *Neopelma*. For the purposes of this project, I have
+    treated the backbone tree as valid and attempted to interpret
+    results accordingly. A new tree, published just last week, presents
+    an better view of even more manakin taxa using multiple UCE and exon
+    datasets (Leite et al. 2020). All of my analyses are built to run
+    automatically with any tree, so I look forward to replicating these
+    results with the new tree once data are publicly available.
+
+2.  Integrating developmental dependencies. In my initial proposal, I
+    assumed it would be straightforward to integrate multiple
+    dependencies into the DPM characters. In particular, for manakins,
+    the evolution of a particular male-like predefinitive plumage patch
+    is hierarchically dependent on the evolution of that patch in the
+    definitive plumage itself. Consider again, for example, the collapse
+    of DPM in sexually monochromatic species. In my next steps, I hope
+    to explicitly model the *joint* evolution of DPM stages,
+    predefinitive plumage patches, and definitive plumages Although I
+    cannot yet see a clear method to do all of this, one intuition I
+    have is to model plumage ontogenies as an explicit sequence,
+    beginning at the natal plumage and ending in a repeating segment for
+    the definitive plumage. Evolution can then shift the characters at
+    each point in the sequence, aligned across all taxa, and some loci
+    may be linked with others.
+
+I look forward to diving into these next steps, and more, as I carry the
+lessons from this great course into my research\!
 
 # References
 
 <div id="refs" class="references">
+
+<div id="ref-abzhanov2013">
+
+Abzhanov, Arhat. 2013. “Von Baer’s Law for the Ages: Lost and Found
+Principles of Developmental Evolution.” *Trends in Genetics* 29 (12):
+712–22. <https://doi.org/10.1016/j.tig.2013.09.004>.
+
+</div>
+
+<div id="ref-alberch1979">
+
+Alberch, Pere, Stephen Jay Gould, George F. Oster, and David B. Wake.
+1979. “Size and Shape in Ontogeny and Phylogeny.” *Paleobiology*,
+296–317.
+
+</div>
+
+<div id="ref-amundson2005">
+
+Amundson, Ron. 2005. *The Changing Role of the Embryo in Evolutionary
+Thought: Roots of Evo-Devo*. Cambridge: Cambridge University Press.
+
+</div>
 
 <div id="ref-aramuni2019">
 
@@ -1215,6 +1448,15 @@ Maturation in the Shorebirds (Aves: Charadriiformes).” *Evolution* 48
 
 </div>
 
+<div id="ref-collis1993">
+
+Collis, Ken, and Gerald Borgia. 1993. “The Costs of Male Display and
+Delayed Plumage Maturation in the Satin Bowerbird (*Ptilonorhynchus
+Violaceus*).” *Ethology* 94 (1): 59–71.
+<https://doi.org/10.1111/j.1439-0310.1993.tb00547.x>.
+
+</div>
+
 <div id="ref-doucet2007">
 
 Doucet, Stéphanie M., David B. McDonald, Mercedes S. Foster, and Rob P.
@@ -1232,6 +1474,21 @@ Manakin: A Two-Year Delay in Plumage Maturation.” *The Condor* 107 (4):
 
 </div>
 
+<div id="ref-felsenstein2012">
+
+Felsenstein, Joseph. 2012. “A Comparative Method for Both Discrete and
+Continuous Characters Using the Threshold Model.” *The American
+Naturalist* 179 (2): 145–56.
+
+</div>
+
+<div id="ref-fink1982">
+
+Fink, William L. 1982. “The Conceptual Relationship Between Ontogeny and
+Phylogeny.” *Paleobiology* 8 (3): 254–64.
+
+</div>
+
 <div id="ref-fisher1930">
 
 Fisher, R. A. 1930. *The Genetical Theory of Natural Selection*. Oxford:
@@ -1245,6 +1502,39 @@ Gaiotti, Milene Garbim. 2016. “Antilophia Bokermanni (Aves: Pipridae):
 Parâmetros Reprodutivos, Sistema de Acasalamento Social E Genético E O
 Papel Da Seleção Sexual.” *Universidade de Brasília*.
 <https://repositorio.unb.br/handle/10482/22878>.
+
+</div>
+
+<div id="ref-gaiotti2019">
+
+Gaiotti, Milene G., João H. Oliveira, and Regina H. Macedo. 2019.
+“Breeding Biology of the Critically Endangered Araripe Manakin
+(Antilophia Bokermanni) in Brazil.” *The Wilson Journal of Ornithology*
+131 (3): 571–82.
+
+</div>
+
+<div id="ref-gooch2020">
+
+Gooch, Todd. 2020. “Ludwig Andreas Feuerbach.” In *The Stanford
+Encyclopedia of Philosophy*, edited by Edward N. Zalta, Spring 2020.
+Metaphysics Research Lab, Stanford University.
+<https://plato.stanford.edu/archives/spr2020/entries/ludwig-feuerbach/>.
+
+</div>
+
+<div id="ref-gould1977">
+
+Gould, Stephen Jay. 1977. *Ontogeny and Phylogeny*. Harvard University
+Press.
+
+</div>
+
+<div id="ref-hau2001">
+
+Hau, Michaela. 2001. “Timing of Breeding in Variable Environments:
+Tropical Birds as Model Systems.” *Hormones and Behavior* 40 (2):
+281–90. <https://doi.org/10.1006/hbeh.2001.1673>.
 
 </div>
 
@@ -1315,6 +1605,14 @@ Maturation in Passerine Birds: Reliable Signaling by Subordinate Males?”
 
 </div>
 
+<div id="ref-maclean1986">
+
+MacLean, Alexis A. E. 1986. “Age-Specific Foraging Ability and the
+Evolution of Deferred Breeding in Three Species of Gulls.” *The Wilson
+Bulletin* 98 (2): 267–79. <https://www.jstor.org/stable/4162231>.
+
+</div>
+
 <div id="ref-mallet2012">
 
 Mallet-Rodrigues, Francisco, and Rapahel Dutra. 2012. “Acquisition of
@@ -1328,6 +1626,12 @@ Definitive Adult Plumage in Male Blue Manakins Chiroxiphia Caudata.”
 Marini, Miguel Ângelo, and Roberto Brandão Cavalcanti. 1992. “Mating
 System of the Helmeted Manakin (Antilophia Galeata) in Central Brazil.”
 *The Auk* 109 (4): 911–13. <https://doi.org/10.2307/4088172>.
+
+</div>
+
+<div id="ref-marx1972">
+
+Marx, Karl. 1972. *The Marx-Engels Reader*. Vol. 4. Norton New York.
 
 </div>
 
@@ -1350,15 +1654,39 @@ Sciences* 255 (1342): 37–45. <https://doi.org/10.1098/rspb.1994.0006>.
 
 <div id="ref-prum1994">
 
-Prum, Richard O. 1994. “Phylogenetic Analysis of the Evolution of
+Prum, Richard. 1994. “Phylogenetic Analysis of the Evolution of
 Alternative Social Behavior in the Manakins (Aves: Pipridae).”
 *Evolution* 48 (5): 1657–75.
 
 </div>
 
+<div id="ref-prum2017">
+
+———. 2017. *The Evolution of Beauty: How Darwin’s Forgotten Theory of
+Mate Choice Shapes the Animal World-and Us*. Anchor.
+
+</div>
+
+<div id="ref-prum1997a">
+
+———. 1997. “Phylogenetic Tests of Alternative Intersexual Selection
+Mechanisms: Trait Macroevolution in a Polygynous Clade (Aves:
+Pipridae).” *The American Naturalist* 149 (4): 668–92.
+<https://doi.org/10.1086/286014>.
+
+</div>
+
+<div id="ref-prum1985">
+
+———. 1985. “The Displays of the White-Throated Manakin Corapipo
+Gutturalis in Suriname.” *Ibis* 128 (1): 91–102.
+<https://doi.org/10.1111/j.1474-919X.1986.tb02096.x>.
+
+</div>
+
 <div id="ref-prum2003">
 
-Prum, Richard O., and Jan Dyck. 2003. “A Hierarchical Model of Plumage:
+Prum, Richard, and Jan Dyck. 2003. “A Hierarchical Model of Plumage:
 Morphology, Development, and Evolution.” *Journal of Experimental
 Zoology Part B: Molecular and Developmental Evolution* 298 (1): 73–90.
 
@@ -1366,17 +1694,17 @@ Zoology Part B: Molecular and Developmental Evolution* 298 (1): 73–90.
 
 <div id="ref-prum1996">
 
-Prum, Richard O., Joseph D. Kaplan, and Jan E. Pierson. 1996. “Display
+Prum, Richard, Joseph D. Kaplan, and Jan E. Pierson. 1996. “Display
 Behavior and Natural History of the Yellow-Crowned Manakin (Heterocercus
 Flavivertex: Pipridae).” *The Condor* 98 (4): 722–35.
 
 </div>
 
-<div id="ref-prum1985">
+<div id="ref-prum1997b">
 
-Prum, Richard Owen. 1985. “The Displays of the White-Throated Manakin
-Corapipo Gutturalis in Suriname.” *Ibis* 128 (1): 91–102.
-<https://doi.org/10.1111/j.1474-919X.1986.tb02096.x>.
+Prum, Richard, and Vololontiana R Razafindratsita. 1997. “Lek Behavior
+and Natural History of the Velvet Asity (*Philepina Castanea*:
+Eurylaimidae).” *The Wilson Bulletin* 109 (3): 371–560.
 
 </div>
 
