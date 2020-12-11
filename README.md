@@ -1305,9 +1305,7 @@ for an analysis of selection or other modes of evolution (see, e.g., the
 character into a continuous one for the sake of analysis), it is also a
 fundamental part of my empirical system.
 
-<sidebar>
-
-Because I’m jamming now, I want to highlight a fairly esoteric
+SIDEBAR: Because I’m jamming now, I want to highlight a fairly esoteric
 cross-disciplinary analogy for the pursuit of discrete developmental
 phylogenetics: the development of historical materialism in political
 philosophy. In early 19th century, there was an emphasis on an idealist
@@ -1320,7 +1318,7 @@ processes of change underlying actual labor power and actual capital
 (Marx 1972). History became a history of material transitions and
 transitions of material. In a moment of crisis and revelation, Benjamin
 disassembled this historical materialism to uncover the remnants of its
-idealist *arc* – Marx and his ilfk, Benjamin argued, assumed an
+idealist *arc* – Marx and his ilk, Benjamin argued, assumed an
 underlying notion of progress. In [*On the Concept of
 History*](https://www.sfu.ca/~andrewf/CONCEPT2.html), Benjamin furnished
 a critique of Marx that paralleled Marx’s critique of Feuerbach.
@@ -1342,9 +1340,7 @@ would require understanding development not as a *progressive,
 continuous process*, but rather a series of events within the life of a
 material organism – actual ecologies, actual behaviors – development as
 a series of *nows*. This would be a view akin to Benjamin. But anyways,
-what kind of history is evolutionary history?
-
-</sidebar>
+what kind of history is evolutionary history? /SIDEBAR
 
 ## Next steps
 
@@ -1372,10 +1368,10 @@ weeks.
     dependencies into the DPM characters. In particular, for manakins,
     the evolution of a particular male-like predefinitive plumage patch
     is hierarchically dependent on the evolution of that patch in the
-    definitive plumage itself. Consider again, for example, the collapse
+    definitive plumage itself. For example, consider again the collapse
     of DPM in sexually monochromatic species. In my next steps, I hope
     to explicitly model the *joint* evolution of DPM stages,
-    predefinitive plumage patches, and definitive plumages Although I
+    predefinitive plumage patches, and definitive plumages. Although I
     cannot yet see a clear method to do all of this, one intuition I
     have is to model plumage ontogenies as an explicit sequence,
     beginning at the natal plumage and ending in a repeating segment for
